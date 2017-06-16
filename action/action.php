@@ -6,7 +6,7 @@
  * Time: 9:38 AM
  */
 require "functions.php";
+require "Structure.php";
+ 
 
-
-
-$status = render_plugin_files( $_POST );
+$status = render_plugin_files($_POST);
