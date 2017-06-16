@@ -1,57 +1,56 @@
 <?php
 
-final class Structure
-{
+final class Structure {
 
 
-    public static function get_structure()
-    {
-        $structure = array(
+	public static function get_structure() {
+		$structure = array(
 
-            'admin' => array(
+			'admin'    => array(
 
-                'meta-boxes' => array(
+				'meta-boxes' => array(
 
-                    'view' => array('hurrey.txt')
+					'view' => array( 'hurrey.txt' )
 
-                ),
-                'settings' => array(
+				),
+				'settings'   => array(
 
-                    'views' => array('lol' => array('check.txt'))
+					'views' => array( 'lol' => array( 'check.txt' ) )
 
-                )
+				)
 
-            ),
-            'includes' => array(
+			),
+			'includes' => array(
 
-                'abstracts' => array(
+				'abstracts' => array(
 
-                    'abstract-{FILE_NAME_PREFIX}-session.php'
-                )
-            ),
+					'abstract-{FILE_NAME_PREFIX}-session.php'
+				),
+				'class-{FILE_NAME_PREFIX}_query.php'
+			),
 
-            'interfaces' => array(),
+			'interfaces' => array(),
 
-            'libraries' => array(),
+			'libraries' => array(),
 
-            'shortcodes' => array(),
+			'shortcodes' => array(),
 
-            'theme-support' => array(),
+			'theme-support' => array(),
 
-            'vendor' => array(),
+			'vendor' => array(),
 
-            'walker' => array(),
+			'walker' => array(),
 
-            'widgets' => array(),
+			'widgets' => array(),
 
-            '{PLUGIN_FILE_NAME}.php',
+			'{PLUGIN_FILE_NAME}.php',
 
-            'uninstall.php'
+			'uninstall.php'
 
-        );
+		);
 
-        return $structure;
-    }
+		return $structure;
+	}
 
 
 }
