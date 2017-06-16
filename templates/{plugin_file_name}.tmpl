@@ -1,0 +1,599 @@
+<?php
+/**
+ * Plugin Name: {plugin_name}
+ * Plugin URI: {plugin_uri}
+ * Description: {description}
+ * Version: {version}
+ * Author: {author}
+ * Author URI: {author_uri}
+ * Requires at least: {requires_at_least}
+ * Tested up to: {tested_up_to}
+ *
+ * Text Domain: {text_domain}
+ * Domain Path: /i18n/languages/
+ *
+ * @package {plugin_class_name}
+ * @category Core
+ * @author {author}
+ */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
+
+if ( ! class_exists( '{plugin_class_name}' ) ) :
+
+/**
+ * Main {plugin_class_name} Class.
+ *
+ * @class {plugin_class_name}
+ * @version	{version}
+ */
+final class {plugin_class_name} {
+
+	/**
+	 * {plugin_class_name} version.
+	 *
+	 * @var string
+	 */
+	public $version = {version};
+
+	/**
+	 * The single instance of the class.
+	 *
+	 * @var {plugin_class_name}
+	 * @since {version}
+	 */
+	protected static $_instance = null;
+
+	/**
+	 * Session instance.
+	 *
+	 * @var {plugin_class_prefix}_Session|{plugin_class_prefix}_Session_Handler
+	 */
+	public $session = null;
+
+	/**
+	 * Query instance.
+	 *
+	 * @var {plugin_class_prefix}_Query
+	 */
+	public $query = null;
+
+	/**
+	 * Array of deprecated hook handlers.
+	 *
+	 * @var array of {plugin_class_prefix}_Deprecated_Hooks
+	 */
+	public $deprecated_hook_handlers = array();
+
+	/**
+	 * Main {plugin_class_name} Instance.
+	 *
+	 * Ensures only one instance of {plugin_class_name} is loaded or can be loaded.
+	 *
+	 * @since {version}
+	 * @static
+	 * @see {plugin_class_prefix}()
+	 * @return {plugin_class_name} - Main instance.
+	 */
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
+
+	/**
+	 * Cloning is forbidden.
+	 * @since {version}
+	 */
+	public function __clone() {
+		wc_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{text_domain}' ), '{version}' );
+	}
+
+	/**
+	 * Unserializing instances of this class is forbidden.
+	 * @since {version}
+	 */
+	public function __wakeup() {
+		wc_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{text_domain}' ), '{version}' );
+	}
+
+	/**
+	 * Auto-load in-accessible properties on demand.
+	 * @param mixed $key
+	 * @return mixed
+	 */
+	public function __get( $key ) {
+		return $this->$key();
+	}
+
+	/**
+	 * {plugin_class_name} Constructor.
+	 */
+	public function __construct() {
+		$this->define_constants();
+		$this->includes();
+		$this->init_hooks();
+
+		do_action( '{plugin_hook_class_name}_loaded' );
+	}
+
+	/**
+	 * Hook into actions and filters.
+	 * @since  {version}
+	 */
+	private function init_hooks() {
+		register_activation_hook( __FILE__, array( '{plugin_class_prefix}_Install', 'install' ) );
+		add_action( 'after_setup_theme', array( $this, 'setup_environment' ) );
+		add_action( 'after_setup_theme', array( $this, 'include_template_functions' ), 11 );
+		add_action( 'init', array( $this, 'init' ), 0 );
+		add_action( 'init', array( '{plugin_class_prefix}_Shortcodes', 'init' ) );
+		add_action( 'init', array( '{plugin_class_prefix}_Emails', 'init_transactional_emails' ) );
+		add_action( 'init', array( $this, 'wpdb_table_fix' ), 0 );
+		add_action( 'switch_blog', array( $this, 'wpdb_table_fix' ), 0 );
+	}
+
+	/**
+	 * Define {plugin_class_prefix} Constants.
+	 */
+	private function define_constants() {
+		$upload_dir = wp_upload_dir();
+
+		$this->define( '{plugin_class_prefix}_PLUGIN_FILE', __FILE__ );
+		$this->define( '{plugin_class_prefix}_ABSPATH', dirname( __FILE__ ) . '/' );
+		$this->define( '{plugin_class_prefix}_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+		$this->define( '{plugin_class_prefix}_VERSION', $this->version );
+		$this->define( '{plugin_class_name}_VERSION', $this->version );
+		$this->define( '{plugin_class_prefix}_TEMPLATE_DEBUG_MODE', false );
+	}
+
+	/**
+	 * Define constant if not already set.
+	 *
+	 * @param  string $name
+	 * @param  string|bool $value
+	 */
+	private function define( $name, $value ) {
+		if ( ! defined( $name ) ) {
+			define( $name, $value );
+		}
+	}
+
+	/**
+	 * What type of request is this?
+	 *
+	 * @param  string $type admin, ajax, cron or frontend.
+	 * @return bool
+	 */
+	private function is_request( $type ) {
+		switch ( $type ) {
+			case 'admin' :
+				return is_admin();
+			case 'ajax' :
+				return defined( 'DOING_AJAX' );
+			case 'cron' :
+				return defined( 'DOING_CRON' );
+			case 'frontend' :
+				return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
+		}
+	}
+
+	/**
+	 * Check the active theme.
+	 *
+	 * @since  2.6.9
+	 * @param  string $theme Theme slug to check
+	 * @return bool
+	 */
+	private function is_active_theme( $theme ) {
+		return get_template() === $theme;
+	}
+
+	/**
+	 * Include required core files used in admin and on the frontend.
+	 */
+	public function includes() {
+		/**
+		 * Class autoloader.
+		 */
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-autoloader.php' );
+
+		/**
+		 * Interfaces.
+		 */
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-abstract-order-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-coupon-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-customer-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-customer-download-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-object-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-order-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-order-item-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-order-item-product-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-order-item-type-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-order-refund-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-payment-token-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-product-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-product-variable-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-shipping-zone-data-store-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-logger-interface.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/interfaces/class-{file_name_prefix}-log-handler-interface.php' );
+
+		/**
+		 * Abstract classes.
+		 */
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/abstracts/abstract-{file_name_prefix}-data.php' ); // {plugin_class_prefix}_Data for CRUD
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/abstracts/abstract-{file_name_prefix}-object-query.php' ); // {plugin_class_prefix}_Object_Query for CRUD
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/abstracts/abstract-{file_name_prefix}-payment-token.php' ); // Payment Tokens
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/abstracts/abstract-{file_name_prefix}-product.php' ); // Products
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/abstracts/abstract-{file_name_prefix}-order.php' ); // Orders
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/abstracts/abstract-{file_name_prefix}-settings-api.php' ); // Settings API (for gateways, shipping, and integrations)
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/abstracts/abstract-{file_name_prefix}-shipping-method.php' ); // A Shipping method
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/abstracts/abstract-{file_name_prefix}-payment-gateway.php' ); // A Payment gateway
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/abstracts/abstract-{file_name_prefix}-integration.php' ); // An integration with a service
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/abstracts/abstract-{file_name_prefix}-log-handler.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/abstracts/abstract-{file_name_prefix}-deprecated-hooks.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/abstracts/abstract-{file_name_prefix}-session.php' );
+
+		/**
+		 * Core classes.
+		 */
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/{file_name_prefix}-core-functions.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-datetime.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-post-types.php' ); // Registers post types
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-install.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-geolocation.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-download-handler.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-comments.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-post-data.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-ajax.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-emails.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-data-exception.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-query.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-order-factory.php' ); // Order factory
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-order-query.php' ); // Order query
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-product-factory.php' ); // Product factory
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-payment-tokens.php' ); // Payment tokens controller
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-shipping-zone.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/gateways/class-{file_name_prefix}-payment-gateway-cc.php' ); // CC Payment Gateway
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/gateways/class-{file_name_prefix}-payment-gateway-echeck.php' ); // eCheck Payment Gateway
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-countries.php' ); // Defines countries and states
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-integrations.php' ); // Loads integrations
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-cache-helper.php' ); // Cache Helper
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-https.php' ); // https Helper
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-deprecated-action-hooks.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-deprecated-filter-hooks.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-background-emailer.php' );
+
+		/**
+		 * Data stores - used to store and retrieve CRUD object data from the database.
+		 */
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-data-store.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-data-store-wp.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-coupon-data-store-cpt.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-product-data-store-cpt.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-product-grouped-data-store-cpt.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-product-variable-data-store-cpt.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-product-variation-data-store-cpt.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/abstract-{file_name_prefix}-order-item-type-data-store.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-order-item-data-store.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-order-item-coupon-data-store.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-order-item-fee-data-store.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-order-item-product-store.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-order-item-shipping-data-store.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-order-item-tax-data-store.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-payment-token-data-store.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-customer-data-store.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-customer-data-store-session.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-customer-download-data-store.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-shipping-zone-data-store.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/abstract-{file_name_prefix}-order-data-store-cpt.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-order-data-store-cpt.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/data-stores/class-{file_name_prefix}-order-refund-data-store-cpt.php' );
+
+		/**
+		 * REST API.
+		 */
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-legacy-api.php' );
+ 		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-api.php' ); // API Class
+ 		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-auth.php' ); // Auth Class
+ 		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-register-wp-admin-settings.php' );
+
+		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+ 			include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-cli.php' );
+ 		}
+
+		if ( $this->is_request( 'admin' ) ) {
+			include_once( {plugin_class_prefix}_ABSPATH . 'includes/admin/class-{file_name_prefix}-admin.php' );
+		}
+
+		if ( $this->is_request( 'frontend' ) ) {
+			$this->frontend_includes();
+		}
+
+		if ( $this->is_request( 'frontend' ) || $this->is_request( 'cron' ) ) {
+			include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-session-handler.php' );
+		}
+
+		if ( $this->is_request( 'cron' ) && 'yes' === get_option( 'woocommerce_allow_tracking', 'no' ) ) {
+			include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-tracker.php' );
+		}
+
+		$this->query = new {plugin_class_prefix}_Query();
+		$this->api   = new {plugin_class_prefix}_API();
+	}
+
+	/**
+	 * Include required frontend files.
+	 */
+	public function frontend_includes() {
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/{file_name_prefix}-cart-functions.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/{file_name_prefix}-notice-functions.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/{file_name_prefix}-template-hooks.php' );
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-template-loader.php' );                // Template Loader
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-frontend-scripts.php' );               // Frontend Scripts
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-form-handler.php' );                   // Form Handlers
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-cart.php' );                           // The main cart class
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-tax.php' );                            // Tax class
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-shipping-zones.php' );                 // Shipping Zones class
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-customer.php' );                       // Customer class
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-shortcodes.php' );                     // Shortcodes class
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-embed.php' );                          // Embeds
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/class-{file_name_prefix}-structured-data.php' );                // Structured Data class
+
+		if ( $this->is_active_theme( 'twentyseventeen' ) ) {
+			include_once( {plugin_class_prefix}_ABSPATH . 'includes/theme-support/class-{file_name_prefix}-twenty-seventeen.php' );
+		}
+	}
+
+	/**
+	 * Function used to Init WooCommerce Template Functions - This makes them pluggable by plugins and themes.
+	 */
+	public function include_template_functions() {
+		include_once( {plugin_class_prefix}_ABSPATH . 'includes/{file_name_prefix}-template-functions.php' );
+	}
+
+	/**
+	 * Init WooCommerce when WordPress Initialises.
+	 */
+	public function init() {
+		// Before init action.
+		do_action( 'before_woocommerce_init' );
+
+		// Set up localisation.
+		$this->load_plugin_textdomain();
+
+		// Load class instances.
+		$this->product_factory                     = new {plugin_class_prefix}_Product_Factory(); // Product Factory to create new product instances
+		$this->order_factory                       = new {plugin_class_prefix}_Order_Factory(); // Order Factory to create new order instances
+		$this->countries                           = new {plugin_class_prefix}_Countries(); // Countries class
+		$this->integrations                        = new {plugin_class_prefix}_Integrations(); // Integrations class
+		$this->structured_data                     = new {plugin_class_prefix}_Structured_Data(); // Structured Data class, generates and handles structured data
+		$this->deprecated_hook_handlers['actions'] = new {plugin_class_prefix}_Deprecated_Action_Hooks();
+		$this->deprecated_hook_handlers['filters'] = new {plugin_class_prefix}_Deprecated_Filter_Hooks();
+
+		// Session class, handles session data for users - can be overwritten if custom handler is needed.
+		if ( $this->is_request( 'frontend' ) || $this->is_request( 'cron' ) ) {
+			$session_class  = apply_filters( 'woocommerce_session_handler', '{plugin_class_prefix}_Session_Handler' );
+			$this->session  = new $session_class();
+		}
+
+		// Classes/actions loaded for the frontend and for ajax requests.
+		if ( $this->is_request( 'frontend' ) ) {
+			$this->cart            = new {plugin_class_prefix}_Cart();                                  // Cart class, stores the cart contents
+			$this->customer        = new {plugin_class_prefix}_Customer( get_current_user_id(), true ); // Customer class, handles data such as customer location
+			add_action( 'shutdown', array( $this->customer, 'save' ), 10 );          // Customer should be saved during shutdown.
+		}
+
+		$this->load_webhooks();
+
+		// Init action.
+		do_action( 'woocommerce_init' );
+	}
+
+	/**
+	 * Load Localisation files.
+	 *
+	 * Note: the first-loaded translation file overrides any following ones if the same translation is present.
+	 *
+	 * Locales found in:
+	 *      - WP_LANG_DIR/woocommerce/woocommerce-LOCALE.mo
+	 *      - WP_LANG_DIR/plugins/woocommerce-LOCALE.mo
+	 */
+	public function load_plugin_textdomain() {
+		$locale = is_admin() && function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale();
+		$locale = apply_filters( 'plugin_locale', $locale, 'woocommerce' );
+
+		unload_textdomain( 'woocommerce' );
+		load_textdomain( 'woocommerce', WP_LANG_DIR . '/woocommerce/woocommerce-' . $locale . '.mo' );
+		load_plugin_textdomain( 'woocommerce', false, plugin_basename( dirname( __FILE__ ) ) . '/i18n/languages' );
+	}
+
+	/**
+	 * Ensure theme and server variable compatibility and setup image sizes.
+	 */
+	public function setup_environment() {
+		/**
+		 * @deprecated 2.2 Use {plugin_class_prefix}()->template_path()
+		 */
+		$this->define( '{plugin_class_prefix}_TEMPLATE_PATH', $this->template_path() );
+
+		$this->add_thumbnail_support();
+		$this->add_image_sizes();
+	}
+
+	/**
+	 * Ensure post thumbnail support is turned on.
+	 */
+	private function add_thumbnail_support() {
+		if ( ! current_theme_supports( 'post-thumbnails' ) ) {
+			add_theme_support( 'post-thumbnails' );
+		}
+		add_post_type_support( 'product', 'thumbnail' );
+	}
+
+	/**
+	 * Add {plugin_class_prefix} Image sizes to WP.
+	 *
+	 * @since 2.3
+	 */
+	private function add_image_sizes() {
+		$shop_thumbnail = {file_name_prefix}_get_image_size( 'shop_thumbnail' );
+		$shop_catalog	= {file_name_prefix}_get_image_size( 'shop_catalog' );
+		$shop_single	= {file_name_prefix}_get_image_size( 'shop_single' );
+
+		add_image_size( 'shop_thumbnail', $shop_thumbnail['width'], $shop_thumbnail['height'], $shop_thumbnail['crop'] );
+		add_image_size( 'shop_catalog', $shop_catalog['width'], $shop_catalog['height'], $shop_catalog['crop'] );
+		add_image_size( 'shop_single', $shop_single['width'], $shop_single['height'], $shop_single['crop'] );
+	}
+
+	/**
+	 * Get the plugin url.
+	 * @return string
+	 */
+	public function plugin_url() {
+		return untrailingslashit( plugins_url( '/', __FILE__ ) );
+	}
+
+	/**
+	 * Get the plugin path.
+	 * @return string
+	 */
+	public function plugin_path() {
+		return untrailingslashit( plugin_dir_path( __FILE__ ) );
+	}
+
+	/**
+	 * Get the template path.
+	 * @return string
+	 */
+	public function template_path() {
+		return apply_filters( 'woocommerce_template_path', 'woocommerce/' );
+	}
+
+	/**
+	 * Get Ajax URL.
+	 * @return string
+	 */
+	public function ajax_url() {
+		return admin_url( 'admin-ajax.php', 'relative' );
+	}
+
+	/**
+	 * Return the {plugin_class_prefix} API URL for a given request.
+	 *
+	 * @param string $request
+	 * @param mixed $ssl (default: null)
+	 * @return string
+	 */
+	public function api_request_url( $request, $ssl = null ) {
+		if ( is_null( $ssl ) ) {
+			$scheme = parse_url( home_url(), PHP_URL_SCHEME );
+		} elseif ( $ssl ) {
+			$scheme = 'https';
+		} else {
+			$scheme = 'http';
+		}
+
+		if ( strstr( get_option( 'permalink_structure' ), '/index.php/' ) ) {
+			$api_request_url = trailingslashit( home_url( '/index.php/{file_name_prefix}-api/' . $request, $scheme ) );
+		} elseif ( get_option( 'permalink_structure' ) ) {
+			$api_request_url = trailingslashit( home_url( '/{file_name_prefix}-api/' . $request, $scheme ) );
+		} else {
+			$api_request_url = add_query_arg( '{file_name_prefix}-api', $request, trailingslashit( home_url( '', $scheme ) ) );
+		}
+
+		return esc_url_raw( apply_filters( 'woocommerce_api_request_url', $api_request_url, $request, $ssl ) );
+	}
+
+	/**
+	 * Load & enqueue active webhooks.
+	 *
+	 * @since 2.2
+	 */
+	private function load_webhooks() {
+
+		if ( ! is_blog_installed() ) {
+			return;
+		}
+
+		if ( false === ( $webhooks = get_transient( 'woocommerce_webhook_ids' ) ) ) {
+			$webhooks = get_posts( array(
+				'fields'         => 'ids',
+				'post_type'      => 'shop_webhook',
+				'post_status'    => 'publish',
+				'posts_per_page' => -1,
+			) );
+			set_transient( 'woocommerce_webhook_ids', $webhooks );
+		}
+		foreach ( $webhooks as $webhook_id ) {
+			$webhook = new {plugin_class_prefix}_Webhook( $webhook_id );
+			$webhook->enqueue();
+		}
+	}
+
+	/**
+	 * WooCommerce Payment Token Meta API and Term/Order item Meta - set table names.
+	 */
+	public function wpdb_table_fix() {
+		global $wpdb;
+		$wpdb->payment_tokenmeta    = $wpdb->prefix . 'woocommerce_payment_tokenmeta';
+		$wpdb->order_itemmeta       = $wpdb->prefix . 'woocommerce_order_itemmeta';
+		$wpdb->tables[]             = 'woocommerce_payment_tokenmeta';
+		$wpdb->tables[]             = 'woocommerce_order_itemmeta';
+
+		if ( get_option( 'db_version' ) < 34370 ) {
+			$wpdb->woocommerce_termmeta = $wpdb->prefix . 'woocommerce_termmeta';
+			$wpdb->tables[]             = 'woocommerce_termmeta';
+		}
+	}
+
+	/**
+	 * Get Checkout Class.
+	 * @return {plugin_class_prefix}_Checkout
+	 */
+	public function checkout() {
+		return {plugin_class_prefix}_Checkout::instance();
+	}
+
+	/**
+	 * Get gateways class.
+	 * @return {plugin_class_prefix}_Payment_Gateways
+	 */
+	public function payment_gateways() {
+		return {plugin_class_prefix}_Payment_Gateways::instance();
+	}
+
+	/**
+	 * Get shipping class.
+	 * @return {plugin_class_prefix}_Shipping
+	 */
+	public function shipping() {
+		return {plugin_class_prefix}_Shipping::instance();
+	}
+
+	/**
+	 * Email Class.
+	 * @return {plugin_class_prefix}_Emails
+	 */
+	public function mailer() {
+		return {plugin_class_prefix}_Emails::instance();
+	}
+}
+
+endif;
+
+/**
+ * Main instance of {plugin_class_name}.
+ *
+ * Returns the main instance of {plugin_class_prefix} to prevent the need to use globals.
+ *
+ * @since  {version}
+ * @return {plugin_class_name}
+ */
+function {plugin_class_prefix}() {
+	return {plugin_class_name}::instance();
+}
+
+// Global for backwards compatibility.
+$GLOBALS['{text_domain}'] = {plugin_class_prefix}();
