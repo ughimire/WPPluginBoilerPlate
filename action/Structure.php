@@ -12,7 +12,7 @@ final class Structure
 
                 'meta-boxes' => array(
 
-                    'view' => array()
+                    'view' => array('hurrey.txt')
 
                 ),
                 'settings' => array(

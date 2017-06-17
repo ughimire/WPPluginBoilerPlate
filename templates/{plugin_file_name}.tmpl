@@ -35,7 +35,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 	 *
 	 * @var string
 	 */
-	public $version = {VERSION};
+	public $version = '{VERSION}';
 
 	/**
 	 * The single instance of the class.
@@ -116,7 +116,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		$this->includes();
 		$this->init_hooks();
 
-		do_action( '{plugin_hook_class_name}_loaded' );
+		do_action( '{PLUGIN_HOOK_CLASS_NAME}_loaded' );
 	}
 
 	/**
@@ -144,7 +144,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		$this->define( '{PLUGIN_CLASS_PREFIX}_ABSPATH', dirname( __FILE__ ) . '/' );
 		$this->define( '{PLUGIN_CLASS_PREFIX}_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 		$this->define( '{PLUGIN_CLASS_PREFIX}_VERSION', $this->version );
-		$this->define( '{PLUGIN_MAIN_CLASS_NAME}_VERSION', $this->version );
+		$this->define( '{PLUGIN_MAIN_CLASS_NAME_UPPERCASE}_VERSION', $this->version );
 		$this->define( '{PLUGIN_CLASS_PREFIX}_TEMPLATE_DEBUG_MODE', false );
 	}
 
@@ -299,7 +299,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
  		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-auth.php' ); // Auth Class
  		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-register-wp-admin-settings.php' );
 
-		if ( defined( 'WP_CLI' ) && WP_CLI ) {
+		if ( defined( '{PLUGIN_CLASS_PREFIX}_CLI' ) && WP_CLI ) {
  			include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-cli.php' );
  		}
 
@@ -397,16 +397,16 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 	 * Note: the first-loaded translation file overrides any following ones if the same translation is present.
 	 *
 	 * Locales found in:
-	 *      - WP_LANG_DIR/{PLUGIN_TEXT_DOMAIN}/{PLUGIN_TEXT_DOMAIN}-LOCALE.mo
-	 *      - WP_LANG_DIR/plugins/{PLUGIN_TEXT_DOMAIN}-LOCALE.mo
+	 *      - WP_LANG_DIR/{TEXT_DOMAIN}/{TEXT_DOMAIN}-LOCALE.mo
+	 *      - WP_LANG_DIR/plugins/{TEXT_DOMAIN}-LOCALE.mo
 	 */
 	public function load_plugin_textdomain() {
 		$locale = is_admin() && function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale();
-		$locale = apply_filters( 'plugin_locale', $locale, '{PLUGIN_TEXT_DOMAIN}' );
+		$locale = apply_filters( 'plugin_locale', $locale, '{TEXT_DOMAIN}' );
 
-		unload_textdomain( '{PLUGIN_TEXT_DOMAIN}' );
-		load_textdomain( '{PLUGIN_TEXT_DOMAIN}', WP_LANG_DIR . '/{PLUGIN_TEXT_DOMAIN}/{PLUGIN_TEXT_DOMAIN}-' . $locale . '.mo' );
-		load_plugin_textdomain( '{PLUGIN_TEXT_DOMAIN}', false, plugin_basename( dirname( __FILE__ ) ) . '/i18n/languages' );
+		unload_textdomain( '{TEXT_DOMAIN}' );
+		load_textdomain( '{TEXT_DOMAIN}', WP_LANG_DIR . '/{TEXT_DOMAIN}/{TEXT_DOMAIN}-' . $locale . '.mo' );
+		load_plugin_textdomain( '{TEXT_DOMAIN}', false, plugin_basename( dirname( __FILE__ ) ) . '/i18n/languages' );
 	}
 
 	/**
@@ -468,7 +468,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 	 * @return string
 	 */
 	public function template_path() {
-		return apply_filters( '{HOOK_PREFIX}_template_path', '{PLUGIN_TEXT_DOMAIN}/' );
+		return apply_filters( '{HOOK_PREFIX}_template_path', '{TEXT_DOMAIN}/' );
 	}
 
 	/**
