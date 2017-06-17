@@ -202,6 +202,7 @@ function render_plugin_files($post)
 
     Define::constant('HOOK_PREFIX', str_replace('-', '_', PLUGIN_FILE_NAME));
 
+
     render_core_recursively(Structure::get_structure());
 
 
@@ -213,10 +214,9 @@ function render_plugin_files($post)
 
 }
 
-function render_core_recursively($structures, $directory_path = "", $tree_index = 0)
+function render_core_recursively($structures, $directory_path = DIRECTORY_SEPARATOR)
 {
 
-    $index = 0;
 
     foreach ($structures as $structure_key => $structure_value) {
 
@@ -224,26 +224,25 @@ function render_core_recursively($structures, $directory_path = "", $tree_index 
         if (gettype($structures[$structure_key]) == "array") {
 
 
-            if (count($structures[$structure_key]) > 0) {
+            $directory_path .= $structure_key . DIRECTORY_SEPARATOR;
 
-                $tree_index++;
-                
+            echo $directory_path . '<br/>';
 
-                $directory_path .= $structure_key . DIRECTORY_SEPARATOR;
-
-
-            }
-
-
-            echo $structure_key . '<br/>';
-
-            render_core_recursively($structure_value, $directory_path, $tree_index);
+            render_core_recursively($structure_value, $directory_path);
 
 
         } elseif (gettype($structures[$structure_key]) == "string") {
 
 
         }
+        $exploded_path = (explode(DIRECTORY_SEPARATOR, $directory_path));
+
+        array_pop($exploded_path);
+
+        array_pop($exploded_path);
+
+
+        $directory_path = join(DIRECTORY_SEPARATOR, $exploded_path) . DIRECTORY_SEPARATOR;
 
 //        echo $directory_path . '<br/>';
     }
