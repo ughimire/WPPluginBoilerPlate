@@ -214,6 +214,11 @@ function render_plugin_files($post)
 
 }
 
+function create_file($path, $is_dir = true)
+{
+
+}
+
 function render_core_recursively($structures, $directory_path = DIRECTORY_SEPARATOR)
 {
 
@@ -226,13 +231,18 @@ function render_core_recursively($structures, $directory_path = DIRECTORY_SEPARA
 
             $directory_path .= $structure_key . DIRECTORY_SEPARATOR;
 
-            echo $directory_path . '<br/>';
+
+            create_file($directory_path);
+
 
             render_core_recursively($structure_value, $directory_path);
 
 
         } elseif (gettype($structures[$structure_key]) == "string") {
 
+            $directory_path .= $structures[$structure_key] . DIRECTORY_SEPARATOR;
+
+            create_file($directory_path, false);
 
         }
         $exploded_path = (explode(DIRECTORY_SEPARATOR, $directory_path));
@@ -244,7 +254,7 @@ function render_core_recursively($structures, $directory_path = DIRECTORY_SEPARA
 
         $directory_path = join(DIRECTORY_SEPARATOR, $exploded_path) . DIRECTORY_SEPARATOR;
 
-//        echo $directory_path . '<br/>';
+
     }
 
 
