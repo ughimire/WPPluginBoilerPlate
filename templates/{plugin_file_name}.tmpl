@@ -202,21 +202,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		/**
 		 * Interfaces.
 		 */
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-abstract-order-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-coupon-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-customer-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-customer-download-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-object-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-order-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-order-item-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-order-item-product-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-order-item-type-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-order-refund-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-payment-token-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-product-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-product-variable-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-shipping-zone-data-store-interface.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-logger-interface.php' );
+
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-log-handler-interface.php' );
 
 		/**
@@ -224,13 +210,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		 */
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-data.php' ); // {PLUGIN_CLASS_PREFIX}_Data for CRUD
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-object-query.php' ); // {PLUGIN_CLASS_PREFIX}_Object_Query for CRUD
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-payment-token.php' ); // Payment Tokens
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-product.php' ); // Products
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-order.php' ); // Orders
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-settings-api.php' ); // Settings API (for gateways, shipping, and integrations)
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-shipping-method.php' ); // A Shipping method
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-payment-gateway.php' ); // A Payment gateway
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-integration.php' ); // An integration with a service
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-log-handler.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-deprecated-hooks.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-session.php' );
@@ -250,13 +229,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-emails.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-data-exception.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-query.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-order-factory.php' ); // Order factory
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-order-query.php' ); // Order query
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-product-factory.php' ); // Product factory
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-payment-tokens.php' ); // Payment tokens controller
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-shipping-zone.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/gateways/class-{FILE_NAME_PREFIX}-payment-gateway-cc.php' ); // CC Payment Gateway
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/gateways/class-{FILE_NAME_PREFIX}-payment-gateway-echeck.php' ); // eCheck Payment Gateway
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-countries.php' ); // Defines countries and states
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-integrations.php' ); // Loads integrations
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-cache-helper.php' ); // Cache Helper
@@ -270,26 +242,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		 */
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-data-store.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-data-store-wp.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-coupon-data-store-cpt.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-product-data-store-cpt.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-product-grouped-data-store-cpt.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-product-variable-data-store-cpt.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-product-variation-data-store-cpt.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/abstract-{FILE_NAME_PREFIX}-order-item-type-data-store.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-order-item-data-store.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-order-item-coupon-data-store.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-order-item-fee-data-store.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-order-item-product-store.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-order-item-shipping-data-store.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-order-item-tax-data-store.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-payment-token-data-store.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-customer-data-store.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-customer-data-store-session.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-customer-download-data-store.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-shipping-zone-data-store.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/abstract-{FILE_NAME_PREFIX}-order-data-store-cpt.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-order-data-store-cpt.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/data-stores/class-{FILE_NAME_PREFIX}-order-refund-data-store-cpt.php' );
+
 
 		/**
 		 * REST API.
@@ -327,16 +280,11 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 	 * Include required frontend files.
 	 */
 	public function frontend_includes() {
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/{FILE_NAME_PREFIX}-cart-functions.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/{FILE_NAME_PREFIX}-notice-functions.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/{FILE_NAME_PREFIX}-template-hooks.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-template-loader.php' );                // Template Loader
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-frontend-scripts.php' );               // Frontend Scripts
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-form-handler.php' );                   // Form Handlers
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-cart.php' );                           // The main cart class
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-tax.php' );                            // Tax class
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-shipping-zones.php' );                 // Shipping Zones class
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-customer.php' );                       // Customer class
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-shortcodes.php' );                     // Shortcodes class
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-embed.php' );                          // Embeds
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-structured-data.php' );                // Structured Data class
@@ -364,8 +312,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		$this->load_plugin_textdomain();
 
 		// Load class instances.
-		$this->product_factory                     = new {PLUGIN_CLASS_PREFIX}_Product_Factory(); // Product Factory to create new product instances
-		$this->order_factory                       = new {PLUGIN_CLASS_PREFIX}_Order_Factory(); // Order Factory to create new order instances
+
 		$this->countries                           = new {PLUGIN_CLASS_PREFIX}_Countries(); // Countries class
 		$this->integrations                        = new {PLUGIN_CLASS_PREFIX}_Integrations(); // Integrations class
 		$this->structured_data                     = new {PLUGIN_CLASS_PREFIX}_Structured_Data(); // Structured Data class, generates and handles structured data

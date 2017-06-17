@@ -22,6 +22,14 @@ final class Structure
                 )
 
             ),
+            'includes' => array(
+
+                'abstracts' => array(
+
+                    'abstract-{FILE_NAME_PREFIX}-session.php'
+                )
+            ),
+
             'interfaces' => array(),
 
             'libraries' => array(),
