@@ -223,12 +223,19 @@ function render_core_recursively($structures, $directory_path = "", $tree_index 
 
         if (gettype($structures[$structure_key]) == "array") {
 
-            $tree_index++;
+
+            if (count($structures[$structure_key]) > 0) {
+
+                $tree_index++;
+                
+
+                $directory_path .= $structure_key . DIRECTORY_SEPARATOR;
 
 
-            $directory_path .= $directory_path . DIRECTORY_SEPARATOR . $structure_key;
+            }
 
-            echo $directory_path . '<br/>';
+
+            echo $structure_key . '<br/>';
 
             render_core_recursively($structure_value, $directory_path, $tree_index);
 

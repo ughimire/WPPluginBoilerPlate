@@ -17,7 +17,7 @@ final class Structure
                 ),
                 'settings' => array(
 
-                    'views' => array()
+                    'views' => array('lol' => array())
 
                 )
 
