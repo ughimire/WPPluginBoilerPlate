@@ -213,29 +213,32 @@ function render_plugin_files($post)
 
 }
 
-function render_core_recursively($structures, $directory_path = "")
+function render_core_recursively($structures, $directory_path = "", $tree_index = 0)
 {
+
+    $index = 0;
 
     foreach ($structures as $structure_key => $structure_value) {
 
 
-        if ($structure_key == "directory") {
+        if (gettype($structures[$structure_key]) == "array") {
 
-            pp($structure_value);
-            render_core_recursively($structure_value, $directory_path);
-
-        } elseif ($structure_key == "files") {
+            $tree_index++;
 
 
-        } else {
+            $directory_path .= $directory_path . DIRECTORY_SEPARATOR . $structure_key;
 
-
-            $directory_path .= $structure_key;
-
-            $directory_path .= DIRECTORY_SEPARATOR;
             echo $directory_path . '<br/>';
+
+            render_core_recursively($structure_value, $directory_path, $tree_index);
+
+
+        } elseif (gettype($structures[$structure_key]) == "string") {
+
+
         }
 
+//        echo $directory_path . '<br/>';
     }
 
 

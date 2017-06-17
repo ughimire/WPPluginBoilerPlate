@@ -6,66 +6,39 @@ final class Structure
 
     public static function get_structure()
     {
-
         $structure = array(
 
-            'directory' => array(
+            'admin' => array(
 
-                'admin' => array(
+                'meta-boxes' => array(
 
-                    'directory' => array(
+                    'view' => array()
 
-                        'meta-boxes' => array(
-
-                            'directory' => array(
-
-                                'view' => array(
-
-                                    'directory' => array(),
-
-                                    'files' => array()
-                                )
-                            ),
-
-                            'files' => array()
-                        ),
-                        'settings' => array(
-
-                            'directory' => array(
-
-                                'views' => array()
-
-
-                            ),
-                            'files' => ''
-                        )
-                    ),
-
-                    'files' => array(),
                 ),
-                'interfaces' => array(),
+                'settings' => array(
 
-                'libraries' => array(),
+                    'views' => array()
 
-                'shortcodes' => array(),
-
-                'theme-support' => array(),
-
-                'vendor' => array(),
-
-                'walker' => array(),
-
-                'widgets' => array(),
-
+                )
 
             ),
-            'files' => array(
+            'interfaces' => array(),
 
-                '{PLUGIN_FILE_NAME}.php',
+            'libraries' => array(),
 
-                'uninstall.php'
-            )
+            'shortcodes' => array(),
 
+            'theme-support' => array(),
+
+            'vendor' => array(),
+
+            'walker' => array(),
+
+            'widgets' => array(),
+
+            '{PLUGIN_FILE_NAME}.php',
+
+            'uninstall.php'
 
         );
 
