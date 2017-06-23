@@ -7,13 +7,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Handle data for the current customers session
  *
- * @class       {PLUGIN_CLASS_PREFIX}_Session
- * @version     {VERSION}
- * @package     {PLUGIN_MAIN_CLASS_NAME}/Abstracts
+ * @class       GL_Session
+ * @version     Quis qui explicabo Voluptas consequatur fugit itaque
+ * @package     Gabriel_Larsen/Abstracts
  * @category    Abstract Class
- * @author      {AUTHOR}
+ * @author      Quibusdam laborum Et exercitationem vel sint voluptatem voluptas minus voluptate dolorem qui cupidatat consequuntur
  */
-abstract class {PLUGIN_CLASS_PREFIX}_Session {
+abstract class GL_Session {
 
 	/** @var int $_id */
 	protected $_id;
