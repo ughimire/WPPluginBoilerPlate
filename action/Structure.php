@@ -27,7 +27,8 @@ final class Structure {
 					'abstract-{FILE_NAME_PREFIX}-session.php'
 				),
 				'class-{FILE_NAME_PREFIX}-query.php',
-				'class-{FILE_NAME_PREFIX}-session-handler.php'
+				'class-{FILE_NAME_PREFIX}-session-handler.php',
+				'class-{FILE_NAME_PREFIX}-core-functions.php'
 			),
 
 			'interfaces' => array(),
