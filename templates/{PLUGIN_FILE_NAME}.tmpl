@@ -130,8 +130,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( '{PLUGIN_CLASS_PREFIX}_Shortcodes', 'init' ) );
 		add_action( 'init', array( '{PLUGIN_CLASS_PREFIX}_Emails', 'init_transactional_emails' ) );
-		add_action( 'init', array( $this, 'wpdb_table_fix' ), 0 );
-		add_action( 'switch_blog', array( $this, 'wpdb_table_fix' ), 0 );
 	}
 
 	/**
@@ -203,6 +201,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		 * Interfaces.
 		 */
 
+		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-logger-interface.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/interfaces/class-{FILE_NAME_PREFIX}-log-handler-interface.php' );
 
 		/**
@@ -364,13 +363,10 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 	 * @since {VERSION}
 	 */
 	private function add_image_sizes() {
-		$shop_thumbnail = {FILE_NAME_PREFIX}_get_image_size( 'shop_thumbnail' );
-		$shop_catalog	= {FILE_NAME_PREFIX}_get_image_size( 'shop_catalog' );
-		$shop_single	= {FILE_NAME_PREFIX}_get_image_size( 'shop_single' );
+		$test_thumbnail = {FILE_NAME_PREFIX}_get_image_size( 'test_thumbnail' );
 
-		add_image_size( 'shop_thumbnail', $shop_thumbnail['width'], $shop_thumbnail['height'], $shop_thumbnail['crop'] );
-		add_image_size( 'shop_catalog', $shop_catalog['width'], $shop_catalog['height'], $shop_catalog['crop'] );
-		add_image_size( 'shop_single', $shop_single['width'], $shop_single['height'], $shop_single['crop'] );
+		//add_image_size( 'test_thumbnail', $test_thumbnail['width'], $test_thumbnail['height'], $test_thumbnail['crop'] );
+
 	}
 
 	/**
@@ -432,22 +428,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		return esc_url_raw( apply_filters( '{HOOK_PREFIX}_api_request_url', $api_request_url, $request, $ssl ) );
 	}
 
-
-	/**
-	 * {PLUGIN_NAME} Payment Token Meta API and Term/Order item Meta - set table names.
-	 */
-	public function wpdb_table_fix() {
-		global $wpdb;
-		$wpdb->payment_tokenmeta    = $wpdb->prefix . '{HOOK_PREFIX}_payment_tokenmeta';
-		$wpdb->order_itemmeta       = $wpdb->prefix . '{HOOK_PREFIX}_order_itemmeta';
-		$wpdb->tables[]             = '{HOOK_PREFIX}_payment_tokenmeta';
-		$wpdb->tables[]             = '{HOOK_PREFIX}_order_itemmeta';
-
-		if ( get_option( 'db_version' ) < 34370 ) {
-			$wpdb->{HOOK_PREFIX}_termmeta = $wpdb->prefix . '{HOOK_PREFIX}_termmeta';
-			$wpdb->tables[]             = '{HOOK_PREFIX}_termmeta';
-		}
-	}
 
 	/**
 	 * Email Class.
