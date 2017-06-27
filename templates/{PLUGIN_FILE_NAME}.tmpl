@@ -88,7 +88,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 	 * @since {VERSION}
 	 */
 	public function __clone() {
-		wc_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '{VERSION}' );
+		{FILE_NAME_PREFIX}_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '{VERSION}' );
 	}
 
 	/**
@@ -96,7 +96,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 	 * @since {VERSION}
 	 */
 	public function __wakeup() {
-		wc_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '{VERSION}' );
+		{FILE_NAME_PREFIX}_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '{VERSION}' );
 	}
 
 	/**
@@ -211,7 +211,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-data.php' ); // {PLUGIN_CLASS_PREFIX}_Data for CRUD
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-object-query.php' ); // {PLUGIN_CLASS_PREFIX}_Object_Query for CRUD
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-log-handler.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-deprecated-hooks.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/abstracts/abstract-{FILE_NAME_PREFIX}-session.php' );
 
 		/**
@@ -221,21 +220,15 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-datetime.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-post-types.php' ); // Registers post types
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-install.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-geolocation.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-download-handler.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-comments.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-post-data.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-ajax.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-emails.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-data-exception.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-query.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-countries.php' ); // Defines countries and states
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-integrations.php' ); // Loads integrations
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-cache-helper.php' ); // Cache Helper
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-https.php' ); // https Helper
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-deprecated-action-hooks.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-deprecated-filter-hooks.php' );
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-background-emailer.php' );
+ 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-background-emailer.php' );
 
 		/**
 		 * Data stores - used to store and retrieve CRUD object data from the database.
@@ -247,8 +240,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		/**
 		 * REST API.
 		 */
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-legacy-api.php' );
- 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-api.php' ); // API Class
+  		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-api.php' ); // API Class
  		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-auth.php' ); // Auth Class
  		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-register-wp-admin-settings.php' );
 
@@ -286,8 +278,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-frontend-scripts.php' );               // Frontend Scripts
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-form-handler.php' );                   // Form Handlers
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-shortcodes.php' );                     // Shortcodes class
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-embed.php' );                          // Embeds
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-structured-data.php' );                // Structured Data class
 
 		if ( $this->is_active_theme( 'twentyseventeen' ) ) {
 			include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/theme-support/class-{FILE_NAME_PREFIX}-twenty-seventeen.php' );
@@ -311,13 +301,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		// Set up localisation.
 		$this->load_plugin_textdomain();
 
-		// Load class instances.
-
-		$this->countries                           = new {PLUGIN_CLASS_PREFIX}_Countries(); // Countries class
-		$this->integrations                        = new {PLUGIN_CLASS_PREFIX}_Integrations(); // Integrations class
-		$this->structured_data                     = new {PLUGIN_CLASS_PREFIX}_Structured_Data(); // Structured Data class, generates and handles structured data
-		$this->deprecated_hook_handlers['actions'] = new {PLUGIN_CLASS_PREFIX}_Deprecated_Action_Hooks();
-		$this->deprecated_hook_handlers['filters'] = new {PLUGIN_CLASS_PREFIX}_Deprecated_Filter_Hooks();
 
 		// Session class, handles session data for users - can be overwritten if custom handler is needed.
 		if ( $this->is_request( 'frontend' ) || $this->is_request( 'cron' ) ) {
@@ -327,9 +310,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 
 		// Classes/actions loaded for the frontend and for ajax requests.
 		if ( $this->is_request( 'frontend' ) ) {
-			$this->cart            = new {PLUGIN_CLASS_PREFIX}_Cart();                                  // Cart class, stores the cart contents
-			$this->customer        = new {PLUGIN_CLASS_PREFIX}_Customer( get_current_user_id(), true ); // Customer class, handles data such as customer location
-			add_action( 'shutdown', array( $this->customer, 'save' ), 10 );          // Customer should be saved during shutdown.
+
 		}
 
 		$this->load_webhooks();
@@ -376,7 +357,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 			add_theme_support( 'post-thumbnails' );
 		}
-		add_post_type_support( 'product', 'thumbnail' );
+		//add_post_type_support( 'test', 'thumbnail' );
 	}
 
 	/**
@@ -480,7 +461,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 	}
 
 	/**
-	 * WooCommerce Payment Token Meta API and Term/Order item Meta - set table names.
+	 * {PLUGIN_NAME} Payment Token Meta API and Term/Order item Meta - set table names.
 	 */
 	public function wpdb_table_fix() {
 		global $wpdb;

@@ -1,0 +1,69 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Twenty Seventeen suport.
+ *
+ * @class   {PLUGIN_CLASS_PREFIX}_Twenty_Seventeen
+ * @since   2.6.9
+ * @version 2.6.9
+ * @package {PLUGIN_MAIN_CLASS_NAME}/Classes
+ */
+class {PLUGIN_CLASS_PREFIX}_Twenty_Seventeen {
+
+	/**
+	 * Theme init.
+	 */
+	public static function init() {
+		remove_action( '{PLUGIN_HOOK_CLASS_NAME}_before_main_content', '{PLUGIN_HOOK_CLASS_NAME}_output_content_wrapper', 10 );
+		remove_action( '{PLUGIN_HOOK_CLASS_NAME}_after_main_content', '{PLUGIN_HOOK_CLASS_NAME}_output_content_wrapper_end', 10 );
+
+		add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_main_content', array( __CLASS__, 'output_content_wrapper' ), 10 );
+		add_action( '{PLUGIN_HOOK_CLASS_NAME}_after_main_content', array( __CLASS__, 'output_content_wrapper_end' ), 10 );
+		add_filter( '{PLUGIN_HOOK_CLASS_NAME}_enqueue_styles', array( __CLASS__, 'enqueue_styles' ) );
+	}
+
+	/**
+	 * Enqueue CSS for this theme.
+	 *
+	 * @param  array $styles
+	 * @return array
+	 */
+	public static function enqueue_styles( $styles ) {
+		unset( $styles['{TEXT_DOMAIN}-general'] );
+
+		$styles['{TEXT_DOMAIN}-twenty-seventeen'] = array(
+			'src'     => str_replace( array( 'http:', 'https:' ), '', {PLUGIN_CLASS_PREFIX}()->plugin_url() ) . '/assets/css/twenty-seventeen.css',
+'deps'    => '',
+'version' => {PLUGIN_CLASS_PREFIX}_VERSION,
+'media'   => 'all',
+);
+
+return apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_twenty_seventeen_styles', $styles );
+}
+
+/**
+* Open the Twenty Seventeen wrapper.
+*/
+public static function output_content_wrapper() { ?>
+<div class="wrap">
+    <div id="primary" class="content-area twentyseventeen">
+        <main id="main" class="site-main" role="main">
+            <?php
+	}
+
+	/**
+	 * Close the Twenty Seventeen wrapper.
+	 */
+	public static function output_content_wrapper_end() { ?>
+        </main>
+    </div>
+    <?php get_sidebar(); ?>
+</div>
+<?php
+	}
+}
+
+{PLUGIN_CLASS_PREFIX}_Twenty_Seventeen::init();

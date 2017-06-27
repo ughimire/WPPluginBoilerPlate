@@ -1,1 +1,279 @@
+<?php
+/**
+ * {PLUGIN_NAME} Template Hooks
+ *
+ * Action/filter hooks used for WooCommerce functions/templates.
+ *
+ * @author 		{AUTHOR}
+ * @category 	Core
+ * @package 	{PLUGIN_MAIN_CLASS_NAME}/Templates
+ * @version     {VERSION}
+ */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+add_filter( 'body_class', '{FILE_NAME_PREFIX}_body_class' );
+add_filter( 'post_class', '{FILE_NAME_PREFIX}_product_post_class', 20, 3 );
+
+/**
+ * WP Header.
+ *
+ * @see  {FILE_NAME_PREFIX}_generator_tag()
+ */
+add_action( 'get_the_generator_html', '{FILE_NAME_PREFIX}_generator_tag', 10, 2 );
+add_action( 'get_the_generator_xhtml', '{FILE_NAME_PREFIX}_generator_tag', 10, 2 );
+
+/**
+ * Content Wrappers.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_output_content_wrapper()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_output_content_wrapper_end()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_main_content', '{PLUGIN_HOOK_CLASS_NAME}_output_content_wrapper', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_after_main_content', '{PLUGIN_HOOK_CLASS_NAME}_output_content_wrapper_end', 10 );
+
+/**
+ * Sale flashes.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_show_product_loop_sale_flash()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_show_product_sale_flash()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_shop_loop_item_title', '{PLUGIN_HOOK_CLASS_NAME}_show_product_loop_sale_flash', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_single_product_summary', '{PLUGIN_HOOK_CLASS_NAME}_show_product_sale_flash', 10 );
+
+/**
+ * Breadcrumbs.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_breadcrumb()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_main_content', '{PLUGIN_HOOK_CLASS_NAME}_breadcrumb', 20, 0 );
+
+/**
+ * Sidebar.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_get_sidebar()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_sidebar', '{PLUGIN_HOOK_CLASS_NAME}_get_sidebar', 10 );
+
+/**
+ * Archive descriptions.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_taxonomy_archive_description()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_product_archive_description()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_archive_description', '{PLUGIN_HOOK_CLASS_NAME}_taxonomy_archive_description', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_archive_description', '{PLUGIN_HOOK_CLASS_NAME}_product_archive_description', 10 );
+
+/**
+ * Products Loop.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_result_count()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_catalog_ordering()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_shop_loop', '{PLUGIN_HOOK_CLASS_NAME}_result_count', 20 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_shop_loop', '{PLUGIN_HOOK_CLASS_NAME}_catalog_ordering', 30 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_no_products_found', '{FILE_NAME_PREFIX}_no_products_found' );
+
+/**
+ * Product Loop Items.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_loop_product_link_open()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_loop_product_link_close()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_loop_add_to_cart()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_loop_product_thumbnail()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_loop_product_title()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_loop_category_link_open()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_loop_category_title()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_loop_category_link_close()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_loop_price()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_loop_rating()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_shop_loop_item', '{PLUGIN_HOOK_CLASS_NAME}_template_loop_product_link_open', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_after_shop_loop_item', '{PLUGIN_HOOK_CLASS_NAME}_template_loop_product_link_close', 5 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_after_shop_loop_item', '{PLUGIN_HOOK_CLASS_NAME}_template_loop_add_to_cart', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_shop_loop_item_title', '{PLUGIN_HOOK_CLASS_NAME}_template_loop_product_thumbnail', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_shop_loop_item_title', '{PLUGIN_HOOK_CLASS_NAME}_template_loop_product_title', 10 );
+
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_subcategory', '{PLUGIN_HOOK_CLASS_NAME}_template_loop_category_link_open', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_shop_loop_subcategory_title', '{PLUGIN_HOOK_CLASS_NAME}_template_loop_category_title', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_after_subcategory', '{PLUGIN_HOOK_CLASS_NAME}_template_loop_category_link_close', 10 );
+
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_after_shop_loop_item_title', '{PLUGIN_HOOK_CLASS_NAME}_template_loop_price', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_after_shop_loop_item_title', '{PLUGIN_HOOK_CLASS_NAME}_template_loop_rating', 5 );
+
+/**
+ * Subcategories.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_subcategory_thumbnail()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_subcategory_title', '{PLUGIN_HOOK_CLASS_NAME}_subcategory_thumbnail', 10 );
+
+/**
+ * Before Single Products Summary Div.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_show_product_images()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_show_product_thumbnails()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_single_product_summary', '{PLUGIN_HOOK_CLASS_NAME}_show_product_images', 20 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_product_thumbnails', '{PLUGIN_HOOK_CLASS_NAME}_show_product_thumbnails', 20 );
+
+/**
+ * After Single Products Summary Div.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_output_product_data_tabs()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_upsell_display()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_output_related_products()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_after_single_product_summary', '{PLUGIN_HOOK_CLASS_NAME}_output_product_data_tabs', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_after_single_product_summary', '{PLUGIN_HOOK_CLASS_NAME}_upsell_display', 15 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_after_single_product_summary', '{PLUGIN_HOOK_CLASS_NAME}_output_related_products', 20 );
+
+/**
+ * Product Summary Box.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_single_title()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_single_rating()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_single_price()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_single_excerpt()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_single_meta()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_single_sharing()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_single_product_summary', '{PLUGIN_HOOK_CLASS_NAME}_template_single_title', 5 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_single_product_summary', '{PLUGIN_HOOK_CLASS_NAME}_template_single_rating', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_single_product_summary', '{PLUGIN_HOOK_CLASS_NAME}_template_single_price', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_single_product_summary', '{PLUGIN_HOOK_CLASS_NAME}_template_single_excerpt', 20 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_single_product_summary', '{PLUGIN_HOOK_CLASS_NAME}_template_single_meta', 40 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_single_product_summary', '{PLUGIN_HOOK_CLASS_NAME}_template_single_sharing', 50 );
+
+/**
+ * Reviews
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_review_display_gravatar()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_review_display_rating()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_review_display_meta()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_review_display_comment_text()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_review_before', '{PLUGIN_HOOK_CLASS_NAME}_review_display_gravatar', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_review_before_comment_meta', '{PLUGIN_HOOK_CLASS_NAME}_review_display_rating', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_review_meta', '{PLUGIN_HOOK_CLASS_NAME}_review_display_meta', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_review_comment_text', '{PLUGIN_HOOK_CLASS_NAME}_review_display_comment_text', 10 );
+
+/**
+ * Product Add to cart.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_template_single_add_to_cart()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_simple_add_to_cart()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_grouped_add_to_cart()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_variable_add_to_cart()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_external_add_to_cart()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_single_variation()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_single_variation_add_to_cart_button()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_single_product_summary', '{PLUGIN_HOOK_CLASS_NAME}_template_single_add_to_cart', 30 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_simple_add_to_cart', '{PLUGIN_HOOK_CLASS_NAME}_simple_add_to_cart', 30 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_grouped_add_to_cart', '{PLUGIN_HOOK_CLASS_NAME}_grouped_add_to_cart', 30 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_variable_add_to_cart', '{PLUGIN_HOOK_CLASS_NAME}_variable_add_to_cart', 30 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_external_add_to_cart', '{PLUGIN_HOOK_CLASS_NAME}_external_add_to_cart', 30 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_single_variation', '{PLUGIN_HOOK_CLASS_NAME}_single_variation', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_single_variation', '{PLUGIN_HOOK_CLASS_NAME}_single_variation_add_to_cart_button', 20 );
+
+/**
+ * Pagination after shop loops.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_pagination()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_after_shop_loop', '{PLUGIN_HOOK_CLASS_NAME}_pagination', 10 );
+
+/**
+ * Product page tabs.
+ */
+add_filter( '{PLUGIN_HOOK_CLASS_NAME}_product_tabs', '{PLUGIN_HOOK_CLASS_NAME}_default_product_tabs' );
+add_filter( '{PLUGIN_HOOK_CLASS_NAME}_product_tabs', '{PLUGIN_HOOK_CLASS_NAME}_sort_product_tabs', 99 );
+
+/**
+ * Additional Information tab.
+ *
+ * @see {FILE_NAME_PREFIX}_display_product_attributes()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_product_additional_information', '{FILE_NAME_PREFIX}_display_product_attributes', 10 );
+
+/**
+ * Checkout.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_checkout_login_form()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_checkout_coupon_form()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_order_review()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_checkout_payment()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_checkout_form', '{PLUGIN_HOOK_CLASS_NAME}_checkout_login_form', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_before_checkout_form', '{PLUGIN_HOOK_CLASS_NAME}_checkout_coupon_form', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_checkout_order_review', '{PLUGIN_HOOK_CLASS_NAME}_order_review', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_checkout_order_review', '{PLUGIN_HOOK_CLASS_NAME}_checkout_payment', 20 );
+
+/**
+ * Cart widget
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_widget_shopping_cart_buttons', '{PLUGIN_HOOK_CLASS_NAME}_widget_shopping_cart_button_view_cart', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_widget_shopping_cart_buttons', '{PLUGIN_HOOK_CLASS_NAME}_widget_shopping_cart_proceed_to_checkout', 20 );
+
+/**
+ * Cart.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_cross_sell_display()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_cart_totals()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_button_proceed_to_checkout()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_cart_collaterals', '{PLUGIN_HOOK_CLASS_NAME}_cross_sell_display' );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_cart_collaterals', '{PLUGIN_HOOK_CLASS_NAME}_cart_totals', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_proceed_to_checkout', '{PLUGIN_HOOK_CLASS_NAME}_button_proceed_to_checkout', 20 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_cart_is_empty', '{FILE_NAME_PREFIX}_empty_cart_message', 10 );
+
+/**
+ * Footer.
+ *
+ * @see  {FILE_NAME_PREFIX}_print_js()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_demo_store()
+ */
+add_action( 'wp_footer', '{FILE_NAME_PREFIX}_print_js', 25 );
+add_action( 'wp_footer', '{PLUGIN_HOOK_CLASS_NAME}_demo_store' );
+
+/**
+ * Order details.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_order_details_table()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_order_again_button()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_view_order', '{PLUGIN_HOOK_CLASS_NAME}_order_details_table', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_thankyou', '{PLUGIN_HOOK_CLASS_NAME}_order_details_table', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_order_details_after_order_table', '{PLUGIN_HOOK_CLASS_NAME}_order_again_button' );
+
+/**
+ * Auth.
+ *
+ * @see {PLUGIN_HOOK_CLASS_NAME}_output_auth_header()
+ * @see {PLUGIN_HOOK_CLASS_NAME}_output_auth_footer()
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_auth_page_header', '{PLUGIN_HOOK_CLASS_NAME}_output_auth_header', 10 );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_auth_page_footer', '{PLUGIN_HOOK_CLASS_NAME}_output_auth_footer', 10 );
+
+/**
+ * Comments.
+ *
+ * Disable Jetpack comments.
+ */
+add_filter( 'jetpack_comment_form_enabled_for_product', '__return_false' );
+
+/**
+ * My Account.
+ */
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_account_navigation', '{PLUGIN_HOOK_CLASS_NAME}_account_navigation' );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_account_content', '{PLUGIN_HOOK_CLASS_NAME}_account_content' );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_account_orders_endpoint', '{PLUGIN_HOOK_CLASS_NAME}_account_orders' );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_account_view-order_endpoint', '{PLUGIN_HOOK_CLASS_NAME}_account_view_order' );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_account_downloads_endpoint', '{PLUGIN_HOOK_CLASS_NAME}_account_downloads' );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_account_edit-address_endpoint', '{PLUGIN_HOOK_CLASS_NAME}_account_edit_address' );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_account_payment-methods_endpoint', '{PLUGIN_HOOK_CLASS_NAME}_account_payment_methods' );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_account_add-payment-method_endpoint', '{PLUGIN_HOOK_CLASS_NAME}_account_add_payment_method' );
+add_action( '{PLUGIN_HOOK_CLASS_NAME}_account_edit-account_endpoint', '{PLUGIN_HOOK_CLASS_NAME}_account_edit_account' );

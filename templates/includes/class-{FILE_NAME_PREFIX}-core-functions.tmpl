@@ -599,7 +599,7 @@ function {FILE_NAME_PREFIX}_get_logger() {
 			{PLUGIN_HOOK_CLASS_NAME}_doing_it_wrong(
 				__FUNCTION__,
 				sprintf(
-					__( 'The class <code>%s</code> provided by {PLUGIN_HOOK_CLASS_NAME}_logging_class filter must implement <code>{PLUGIN_CLASS_PREFIX}_Logger_Interface</code>.', 'woocommerce' ),
+					__( 'The class <code>%s</code> provided by {PLUGIN_HOOK_CLASS_NAME}_logging_class filter must implement <code>{PLUGIN_CLASS_PREFIX}_Logger_Interface</code>.', '{TEXT_DOMAIN}' ),
 					esc_html( is_object( $class ) ? get_class( $class ) : $class )
 				),
 				'3.0'
@@ -678,7 +678,7 @@ add_filter( '{PLUGIN_HOOK_CLASS_NAME}_register_log_handlers', '{FILE_NAME_PREFIX
  * @param int|object $user
  */
 function {FILE_NAME_PREFIX}_maybe_store_user_agent( $user_login, $user ) {
-	if ( 'yes' === get_option( '{PLUGIN_HOOK_CLASS_NAME}_allow_tracking', 'no' ) && user_can( $user, 'manage_woocommerce' ) ) {
+	if ( 'yes' === get_option( '{PLUGIN_HOOK_CLASS_NAME}_allow_tracking', 'no' ) && user_can( $user, 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) ) {
 		$admin_user_agents   = array_filter( (array) get_option( '{PLUGIN_HOOK_CLASS_NAME}_tracker_ua', array() ) );
 		$admin_user_agents[] = {PLUGIN_HOOK_CLASS_NAME}_get_user_agent();
 		update_option( '{PLUGIN_HOOK_CLASS_NAME}_tracker_ua', array_unique( $admin_user_agents ) );

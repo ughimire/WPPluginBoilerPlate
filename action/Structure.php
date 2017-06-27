@@ -20,7 +20,7 @@ final class Structure {
 				'js' => array(
 
 					'admin' => array(),
-					
+
 					'frontend' => array()
 				),
 
@@ -34,8 +34,6 @@ final class Structure {
 			'includes'  => array(
 
 				'abstracts' => array(
-
-					'abstract-{FILE_NAME_PREFIX}-deprecated-hooks.php',
 
 					'abstract-{FILE_NAME_PREFIX}-log-handler.php',
 
@@ -140,7 +138,7 @@ final class Structure {
 
 				'shortcodes' => array(
 
-					'class-{FILE_NAME_PREFIX}-shortcode-test.php',
+					'class-{FILE_NAME_PREFIX}-shortcodes.php',
 
 				),
 

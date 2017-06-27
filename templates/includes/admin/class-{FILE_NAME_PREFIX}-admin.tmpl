@@ -58,7 +58,7 @@ class {PLUGIN_CLASS_PREFIX}_Admin {
 		include_once( dirname( __FILE__ ) . '/class-wc-admin-exporters.php' );
 
 		// Help Tabs
-		if ( apply_filters( 'woocommerce_enable_admin_help_tab', true ) ) {
+		if ( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_enable_admin_help_tab', true ) ) {
 			include_once( dirname( __FILE__ ) . '/class-wc-admin-help.php' );
 		}
 
@@ -117,9 +117,9 @@ break;
 public function admin_redirects() {
 // Nonced plugin install redirects (whitelisted)
 if ( ! empty( $_GET['wc-install-plugin-redirect'] ) ) {
-$plugin_slug = wc_clean( $_GET['wc-install-plugin-redirect'] );
+$plugin_slug = {FILE_NAME_PREFIX}_clean( $_GET['wc-install-plugin-redirect'] );
 
-if ( current_user_can( 'install_plugins' ) && in_array( $plugin_slug, array( 'woocommerce-gateway-stripe' ) ) ) {
+if ( current_user_can( 'install_plugins' ) && in_array( $plugin_slug, array( '{TEXT_DOMAIN}-gateway-stripe' ) ) ) {
 $nonce = wp_create_nonce( 'install-plugin_' . $plugin_slug );
 $url   = self_admin_url( 'update.php?action=install-plugin&plugin=' . $plugin_slug . '&_wpnonce=' . $nonce );
 } else {
@@ -131,15 +131,15 @@ exit;
 }
 
 // Setup wizard redirect
-if ( get_transient( '_wc_activation_redirect' ) ) {
-delete_transient( '_wc_activation_redirect' );
+if ( get_transient( '_{FILE_NAME_PREFIX}_activation_redirect' ) ) {
+delete_transient( '_{FILE_NAME_PREFIX}_activation_redirect' );
 
-if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'wc-setup' ) ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || ! current_user_can( 'manage_woocommerce' ) || apply_filters( 'woocommerce_prevent_automatic_wizard_redirect', false ) ) {
+if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'wc-setup' ) ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || ! current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) || apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_prevent_automatic_wizard_redirect', false ) ) {
 return;
 }
 
 // If the user needs to install, send them to the setup wizard
-if ( WC_Admin_Notices::has_notice( 'install' ) ) {
+if ( {PLUGIN_CLASS_PREFIX}_Admin_Notices::has_notice( 'install' ) ) {
 wp_safe_redirect( admin_url( 'index.php?page=wc-setup' ) );
 exit;
 }
@@ -152,9 +152,9 @@ exit;
 public function prevent_admin_access() {
 $prevent_access = false;
 
-if ( 'yes' === get_option( 'woocommerce_lock_down_admin', 'yes' ) && ! is_ajax() && basename( $_SERVER["SCRIPT_FILENAME"] ) !== 'admin-post.php' ) {
+if ( 'yes' === get_option( '{PLUGIN_HOOK_CLASS_NAME}_lock_down_admin', 'yes' ) && ! is_ajax() && basename( $_SERVER["SCRIPT_FILENAME"] ) !== 'admin-post.php' ) {
 $has_cap     = false;
-$access_caps = array( 'edit_posts', 'manage_woocommerce', 'view_admin_dashboard' );
+$access_caps = array( 'edit_posts', 'manage_{PLUGIN_HOOK_CLASS_NAME}', 'view_admin_dashboard' );
 
 foreach ( $access_caps as $access_cap ) {
 if ( current_user_can( $access_cap ) ) {
@@ -168,8 +168,8 @@ $prevent_access = true;
 }
 }
 
-if ( apply_filters( 'woocommerce_prevent_admin_access', $prevent_access ) ) {
-wp_safe_redirect( wc_get_page_permalink( 'myaccount' ) );
+if ( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_prevent_admin_access', $prevent_access ) ) {
+wp_safe_redirect( {FILE_NAME_PREFIX}_get_page_permalink( 'myaccount' ) );
 exit;
 }
 }
@@ -181,16 +181,16 @@ exit;
 */
 public function preview_emails() {
 
-if ( isset( $_GET['preview_woocommerce_mail'] ) ) {
+if ( isset( $_GET['preview_{PLUGIN_HOOK_CLASS_NAME}_mail'] ) ) {
 if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'preview-mail' ) ) {
 die( 'Security check' );
 }
 
 // load the mailer class
-$mailer        = WC()->mailer();
+$mailer        = {PLUGIN_CLASS_PREFIX}()->mailer();
 
 // get the preview email subject
-$email_heading = __( 'HTML email template', 'woocommerce' );
+$email_heading = __( 'HTML email template', '{TEXT_DOMAIN}' );
 
 // get the preview email content
 ob_start();
@@ -198,10 +198,10 @@ include( 'views/html-email-template-preview.php' );
 $message       = ob_get_clean();
 
 // create a new email
-$email         = new WC_Email();
+$email         = new {PLUGIN_CLASS_PREFIX}_Email();
 
 // wrap the content with the email template and then add styles
-$message       = apply_filters( 'woocommerce_mail_content', $email->style_inline( $mailer->wrap_message( $email_heading, $message ) ) );
+$message       = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_mail_content', $email->style_inline( $mailer->wrap_message( $email_heading, $message ) ) );
 
 // print the preview email
 echo $message;
@@ -217,29 +217,29 @@ exit;
 * @return string
 */
 public function admin_footer_text( $footer_text ) {
-if ( ! current_user_can( 'manage_woocommerce' ) || ! function_exists( 'wc_get_screen_ids' ) ) {
+if ( ! current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) || ! function_exists( '{FILE_NAME_PREFIX}_get_screen_ids' ) ) {
 return $footer_text;
 }
 $current_screen = get_current_screen();
-$wc_pages       = wc_get_screen_ids();
+${FILE_NAME_PREFIX}_pages       = {FILE_NAME_PREFIX}_get_screen_ids();
 
 // Set only WC pages.
-$wc_pages = array_diff( $wc_pages, array( 'profile', 'user-edit' ) );
+${FILE_NAME_PREFIX}_pages = array_diff( ${FILE_NAME_PREFIX}_pages, array( 'profile', 'user-edit' ) );
 
 // Check to make sure we're on a WooCommerce admin page.
-if ( isset( $current_screen->id ) && apply_filters( 'woocommerce_display_admin_footer_text', in_array( $current_screen->id, $wc_pages ) ) ) {
+if ( isset( $current_screen->id ) && apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_display_admin_footer_text', in_array( $current_screen->id, ${FILE_NAME_PREFIX}_pages ) ) ) {
 // Change the footer text
-if ( ! get_option( 'woocommerce_admin_footer_text_rated' ) ) {
+if ( ! get_option( '{PLUGIN_HOOK_CLASS_NAME}_admin_footer_text_rated' ) ) {
 /* translators: %s: five stars */
-$footer_text = sprintf( __( 'If you like <strong>WooCommerce</strong> please leave us a %s rating. A huge thanks in advance!', 'woocommerce' ), '<a href="https://wordpress.org/support/plugin/woocommerce/reviews?rate=5#new-post" target="_blank" class="wc-rating-link" data-rated="' . esc_attr__( 'Thanks :)', 'woocommerce' ) . '">&#9733;&#9733;&#9733;&#9733;&#9733;</a>' );
-wc_enqueue_js( "
+$footer_text = sprintf( __( 'If you like <strong>WooCommerce</strong> please leave us a %s rating. A huge thanks in advance!', '{TEXT_DOMAIN}' ), '<a href="https://wordpress.org/support/plugin/{TEXT_DOMAIN}/reviews?rate=5#new-post" target="_blank" class="wc-rating-link" data-rated="' . esc_attr__( 'Thanks :)', '{TEXT_DOMAIN}' ) . '">&#9733;&#9733;&#9733;&#9733;&#9733;</a>' );
+{FILE_NAME_PREFIX}_enqueue_js( "
 jQuery( 'a.wc-rating-link' ).click( function() {
-jQuery.post( '" . WC()->ajax_url() . "', { action: 'woocommerce_rated' } );
+jQuery.post( '" . {PLUGIN_CLASS_PREFIX}()->ajax_url() . "', { action: '{PLUGIN_HOOK_CLASS_NAME}_rated' } );
 jQuery( this ).parent().text( jQuery( this ).data( 'rated' ) );
 });
 " );
 } else {
-$footer_text = __( 'Thank you for selling with WooCommerce.', 'woocommerce' );
+$footer_text = __( 'Thank you for selling with WooCommerce.', '{TEXT_DOMAIN}' );
 }
 }
 
@@ -247,4 +247,4 @@ return $footer_text;
 }
 }
 
-return new WC_Admin();
+return new {PLUGIN_CLASS_PREFIX}_Admin();
