@@ -288,7 +288,7 @@ function create_file_from_template($file_path)
 
     $file_name_only = join('', $file_name_only_array);
 
-    $tmpl = TEMPLATES_DIRECTORY . $file_name_only . '.tmpl';
+    $tmpl = TEMPLATES_DIRECTORY . $file_name_only . '.plate';
 
     $constant_list_with_value = Define::get_defined_constant_with_value();
 

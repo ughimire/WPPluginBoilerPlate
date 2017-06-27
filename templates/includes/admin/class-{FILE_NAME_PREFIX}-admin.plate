@@ -94,19 +94,19 @@ class {PLUGIN_CLASS_PREFIX}_Admin {
 		}
 
 		switch ( $screen->id ) {
-case 'dashboard' :
-include( 'class-{FILE_NAME_PREFIX}-admin-dashboard.php' );
-break;
-case 'options-permalink' :
-include( 'class-{FILE_NAME_PREFIX}-admin-permalink-settings.php' );
-break;
-case 'users' :
-case 'user' :
-case 'profile' :
-case 'user-edit' :
-include( 'class-{FILE_NAME_PREFIX}-admin-profile.php' );
-break;
-}
+            case 'dashboard' :
+                include( 'class-{FILE_NAME_PREFIX}-admin-dashboard.php' );
+                break;
+            case 'options-permalink' :
+                include( 'class-{FILE_NAME_PREFIX}-admin-permalink-settings.php' );
+                break;
+            case 'users' :
+            case 'user' :
+            case 'profile' :
+            case 'user-edit' :
+                include( 'class-{FILE_NAME_PREFIX}-admin-profile.php' );
+                break;
+        }
 }
 
 /**
@@ -114,37 +114,37 @@ break;
 *
 * For setup wizard, transient must be present, the user must have access rights, and we must ignore the network/bulk plugin updaters.
 */
-public function admin_redirects() {
-// Nonced plugin install redirects (whitelisted)
-if ( ! empty( $_GET['{FILE_NAME_PREFIX}-install-plugin-redirect'] ) ) {
-$plugin_slug = {FILE_NAME_PREFIX}_clean( $_GET['{FILE_NAME_PREFIX}-install-plugin-redirect'] );
+    public function admin_redirects() {
+    // Nonced plugin install redirects (whitelisted)
+    if ( ! empty( $_GET['{FILE_NAME_PREFIX}-install-plugin-redirect'] ) ) {
+    $plugin_slug = {FILE_NAME_PREFIX}_clean( $_GET['{FILE_NAME_PREFIX}-install-plugin-redirect'] );
 
-if ( current_user_can( 'install_plugins' ) && in_array( $plugin_slug, array( '{TEXT_DOMAIN}-gateway-stripe' ) ) ) {
-$nonce = wp_create_nonce( 'install-plugin_' . $plugin_slug );
-$url   = self_admin_url( 'update.php?action=install-plugin&plugin=' . $plugin_slug . '&_wpnonce=' . $nonce );
-} else {
-$url = admin_url( 'plugin-install.php?tab=search&type=term&s=' . $plugin_slug );
-}
+    if ( current_user_can( 'install_plugins' ) && in_array( $plugin_slug, array( '{TEXT_DOMAIN}-gateway-stripe' ) ) ) {
+    $nonce = wp_create_nonce( 'install-plugin_' . $plugin_slug );
+    $url   = self_admin_url( 'update.php?action=install-plugin&plugin=' . $plugin_slug . '&_wpnonce=' . $nonce );
+    } else {
+    $url = admin_url( 'plugin-install.php?tab=search&type=term&s=' . $plugin_slug );
+    }
 
-wp_safe_redirect( $url );
-exit;
-}
+    wp_safe_redirect( $url );
+    exit;
+    }
 
-// Setup wizard redirect
-if ( get_transient( '_{FILE_NAME_PREFIX}_activation_redirect' ) ) {
-delete_transient( '_{FILE_NAME_PREFIX}_activation_redirect' );
+    // Setup wizard redirect
+    if ( get_transient( '_{FILE_NAME_PREFIX}_activation_redirect' ) ) {
+    delete_transient( '_{FILE_NAME_PREFIX}_activation_redirect' );
 
-if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( '{FILE_NAME_PREFIX}-setup' ) ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || ! current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) || apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_prevent_automatic_wizard_redirect', false ) ) {
-return;
-}
+    if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( '{FILE_NAME_PREFIX}-setup' ) ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || ! current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) || apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_prevent_automatic_wizard_redirect', false ) ) {
+    return;
+    }
 
-// If the user needs to install, send them to the setup wizard
-if ( {PLUGIN_CLASS_PREFIX}_Admin_Notices::has_notice( 'install' ) ) {
-wp_safe_redirect( admin_url( 'index.php?page={FILE_NAME_PREFIX}-setup' ) );
-exit;
-}
-}
-}
+    // If the user needs to install, send them to the setup wizard
+    if ( {PLUGIN_CLASS_PREFIX}_Admin_Notices::has_notice( 'install' ) ) {
+    wp_safe_redirect( admin_url( 'index.php?page={FILE_NAME_PREFIX}-setup' ) );
+    exit;
+    }
+    }
+    }
 
 /**
 * Prevent any user who cannot 'edit_posts' (subscribers, customers etc) from accessing admin.
