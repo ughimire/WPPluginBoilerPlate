@@ -739,7 +739,7 @@ $single_product = new WP_Query( $args );
 		$previous_wp_query = $wp_query;
 		$wp_query          = $single_product;
 
-		wp_enqueue_script( 'wc-single-product' );
+		wp_enqueue_script( '{FILE_NAME_PREFIX}-single-product' );
 
 		while ( $single_product->have_posts() ) {
 $single_product->the_post()

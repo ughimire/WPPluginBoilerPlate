@@ -2,7 +2,7 @@
 /**
  * Post Types Admin
  *
- * @author   WooCommerce
+ * @author   {PLUGIN_MAIN_CLASS_NAME}
  * @category Admin
  * @package  {PLUGIN_MAIN_CLASS_NAME}/Admin
  * @version  3.0.0
@@ -17,7 +17,7 @@ if ( ! class_exists( '{PLUGIN_CLASS_PREFIX}_Admin_Post_Types', false ) ) :
 /**
  * {PLUGIN_CLASS_PREFIX}_Admin_Post_Types Class.
  *
- * Handles the edit posts views and some functionality on the edit post screen for WC post types.
+ * Handles the edit posts views and some functionality on the edit post screen for {PLUGIN_CLASS_PREFIX} post types.
  */
 class {PLUGIN_CLASS_PREFIX}_Admin_Post_Types {
 
@@ -85,10 +85,10 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Post_Types {
 		add_action( 'media_upload_downloadable_product', array( $this, 'media_upload_downloadable_product' ) );
 
 		if ( ! function_exists( 'duplicate_post_plugin_activation' ) ) {
-			include( 'class-wc-admin-duplicate-product.php' );
+			include( 'class-{FILE_NAME_PREFIX}-admin-duplicate-product.php' );
 		}
 
-		include_once( dirname( __FILE__ ) . '/class-wc-admin-meta-boxes.php' );
+		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-meta-boxes.php' );
 
 		// Disable DFW feature pointer
 		add_action( 'admin_footer', array( $this, 'disable_dfw_feature_pointer' ) );
@@ -256,7 +256,7 @@ unset( $existing_columns['title'], $existing_columns['comments'], $existing_colu
 
 $columns          = array();
 $columns['cb']    = '<input type="checkbox" />';
-$columns['thumb'] = '<span class="wc-image tips" data-tip="' . esc_attr__( 'Image', '{TEXT_DOMAIN}' ) . '">' . __( 'Image', '{TEXT_DOMAIN}' ) . '</span>';
+$columns['thumb'] = '<span class="{FILE_NAME_PREFIX}-image tips" data-tip="' . esc_attr__( 'Image', '{TEXT_DOMAIN}' ) . '">' . __( 'Image', '{TEXT_DOMAIN}' ) . '</span>';
 $columns['name']  = __( 'Name', '{TEXT_DOMAIN}' );
 
 if ( {FILE_NAME_PREFIX}_product_sku_enabled() ) {
@@ -270,8 +270,8 @@ $columns['is_in_stock'] = __( 'Stock', '{TEXT_DOMAIN}' );
 $columns['price']        = __( 'Price', '{TEXT_DOMAIN}' );
 $columns['product_cat']  = __( 'Categories', '{TEXT_DOMAIN}' );
 $columns['product_tag']  = __( 'Tags', '{TEXT_DOMAIN}' );
-$columns['featured']     = '<span class="wc-featured parent-tips" data-tip="' . esc_attr__( 'Featured', '{TEXT_DOMAIN}' ) . '">' . __( 'Featured', '{TEXT_DOMAIN}' ) . '</span>';
-$columns['product_type'] = '<span class="wc-type parent-tips" data-tip="' . esc_attr__( 'Type', '{TEXT_DOMAIN}' ) . '">' . __( 'Type', '{TEXT_DOMAIN}' ) . '</span>';
+$columns['featured']     = '<span class="{FILE_NAME_PREFIX}-featured parent-tips" data-tip="' . esc_attr__( 'Featured', '{TEXT_DOMAIN}' ) . '">' . __( 'Featured', '{TEXT_DOMAIN}' ) . '</span>';
+$columns['product_type'] = '<span class="{FILE_NAME_PREFIX}-type parent-tips" data-tip="' . esc_attr__( 'Type', '{TEXT_DOMAIN}' ) . '">' . __( 'Type', '{TEXT_DOMAIN}' ) . '</span>';
 $columns['date']         = __( 'Date', '{TEXT_DOMAIN}' );
 
 return array_merge( $columns, $existing_columns );
@@ -430,9 +430,9 @@ case 'featured' :
 $url = wp_nonce_url( admin_url( 'admin-ajax.php?action={PLUGIN_HOOK_CLASS_NAME}_feature_product&product_id=' . $post->ID ), '{TEXT_DOMAIN}-feature-product' );
 echo '<a href="' . esc_url( $url ) . '" aria-label="' . __( 'Toggle featured', '{TEXT_DOMAIN}' ) . '">';
     if ( $the_product->is_featured() ) {
-    echo '<span class="wc-featured tips" data-tip="' . esc_attr__( 'Yes', '{TEXT_DOMAIN}' ) . '">' . __( 'Yes', '{TEXT_DOMAIN}' ) . '</span>';
+    echo '<span class="{FILE_NAME_PREFIX}-featured tips" data-tip="' . esc_attr__( 'Yes', '{TEXT_DOMAIN}' ) . '">' . __( 'Yes', '{TEXT_DOMAIN}' ) . '</span>';
     } else {
-    echo '<span class="wc-featured not-featured tips" data-tip="' . esc_attr__( 'No', '{TEXT_DOMAIN}' ) . '">' . __( 'No', '{TEXT_DOMAIN}' ) . '</span>';
+    echo '<span class="{FILE_NAME_PREFIX}-featured not-featured tips" data-tip="' . esc_attr__( 'No', '{TEXT_DOMAIN}' ) . '">' . __( 'No', '{TEXT_DOMAIN}' ) . '</span>';
     }
     echo '</a>';
 break;
@@ -863,7 +863,7 @@ include( {PLUGIN_CLASS_PREFIX}()->plugin_path() . '/includes/admin/views/html-qu
 * Offers a way to hook into save post without causing an infinite loop
 * when quick/bulk saving product info.
 *
-* @since 3.0.0
+* @since {VERSION}
 * @param int    $post_id
 * @param object $post
 */
@@ -1312,7 +1312,7 @@ return $actions;
 /**
 * Handle shop order bulk actions.
 *
-* @since  3.0.0
+* @since {VERSION}
 * @param  string $redirect_to URL to redirect to.
 * @param  string $action      Action name.
 * @param  array  $ids         List of ids.
@@ -1330,7 +1330,7 @@ $report_action  = 'marked_' . $new_status;
 
 // Sanity check: bail out if this is actually not a status, or is
 // not a registered status.
-if ( ! isset( $order_statuses[ 'wc-' . $new_status ] ) ) {
+if ( ! isset( $order_statuses[ '{FILE_NAME_PREFIX}-' . $new_status ] ) ) {
 return $redirect_to;
 }
 
@@ -1370,7 +1370,7 @@ $order_statuses = {FILE_NAME_PREFIX}_get_order_statuses();
 // Check if any status changes happened
 foreach ( $order_statuses as $slug => $name ) {
 
-if ( isset( $_REQUEST[ 'marked_' . str_replace( 'wc-', '', $slug ) ] ) ) {
+if ( isset( $_REQUEST[ 'marked_' . str_replace( '{FILE_NAME_PREFIX}-', '', $slug ) ] ) ) {
 
 $number = isset( $_REQUEST['changed'] ) ? absint( $_REQUEST['changed'] ) : 0;
 /* translators: %s: orders count */
@@ -1570,7 +1570,7 @@ $user->user_email
 );
 }
 ?>
-<select class="wc-customer-search" name="_customer_user" data-placeholder="<?php esc_attr_e( 'Search for a customer&hellip;', '{TEXT_DOMAIN}' ); ?>" data-allow_clear="true">
+<select class="{FILE_NAME_PREFIX}-customer-search" name="_customer_user" data-placeholder="<?php esc_attr_e( 'Search for a customer&hellip;', '{TEXT_DOMAIN}' ); ?>" data-allow_clear="true">
     <option value="<?php echo esc_attr( $user_id ); ?>" selected="selected"><?php echo htmlspecialchars( $user_string ); ?><option>
 </select>
 <?php
@@ -1910,7 +1910,7 @@ remove_action( 'admin_print_footer_scripts', array( 'WP_Internal_Pointers', 'poi
 * View mode is seen on posts where you can switch between list or excerpt. Our post types don't support
 * it, so we want to hide the useless UI from the screen options tab.
 *
-* @since 2.6
+* @since {VERSION}
 * @param  array $post_types Array of post types supporting view mode
 * @return array             Array of post types supporting view mode, without products, orders, and coupons
 */
@@ -1994,7 +1994,7 @@ $shop_page_id = {FILE_NAME_PREFIX}_get_page_id( 'shop' );
 if ( $post && absint( $shop_page_id ) === absint( $post->ID ) ) {
 ?>
 <div class="notice notice-info">
-    <p><?php printf( __( 'This is the WooCommerce shop page. The shop page is a special archive that lists your products. <a href="%s">You can read more about this here</a>.', '{TEXT_DOMAIN}' ), 'https://docs.{TEXT_DOMAIN}.com/document/{TEXT_DOMAIN}-pages/#section-4' ); ?></p>
+    <p><?php printf( __( 'This is the {PLUGIN_MAIN_CLASS_NAME} shop page. The shop page is a special archive that lists your products. <a href="%s">You can read more about this here</a>.', '{TEXT_DOMAIN}' ), 'https://docs.{TEXT_DOMAIN}.com/document/{TEXT_DOMAIN}-pages/#section-4' ); ?></p>
 </div>
 <?php
 		}

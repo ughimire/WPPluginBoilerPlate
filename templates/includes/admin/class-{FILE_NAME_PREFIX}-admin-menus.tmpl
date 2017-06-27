@@ -57,7 +57,7 @@ if ( current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) ) {
 $menu[] = array( '', 'read', 'separator-{TEXT_DOMAIN}', '', 'wp-menu-separator {TEXT_DOMAIN}' );
 }
 
-add_menu_page( __( 'WooCommerce', '{TEXT_DOMAIN}' ), __( 'WooCommerce', '{TEXT_DOMAIN}' ), 'manage_{PLUGIN_HOOK_CLASS_NAME}', '{TEXT_DOMAIN}', null, null, '55.5' );
+add_menu_page( __( '{PLUGIN_MAIN_CLASS_NAME}', '{TEXT_DOMAIN}' ), __( '{PLUGIN_MAIN_CLASS_NAME}', '{TEXT_DOMAIN}' ), 'manage_{PLUGIN_HOOK_CLASS_NAME}', '{TEXT_DOMAIN}', null, null, '55.5' );
 
 add_submenu_page( 'edit.php?post_type=product', __( 'Attributes', '{TEXT_DOMAIN}' ), __( 'Attributes', '{TEXT_DOMAIN}' ), 'manage_product_terms', 'product_attributes', array( $this, 'attributes_page' ) );
 }
@@ -67,9 +67,9 @@ add_submenu_page( 'edit.php?post_type=product', __( 'Attributes', '{TEXT_DOMAIN}
 */
 public function reports_menu() {
 if ( current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) ) {
-add_submenu_page( '{TEXT_DOMAIN}', __( 'Reports', '{TEXT_DOMAIN}' ),  __( 'Reports', '{TEXT_DOMAIN}' ) , 'view_{PLUGIN_HOOK_CLASS_NAME}_reports', 'wc-reports', array( $this, 'reports_page' ) );
+add_submenu_page( '{TEXT_DOMAIN}', __( 'Reports', '{TEXT_DOMAIN}' ),  __( 'Reports', '{TEXT_DOMAIN}' ) , 'view_{PLUGIN_HOOK_CLASS_NAME}_reports', '{FILE_NAME_PREFIX}-reports', array( $this, 'reports_page' ) );
 } else {
-add_menu_page( __( 'Sales reports', '{TEXT_DOMAIN}' ),  __( 'Sales reports', '{TEXT_DOMAIN}' ) , 'view_{PLUGIN_HOOK_CLASS_NAME}_reports', 'wc-reports', array( $this, 'reports_page' ), null, '55.6' );
+add_menu_page( __( 'Sales reports', '{TEXT_DOMAIN}' ),  __( 'Sales reports', '{TEXT_DOMAIN}' ) , 'view_{PLUGIN_HOOK_CLASS_NAME}_reports', '{FILE_NAME_PREFIX}-reports', array( $this, 'reports_page' ), null, '55.6' );
 }
 }
 
@@ -77,7 +77,7 @@ add_menu_page( __( 'Sales reports', '{TEXT_DOMAIN}' ),  __( 'Sales reports', '{T
 * Add menu item.
 */
 public function settings_menu() {
-$settings_page = add_submenu_page( '{TEXT_DOMAIN}', __( 'WooCommerce settings', '{TEXT_DOMAIN}' ),  __( 'Settings', '{TEXT_DOMAIN}' ) , 'manage_{PLUGIN_HOOK_CLASS_NAME}', 'wc-settings', array( $this, 'settings_page' ) );
+$settings_page = add_submenu_page( '{TEXT_DOMAIN}', __( '{PLUGIN_MAIN_CLASS_NAME} settings', '{TEXT_DOMAIN}' ),  __( 'Settings', '{TEXT_DOMAIN}' ) , 'manage_{PLUGIN_HOOK_CLASS_NAME}', '{FILE_NAME_PREFIX}-settings', array( $this, 'settings_page' ) );
 
 add_action( 'load-' . $settings_page, array( $this, 'settings_page_init' ) );
 }
@@ -94,14 +94,14 @@ public function settings_page_init() {
 * Add menu item.
 */
 public function status_menu() {
-add_submenu_page( '{TEXT_DOMAIN}', __( 'WooCommerce status', '{TEXT_DOMAIN}' ),  __( 'Status', '{TEXT_DOMAIN}' ) , 'manage_{PLUGIN_HOOK_CLASS_NAME}', 'wc-status', array( $this, 'status_page' ) );
+add_submenu_page( '{TEXT_DOMAIN}', __( '{PLUGIN_MAIN_CLASS_NAME} status', '{TEXT_DOMAIN}' ),  __( 'Status', '{TEXT_DOMAIN}' ) , 'manage_{PLUGIN_HOOK_CLASS_NAME}', '{FILE_NAME_PREFIX}-status', array( $this, 'status_page' ) );
 }
 
 /**
 * Addons menu item.
 */
 public function addons_menu() {
-add_submenu_page( '{TEXT_DOMAIN}', __( 'WooCommerce extensions', '{TEXT_DOMAIN}' ),  __( 'Extensions', '{TEXT_DOMAIN}' ) , 'manage_{PLUGIN_HOOK_CLASS_NAME}', 'wc-addons', array( $this, 'addons_page' ) );
+add_submenu_page( '{TEXT_DOMAIN}', __( '{PLUGIN_MAIN_CLASS_NAME} extensions', '{TEXT_DOMAIN}' ),  __( 'Extensions', '{TEXT_DOMAIN}' ) , 'manage_{PLUGIN_HOOK_CLASS_NAME}', '{FILE_NAME_PREFIX}-addons', array( $this, 'addons_page' ) );
 }
 
 /**
@@ -132,7 +132,7 @@ public function menu_order_count() {
 global $submenu;
 
 if ( isset( $submenu['{TEXT_DOMAIN}'] ) ) {
-// Remove 'WooCommerce' sub menu item
+// Remove '{PLUGIN_MAIN_CLASS_NAME}' sub menu item
 unset( $submenu['{TEXT_DOMAIN}'][0] );
 
 // Add count if user has access
@@ -148,7 +148,7 @@ break;
 }
 
 /**
-* Reorder the WC menu items in admin.
+* Reorder the {PLUGIN_CLASS_PREFIX} menu items in admin.
 *
 * @param mixed $menu_order
 * @return array
@@ -231,7 +231,7 @@ public function addons_page() {
 * Adapted from http://www.johnmorrisonline.com/how-to-add-a-fully-functional-custom-meta-box-to-wordpress-navigation-menus/.
 */
 public function add_nav_menu_meta_boxes() {
-add_meta_box( '{PLUGIN_HOOK_CLASS_NAME}_endpoints_nav_link', __( 'WooCommerce endpoints', '{TEXT_DOMAIN}' ), array( $this, 'nav_menu_links' ), 'nav-menus', 'side', 'low' );
+add_meta_box( '{PLUGIN_HOOK_CLASS_NAME}_endpoints_nav_link', __( '{PLUGIN_MAIN_CLASS_NAME} endpoints', '{TEXT_DOMAIN}' ), array( $this, 'nav_menu_links' ), 'nav-menus', 'side', 'low' );
 }
 
 /**
@@ -290,7 +290,7 @@ $endpoints = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_custom_nav_menu_items', $e
 	/**
 	 * Add the "Visit Store" link in admin bar main menu.
 	 *
-	 * @since 2.4.0
+	 * @since {VERSION}
 	 * @param WP_Admin_Bar $wp_admin_bar
 	 */
 	public function admin_bar_menus( $wp_admin_bar ) {

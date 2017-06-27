@@ -232,7 +232,7 @@ class {PLUGIN_CLASS_PREFIX}_Query {
 	public function search_post_excerpt( $where = '' ) {
 		global $wp_the_query;
 
-		// If this is not a WC Query, do not modify the query
+		// If this is not a {PLUGIN_CLASS_PREFIX} Query, do not modify the query
 		if ( empty( $wp_the_query->query_vars['{FILE_NAME_PREFIX}_query'] ) || empty( $wp_the_query->query_vars['s'] ) ) {
 			return $where;
 		}

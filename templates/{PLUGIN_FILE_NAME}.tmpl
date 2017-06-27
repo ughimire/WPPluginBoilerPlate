@@ -88,7 +88,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 	 * @since {VERSION}
 	 */
 	public function __clone() {
-		{FILE_NAME_PREFIX}_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '{VERSION}' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '{VERSION}' );
 	}
 
 	/**
@@ -96,7 +96,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 	 * @since {VERSION}
 	 */
 	public function __wakeup() {
-		{FILE_NAME_PREFIX}_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '{VERSION}' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '{VERSION}' );
 	}
 
 	/**
@@ -121,7 +121,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 
 	/**
 	 * Hook into actions and filters.
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 */
 	private function init_hooks() {
 		register_activation_hook( __FILE__, array( '{PLUGIN_CLASS_PREFIX}_Install', 'install' ) );
@@ -182,7 +182,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 	/**
 	 * Check the active theme.
 	 *
-	 * @since  2.6.9
+	 * @since {VERSION}
 	 * @param  string $theme Theme slug to check
 	 * @return bool
 	 */
@@ -313,8 +313,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 
 		}
 
-		$this->load_webhooks();
-
 		// Init action.
 		do_action( '{HOOK_PREFIX}_init' );
 	}
@@ -363,7 +361,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 	/**
 	 * Add {PLUGIN_CLASS_PREFIX} Image sizes to WP.
 	 *
-	 * @since 2.3
+	 * @since {VERSION}
 	 */
 	private function add_image_sizes() {
 		$shop_thumbnail = {FILE_NAME_PREFIX}_get_image_size( 'shop_thumbnail' );
@@ -434,31 +432,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		return esc_url_raw( apply_filters( '{HOOK_PREFIX}_api_request_url', $api_request_url, $request, $ssl ) );
 	}
 
-	/**
-	 * Load & enqueue active webhooks.
-	 *
-	 * @since 2.2
-	 */
-	private function load_webhooks() {
-
-		if ( ! is_blog_installed() ) {
-			return;
-		}
-
-		if ( false === ( $webhooks = get_transient( '{HOOK_PREFIX}_webhook_ids' ) ) ) {
-			$webhooks = get_posts( array(
-				'fields'         => 'ids',
-				'post_type'      => 'shop_webhook',
-				'post_status'    => 'publish',
-				'posts_per_page' => -1,
-			) );
-			set_transient( '{HOOK_PREFIX}_webhook_ids', $webhooks );
-		}
-		foreach ( $webhooks as $webhook_id ) {
-			$webhook = new {PLUGIN_CLASS_PREFIX}_Webhook( $webhook_id );
-			$webhook->enqueue();
-		}
-	}
 
 	/**
 	 * {PLUGIN_NAME} Payment Token Meta API and Term/Order item Meta - set table names.
@@ -477,30 +450,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 	}
 
 	/**
-	 * Get Checkout Class.
-	 * @return {PLUGIN_CLASS_PREFIX}_Checkout
-	 */
-	public function checkout() {
-		return {PLUGIN_CLASS_PREFIX}_Checkout::instance();
-	}
-
-	/**
-	 * Get gateways class.
-	 * @return {PLUGIN_CLASS_PREFIX}_Payment_Gateways
-	 */
-	public function payment_gateways() {
-		return {PLUGIN_CLASS_PREFIX}_Payment_Gateways::instance();
-	}
-
-	/**
-	 * Get shipping class.
-	 * @return {PLUGIN_CLASS_PREFIX}_Shipping
-	 */
-	public function shipping() {
-		return {PLUGIN_CLASS_PREFIX}_Shipping::instance();
-	}
-
-	/**
 	 * Email Class.
 	 * @return {PLUGIN_CLASS_PREFIX}_Emails
 	 */
@@ -516,7 +465,7 @@ endif;
  *
  * Returns the main instance of {PLUGIN_CLASS_PREFIX} to prevent the need to use globals.
  *
- * @since  {VERSION}
+ * @since {VERSION}
  * @return {PLUGIN_MAIN_CLASS_NAME}
  */
 function {PLUGIN_CLASS_PREFIX}() {

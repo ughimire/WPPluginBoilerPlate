@@ -76,7 +76,7 @@ self::$notices = array();
 }
 
 /**
-* Reset notices for themes when switched or a new version of WC is installed.
+* Reset notices for themes when switched or a new version of {PLUGIN_CLASS_PREFIX} is installed.
 */
 public static function reset_admin_notices() {
 if ( ! current_theme_supports( '{TEXT_DOMAIN}' ) && ! in_array( get_option( 'template' ), {FILE_NAME_PREFIX}_get_core_supported_themes() ) ) {
@@ -123,7 +123,7 @@ return in_array( $name, self::get_notices() );
 * Hide a notice if the GET variable is set.
 */
 public static function hide_notices() {
-if ( isset( $_GET['wc-hide-notice'] ) && isset( $_GET['_{FILE_NAME_PREFIX}_notice_nonce'] ) ) {
+if ( isset( $_GET['{FILE_NAME_PREFIX}-hide-notice'] ) && isset( $_GET['_{FILE_NAME_PREFIX}_notice_nonce'] ) ) {
 if ( ! wp_verify_nonce( $_GET['_{FILE_NAME_PREFIX}_notice_nonce'], '{PLUGIN_HOOK_CLASS_NAME}_hide_notices_nonce' ) ) {
 wp_die( __( 'Action failed. Please refresh the page and retry.', '{TEXT_DOMAIN}' ) );
 }
@@ -132,7 +132,7 @@ if ( ! current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) ) {
 wp_die( __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ) );
 }
 
-$hide_notice = sanitize_text_field( $_GET['wc-hide-notice'] );
+$hide_notice = sanitize_text_field( $_GET['{FILE_NAME_PREFIX}-hide-notice'] );
 self::remove_notice( $hide_notice );
 do_action( '{PLUGIN_HOOK_CLASS_NAME}_hide_' . $hide_notice . '_notice' );
 }
@@ -282,7 +282,7 @@ self::remove_notice( 'template_files' );
 * No shipping methods.
 */
 public static function no_shipping_methods_notice() {
-if ( {FILE_NAME_PREFIX}_shipping_enabled() && ( empty( $_GET['page'] ) || empty( $_GET['tab'] ) || 'wc-settings' !== $_GET['page'] || 'shipping' !== $_GET['tab'] ) ) {
+if ( {FILE_NAME_PREFIX}_shipping_enabled() && ( empty( $_GET['page'] ) || empty( $_GET['tab'] ) || '{FILE_NAME_PREFIX}-settings' !== $_GET['page'] || 'shipping' !== $_GET['tab'] ) ) {
 $product_count = wp_count_posts( 'product' );
 $method_count  = {FILE_NAME_PREFIX}_get_shipping_method_count();
 

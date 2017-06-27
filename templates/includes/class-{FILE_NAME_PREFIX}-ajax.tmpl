@@ -26,20 +26,20 @@ class {PLUGIN_CLASS_PREFIX}_AJAX {
 	}
 
 	/**
-	 * Get WC Ajax Endpoint.
+	 * Get {PLUGIN_CLASS_PREFIX} Ajax Endpoint.
 	 *
 	 * @param  string $request Optional
 	 * @return string
 	 */
 	public static function get_endpoint( $request = '' ) {
-		return esc_url_raw( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_ajax_get_endpoint', add_query_arg( 'wc-ajax', $request, remove_query_arg( array( 'remove_item', 'add-to-cart', 'added-to-cart' ) ) ), $request ) );
+		return esc_url_raw( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_ajax_get_endpoint', add_query_arg( '{FILE_NAME_PREFIX}-ajax', $request, remove_query_arg( array( 'remove_item', 'add-to-cart', 'added-to-cart' ) ) ), $request ) );
 	}
 
 	/**
-	 * Set WC AJAX constant and headers.
+	 * Set {PLUGIN_CLASS_PREFIX} AJAX constant and headers.
 	 */
 	public static function define_ajax() {
-		if ( ! empty( $_GET['wc-ajax'] ) ) {
+		if ( ! empty( $_GET['{FILE_NAME_PREFIX}-ajax'] ) ) {
 			{FILE_NAME_PREFIX}_maybe_define_constant( 'DOING_AJAX', true );
 			{FILE_NAME_PREFIX}_maybe_define_constant( '{PLUGIN_CLASS_PREFIX}_DOING_AJAX', true );
 			if ( ! WP_DEBUG || ( WP_DEBUG && ! WP_DEBUG_DISPLAY ) ) {
@@ -50,9 +50,9 @@ class {PLUGIN_CLASS_PREFIX}_AJAX {
 }
 
 /**
-* Send headers for WC Ajax Requests.
+* Send headers for {PLUGIN_CLASS_PREFIX} Ajax Requests.
 *
-* @since 2.5.0
+* @since {VERSION}
 */
 private static function {FILE_NAME_PREFIX}_ajax_headers() {
 send_origin_headers();
@@ -64,16 +64,16 @@ status_header( 200 );
 }
 
 /**
-* Check for WC Ajax request and fire action.
+* Check for {PLUGIN_CLASS_PREFIX} Ajax request and fire action.
 */
 public static function do_{FILE_NAME_PREFIX}_ajax() {
 global $wp_query;
 
-if ( ! empty( $_GET['wc-ajax'] ) ) {
-$wp_query->set( 'wc-ajax', sanitize_text_field( $_GET['wc-ajax'] ) );
+if ( ! empty( $_GET['{FILE_NAME_PREFIX}-ajax'] ) ) {
+$wp_query->set( '{FILE_NAME_PREFIX}-ajax', sanitize_text_field( $_GET['{FILE_NAME_PREFIX}-ajax'] ) );
 }
 
-if ( $action = $wp_query->get( 'wc-ajax' ) ) {
+if ( $action = $wp_query->get( '{FILE_NAME_PREFIX}-ajax' ) ) {
 self::{FILE_NAME_PREFIX}_ajax_headers();
 do_action( '{FILE_NAME_PREFIX}_ajax_' . sanitize_text_field( $action ) );
 wp_die();
@@ -150,7 +150,7 @@ add_action( 'wp_ajax_{PLUGIN_HOOK_CLASS_NAME}_' . $ajax_event, array( __CLASS__,
 if ( $nopriv ) {
 add_action( 'wp_ajax_nopriv_{PLUGIN_HOOK_CLASS_NAME}_' . $ajax_event, array( __CLASS__, $ajax_event ) );
 
-// WC AJAX can be used for frontend ajax requests.
+// {PLUGIN_CLASS_PREFIX} AJAX can be used for frontend ajax requests.
 add_action( '{FILE_NAME_PREFIX}_ajax_' . $ajax_event, array( __CLASS__, $ajax_event ) );
 }
 }
@@ -250,7 +250,7 @@ wp_die();
 private static function update_order_review_expired() {
 wp_send_json( array(
 'fragments' => apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_update_order_review_fragments', array(
-'form.{TEXT_DOMAIN}-checkout' => '<div class="{TEXT_DOMAIN}-error">' . __( 'Sorry, your session has expired.', '{TEXT_DOMAIN}' ) . ' <a href="' . esc_url( {FILE_NAME_PREFIX}_get_page_permalink( 'shop' ) ) . '" class="wc-backward">' . __( 'Return to shop', '{TEXT_DOMAIN}' ) . '</a></div>',
+'form.{TEXT_DOMAIN}-checkout' => '<div class="{TEXT_DOMAIN}-error">' . __( 'Sorry, your session has expired.', '{TEXT_DOMAIN}' ) . ' <a href="' . esc_url( {FILE_NAME_PREFIX}_get_page_permalink( 'shop' ) ) . '" class="{FILE_NAME_PREFIX}-backward">' . __( 'Return to shop', '{TEXT_DOMAIN}' ) . '</a></div>',
 ) ),
 ) );
 }
@@ -440,7 +440,7 @@ if ( current_user_can( 'edit_shop_orders' ) && check_admin_referer( '{TEXT_DOMAI
 $status = sanitize_text_field( $_GET['status'] );
 $order  = {FILE_NAME_PREFIX}_get_order( absint( $_GET['order_id'] ) );
 
-if ( {FILE_NAME_PREFIX}_is_order_status( 'wc-' . $status ) && $order ) {
+if ( {FILE_NAME_PREFIX}_is_order_status( '{FILE_NAME_PREFIX}-' . $status ) && $order ) {
 $order->update_status( $status, '', true );
 do_action( '{PLUGIN_HOOK_CLASS_NAME}_order_edit_status', $order->get_id(), $status );
 }
@@ -1543,7 +1543,7 @@ $key_id                  = $wpdb->insert_id;
 $data['consumer_key']    = $consumer_key;
 $data['consumer_secret'] = $consumer_secret;
 $data['message']         = __( 'API Key generated successfully. Make sure to copy your new keys now as the secret key will be hidden once you leave this page.', '{TEXT_DOMAIN}' );
-$data['revoke_url']      = '<a style="color: #a00; text-decoration: none;" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'revoke-key' => $key_id ), admin_url( 'admin.php?page=wc-settings&tab=api&section=keys' ) ), 'revoke' ) ) . '">' . __( 'Revoke key', '{TEXT_DOMAIN}' ) . '</a>';
+$data['revoke_url']      = '<a style="color: #a00; text-decoration: none;" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'revoke-key' => $key_id ), admin_url( 'admin.php?page={FILE_NAME_PREFIX}-settings&tab=api&section=keys' ) ), 'revoke' ) ) . '">' . __( 'Revoke key', '{TEXT_DOMAIN}' ) . '</a>';
 }
 
 wp_send_json_success( $data );
@@ -2093,7 +2093,7 @@ wp_send_json_success( array(
 }
 
 /**
-* Handle submissions from assets/js/wc-shipping-zones.js Backbone model.
+* Handle submissions from assets/js/{FILE_NAME_PREFIX}-shipping-zones.js Backbone model.
 */
 public static function shipping_zones_save_changes() {
 if ( ! isset( $_POST['{FILE_NAME_PREFIX}_shipping_zones_nonce'], $_POST['changes'] ) ) {
@@ -2146,7 +2146,7 @@ wp_send_json_success( array(
 }
 
 /**
-* Handle submissions from assets/js/wc-shipping-zone-methods.js Backbone model.
+* Handle submissions from assets/js/{FILE_NAME_PREFIX}-shipping-zone-methods.js Backbone model.
 */
 public static function shipping_zone_add_method() {
 if ( ! isset( $_POST['{FILE_NAME_PREFIX}_shipping_zones_nonce'], $_POST['zone_id'], $_POST['method_id'] ) ) {
@@ -2178,7 +2178,7 @@ wp_send_json_success( array(
 }
 
 /**
-* Handle submissions from assets/js/wc-shipping-zone-methods.js Backbone model.
+* Handle submissions from assets/js/{FILE_NAME_PREFIX}-shipping-zone-methods.js Backbone model.
 */
 public static function shipping_zone_methods_save_changes() {
 if ( ! isset( $_POST['{FILE_NAME_PREFIX}_shipping_zones_nonce'], $_POST['zone_id'], $_POST['changes'] ) ) {
@@ -2309,7 +2309,7 @@ wp_send_json_success( array(
 }
 
 /**
-* Handle submissions from assets/js/wc-shipping-classes.js Backbone model.
+* Handle submissions from assets/js/{FILE_NAME_PREFIX}-shipping-classes.js Backbone model.
 */
 public static function shipping_classes_save_changes() {
 if ( ! isset( $_POST['{FILE_NAME_PREFIX}_shipping_classes_nonce'], $_POST['changes'] ) ) {

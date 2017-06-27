@@ -20,7 +20,7 @@ include( '{FILE_NAME_PREFIX}-conditional-functions.php' );
 /**
  * Define a constant if it is not already defined.
  *
- * @since  {VERSION}
+ * @since {VERSION}
  * @param  string $name
  * @param  string $value
  */
@@ -82,7 +82,7 @@ function {FILE_NAME_PREFIX}_get_template( $template_name, $args = array(), $temp
 	$located = {FILE_NAME_PREFIX}_locate_template( $template_name, $template_path, $default_path );
 
 	if ( ! file_exists( $located ) ) {
-		{FILE_NAME_PREFIX}_doing_it_wrong( __FUNCTION__, sprintf( __( '%s does not exist.', '{TEXT_DOMAIN}' ), '<code>' . $located . '</code>' ), '{VERSION}' );
+		_doing_it_wrong( __FUNCTION__, sprintf( __( '%s does not exist.', '{TEXT_DOMAIN}' ), '<code>' . $located . '</code>' ), '{VERSION}' );
 		return;
 	}
 
@@ -334,7 +334,7 @@ function {FILE_NAME_PREFIX}_get_core_supported_themes() {
 
 /**
  * Get user agent string.
- * @since  3.0.0
+ * @since {VERSION}
  * @return string
  */
 function {FILE_NAME_PREFIX}_get_user_agent() {
@@ -349,7 +349,7 @@ if ( ! function_exists( 'hash_equals' ) ) :
 	 * This function was added in PHP 5.6.
 	 * It can leak the length of a string.
 	 *
-	 * @since {VERSIONI}
+	 * @since {VERSION}
 	 *
 	 * @param string $a Expected string.
 	 * @param string $b Actual string.
@@ -374,7 +374,7 @@ endif;
 /**
  * Generate a rand hash.
  *
- * @since  {VERSION}
+ * @since {VERSION}
  * @return string
  */
 function {PLUGIN_HOOK_CLASS_NAME}_rand_hash() {
@@ -388,12 +388,12 @@ function {PLUGIN_HOOK_CLASS_NAME}_rand_hash() {
 /**
  * {PLUGIN_CLASS_PREFIX} API - Hash.
  *
- * @since  {VERSION}
+ * @since {VERSION}
  * @param  string $data
  * @return string
  */
 function {PLUGIN_HOOK_CLASS_NAME}_api_hash( $data ) {
-	return hash_hmac( 'sha256', $data, 'wc-api' );
+	return hash_hmac( 'sha256', $data, '{FILE_NAME_PREFIX}-api' );
 }
 
 /**
@@ -505,7 +505,7 @@ function {FILE_NAME_PREFIX}_back_link( $label, $url ) {
 /**
  * Display a {PLUGIN_MAIN_CLASS_NAME} help tip.
  *
- * @since  {VERSION}
+ * @since {VERSION}
  *
  * @param  string $tip        Help tip text
  * @param  bool   $allow_html Allow sanitized HTML if true or escape
@@ -561,7 +561,7 @@ function {FILE_NAME_PREFIX}_set_time_limit( $limit = 0 ) {
  * Get rounding precision for internal {PLUGIN_MAIN_CLASS_NAME} calculations.
  * Will increase the precision of {PLUGIN_HOOK_CLASS_NAME}_get_price_decimals by 2 decimals, unless {PLUGIN_CLASS_PREFIX}_ROUNDING_PRECISION is set to a higher number.
  *
- * @since 2.6.3
+ * @since {VERSION}
  * @return int
  */
 function {FILE_NAME_PREFIX}_get_rounding_precision() {
@@ -596,7 +596,7 @@ function {FILE_NAME_PREFIX}_get_logger() {
 				$logger = new $class;
 			}
 		} else {
-			{PLUGIN_HOOK_CLASS_NAME}_doing_it_wrong(
+			_doing_it_wrong(
 				__FUNCTION__,
 				sprintf(
 					__( 'The class <code>%s</code> provided by {PLUGIN_HOOK_CLASS_NAME}_logging_class filter must implement <code>{PLUGIN_CLASS_PREFIX}_Logger_Interface</code>.', '{TEXT_DOMAIN}' ),
@@ -616,7 +616,7 @@ function {FILE_NAME_PREFIX}_get_logger() {
  * Some server environments blacklist some debugging functions. This function provides a safe way to
  * turn an expression into a printable, readable form without calling blacklisted functions.
  *
- * @since 3.0
+ * @since {VERSION}
  *
  * @param mixed $expression The expression to be printed.
  * @param bool $return Optional. Default false. Set to true to return the human-readable string.
@@ -689,7 +689,7 @@ add_action( 'wp_login', '{FILE_NAME_PREFIX}_maybe_store_user_agent', 10, 2 );
 /**
  * Based on wp_list_pluck, this calls a method instead of returning a property.
  *
- * @since {VERSIOIN}
+ * @since {VERSION}
  * @param array      $list      List of objects or arrays
  * @param int|string $callback_or_field     Callback method from the object to place instead of the entire object
  * @param int|string $index_key Optional. Field from the object to use as keys for the new array.
@@ -783,7 +783,7 @@ function {FILE_NAME_PREFIX}_make_phone_clickable( $phone ) {
 /**
  * Get an item of post data if set, otherwise return a default value.
  *
- * @since  {VERSION}
+ * @since {VERSION}
  * @param  string $key
  * @param  string $default
  * @return mixed value sanitized by {FILE_NAME_PREFIX}_clean

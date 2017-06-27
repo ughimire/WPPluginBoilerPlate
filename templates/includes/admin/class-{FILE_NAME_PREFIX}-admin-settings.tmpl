@@ -47,17 +47,17 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Settings {
 		if ( empty( self::$settings ) ) {
 			$settings = array();
 
-			include_once( dirname( __FILE__ ) . '/settings/class-wc-settings-page.php' );
+			include_once( dirname( __FILE__ ) . '/settings/class-{FILE_NAME_PREFIX}-settings-page.php' );
 
-			$settings[] = include( 'settings/class-wc-settings-general.php' );
-			$settings[] = include( 'settings/class-wc-settings-products.php' );
-			$settings[] = include( 'settings/class-wc-settings-tax.php' );
-			$settings[] = include( 'settings/class-wc-settings-shipping.php' );
-			$settings[] = include( 'settings/class-wc-settings-checkout.php' );
-			$settings[] = include( 'settings/class-wc-settings-accounts.php' );
-			$settings[] = include( 'settings/class-wc-settings-emails.php' );
-			$settings[] = include( 'settings/class-wc-settings-integrations.php' );
-			$settings[] = include( 'settings/class-wc-settings-api.php' );
+			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-general.php' );
+			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-products.php' );
+			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-tax.php' );
+			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-shipping.php' );
+			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-checkout.php' );
+			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-accounts.php' );
+			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-emails.php' );
+			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-integrations.php' );
+			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-api.php' );
 
 			self::$settings = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_get_settings_pages', $settings );
 		}
@@ -584,7 +584,7 @@ $args = wp_parse_args( $value['args'], $args );
         <label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
         <?php echo $tooltip_html; ?>
     </th>
-    <td class="forminp"><select name="<?php echo esc_attr( $value['id'] ); ?>" style="<?php echo esc_attr( $value['css'] ); ?>" data-placeholder="<?php esc_attr_e( 'Choose a country&hellip;', '{TEXT_DOMAIN}' ); ?>" aria-label="<?php esc_attr_e( 'Country', '{TEXT_DOMAIN}' ) ?>" class="wc-enhanced-select">
+    <td class="forminp"><select name="<?php echo esc_attr( $value['id'] ); ?>" style="<?php echo esc_attr( $value['css'] ); ?>" data-placeholder="<?php esc_attr_e( 'Choose a country&hellip;', '{TEXT_DOMAIN}' ); ?>" aria-label="<?php esc_attr_e( 'Country', '{TEXT_DOMAIN}' ) ?>" class="{FILE_NAME_PREFIX}-enhanced-select">
         <?php {PLUGIN_CLASS_PREFIX}()->countries->country_dropdown_options( $country, $state ); ?>
     </select> <?php echo $description; ?>
     </td>
@@ -609,7 +609,7 @@ asort( $countries );
         <?php echo $tooltip_html; ?>
     </th>
     <td class="forminp">
-        <select multiple="multiple" name="<?php echo esc_attr( $value['id'] ); ?>[]" style="width:350px" data-placeholder="<?php esc_attr_e( 'Choose countries&hellip;', '{TEXT_DOMAIN}' ); ?>" aria-label="<?php esc_attr_e( 'Country', '{TEXT_DOMAIN}' ) ?>" class="wc-enhanced-select">
+        <select multiple="multiple" name="<?php echo esc_attr( $value['id'] ); ?>[]" style="width:350px" data-placeholder="<?php esc_attr_e( 'Choose countries&hellip;', '{TEXT_DOMAIN}' ); ?>" aria-label="<?php esc_attr_e( 'Country', '{TEXT_DOMAIN}' ) ?>" class="{FILE_NAME_PREFIX}-enhanced-select">
             <?php
 									if ( ! empty( $countries ) ) {
 										foreach ( $countries as $key => $val ) {
@@ -759,13 +759,13 @@ continue;
 
 /**
 * Sanitize the value of an option.
-* @since 2.4.0
+* @since {VERSION}
 */
 $value = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_admin_settings_sanitize_option', $value, $option, $raw_value );
 
 /**
 * Sanitize the value of an option by option name.
-* @since 2.4.0
+* @since {VERSION}
 */
 $value = apply_filters( "{PLUGIN_HOOK_CLASS_NAME}_admin_settings_sanitize_option_$option_name", $value, $option, $raw_value );
 

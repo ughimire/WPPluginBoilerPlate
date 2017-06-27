@@ -39,7 +39,7 @@ if ( ! function_exists( 'rest_get_server' ) ) {
 *
 * Instantiates a new instance if none exists already.
 *
-* @since 4.5.0
+* @since {VERSION}
 *
 * @global WP_REST_Server $wp_rest_server REST server instance.
 *
@@ -56,7 +56,7 @@ if ( empty( $wp_rest_server ) ) {
 * This filter allows you to adjust the server class used by the API, using a
 * different class to handle requests.
 *
-* @since 4.4.0
+* @since {VERSION}
 *
 * @param string $class_name The name of the server class. Default 'WP_REST_Server'.
 */
@@ -69,7 +69,7 @@ $wp_rest_server = new $wp_rest_server_class;
 * Endpoint objects should be created and register their hooks on this action rather
 * than another action to ensure they're only loaded when needed.
 *
-* @since 4.4.0
+* @since {VERSION}
 *
 * @param WP_REST_Server $wp_rest_server Server object.
 */

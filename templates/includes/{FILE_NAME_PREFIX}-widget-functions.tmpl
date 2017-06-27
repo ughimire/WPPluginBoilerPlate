@@ -15,24 +15,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Include widget classes.
-include_once( dirname( __FILE__ ) . '/abstracts/abstract-wc-widget.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-wc-widget-cart.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-wc-widget-layered-nav-filters.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-wc-widget-layered-nav.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-wc-widget-price-filter.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-wc-widget-product-categories.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-wc-widget-product-search.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-wc-widget-product-tag-cloud.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-wc-widget-products.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-wc-widget-rating-filter.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-wc-widget-recent-reviews.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-wc-widget-recently-viewed.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-wc-widget-top-rated-products.php' );
+include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-widget.php' );
+include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-cart.php' );
+include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-layered-nav-filters.php' );
+include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-layered-nav.php' );
+include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-price-filter.php' );
+include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-product-categories.php' );
+include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-product-search.php' );
+include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-product-tag-cloud.php' );
+include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-products.php' );
+include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-rating-filter.php' );
+include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-recent-reviews.php' );
+include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-recently-viewed.php' );
+include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-top-rated-products.php' );
 
 /**
  * Register Widgets.
  *
- * @since 2.3.0
+ * @since {VERSION}
  */
 function {FILE_NAME_PREFIX}_register_widgets() {
 	register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Cart' );

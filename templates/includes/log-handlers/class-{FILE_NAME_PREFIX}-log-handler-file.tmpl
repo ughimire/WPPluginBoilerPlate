@@ -342,7 +342,7 @@ public static function get_log_file_path( $handle ) {
 if ( function_exists( 'wp_hash' ) ) {
 return trailingslashit( {PLUGIN_CLASS_PREFIX}_LOG_DIR ) . sanitize_file_name( $handle . '-' . wp_hash( $handle ) . '.log' );
 } else {
-{FILE_NAME_PREFIX}_doing_it_wrong( __METHOD__, __( 'This method should not be called before plugins_loaded.', '{TEXT_DOMAIN}' ), '3.0' );
+_doing_it_wrong( __METHOD__, __( 'This method should not be called before plugins_loaded.', '{TEXT_DOMAIN}' ), '3.0' );
 return false;
 }
 }

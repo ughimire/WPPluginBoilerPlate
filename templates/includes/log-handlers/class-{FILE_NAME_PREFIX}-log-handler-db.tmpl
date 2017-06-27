@@ -125,7 +125,7 @@ return $wpdb->query( $query );
 * @return string Text to use as log source. "" (empty string) if none is found.
 */
 protected static function get_log_source() {
-static $ignore_files = array( 'class-wc-log-handler-db', 'class-wc-logger' );
+static $ignore_files = array( 'class-{FILE_NAME_PREFIX}-log-handler-db', 'class-{FILE_NAME_PREFIX}-logger' );
 
 /**
 * PHP < 5.3.6 correct behavior

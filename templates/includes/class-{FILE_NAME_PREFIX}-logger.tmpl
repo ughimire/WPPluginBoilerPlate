@@ -51,7 +51,7 @@ class {PLUGIN_CLASS_PREFIX}_Logger implements {PLUGIN_CLASS_PREFIX}_Logger_Inter
 				if ( is_object( $handler ) && is_array( $implements ) && in_array( '{PLUGIN_CLASS_PREFIX}_Log_Handler_Interface', $implements ) ) {
 					$register_handlers[] = $handler;
 				} else {
-					{FILE_NAME_PREFIX}_doing_it_wrong(
+					_doing_it_wrong(
 						__METHOD__,
 						sprintf(
 							__( 'The provided handler <code>%s</code> does not implement {PLUGIN_CLASS_PREFIX}_Log_Handler_Interface.', '{TEXT_DOMAIN}' ),
@@ -124,7 +124,7 @@ return true;
 */
 public function log( $level, $message, $context = array() ) {
 if ( ! {PLUGIN_CLASS_PREFIX}_Log_Levels::is_valid_level( $level ) ) {
-{FILE_NAME_PREFIX}_doing_it_wrong( __METHOD__, sprintf( __( '{PLUGIN_CLASS_PREFIX}_Logger::log was called with an invalid level "%s".', '{TEXT_DOMAIN}' ), $level ), '3.0' );
+_doing_it_wrong( __METHOD__, sprintf( __( '{PLUGIN_CLASS_PREFIX}_Logger::log was called with an invalid level "%s".', '{TEXT_DOMAIN}' ), $level ), '3.0' );
 }
 
 if ( $this->should_handle( $level ) ) {

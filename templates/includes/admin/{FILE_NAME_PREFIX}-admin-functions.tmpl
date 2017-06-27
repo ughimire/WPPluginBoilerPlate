@@ -13,21 +13,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Get all WooCommerce screen ids.
+ * Get all {PLUGIN_MAIN_CLASS_NAME} screen ids.
  *
  * @return array
  */
 function {FILE_NAME_PREFIX}_get_screen_ids() {
 
-	${FILE_NAME_PREFIX}_screen_id = sanitize_title( __( 'WooCommerce', '{TEXT_DOMAIN}' ) );
+	${FILE_NAME_PREFIX}_screen_id = sanitize_title( __( '{PLUGIN_MAIN_CLASS_NAME}', '{TEXT_DOMAIN}' ) );
 	$screen_ids   = array(
 		'toplevel_page_' . ${FILE_NAME_PREFIX}_screen_id,
-		${FILE_NAME_PREFIX}_screen_id . '_page_wc-reports',
-		${FILE_NAME_PREFIX}_screen_id . '_page_wc-shipping',
-		${FILE_NAME_PREFIX}_screen_id . '_page_wc-settings',
-		${FILE_NAME_PREFIX}_screen_id . '_page_wc-status',
-		${FILE_NAME_PREFIX}_screen_id . '_page_wc-addons',
-		'toplevel_page_wc-reports',
+		${FILE_NAME_PREFIX}_screen_id . '_page_{FILE_NAME_PREFIX}-reports',
+		${FILE_NAME_PREFIX}_screen_id . '_page_{FILE_NAME_PREFIX}-shipping',
+		${FILE_NAME_PREFIX}_screen_id . '_page_{FILE_NAME_PREFIX}-settings',
+		${FILE_NAME_PREFIX}_screen_id . '_page_{FILE_NAME_PREFIX}-status',
+		${FILE_NAME_PREFIX}_screen_id . '_page_{FILE_NAME_PREFIX}-addons',
+		'toplevel_page_{FILE_NAME_PREFIX}-reports',
 		'product_page_product_attributes',
 		'product_page_product_exporter',
 		'product_page_product_importer',
@@ -141,7 +141,7 @@ return $page_id;
 function {PLUGIN_HOOK_CLASS_NAME}_admin_fields( $options ) {
 
 if ( ! class_exists( '{PLUGIN_CLASS_PREFIX}_Admin_Settings', false ) ) {
-include( dirname( __FILE__ ) . '/class-wc-admin-settings.php' );
+include( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-settings.php' );
 }
 
 {PLUGIN_CLASS_PREFIX}_Admin_Settings::output_fields( $options );
@@ -156,7 +156,7 @@ include( dirname( __FILE__ ) . '/class-wc-admin-settings.php' );
 function {PLUGIN_HOOK_CLASS_NAME}_update_options( $options, $data = null ) {
 
 if ( ! class_exists( '{PLUGIN_CLASS_PREFIX}_Admin_Settings', false ) ) {
-include( dirname( __FILE__ ) . '/class-wc-admin-settings.php' );
+include( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-settings.php' );
 }
 
 {PLUGIN_CLASS_PREFIX}_Admin_Settings::save_fields( $options, $data );
@@ -172,7 +172,7 @@ include( dirname( __FILE__ ) . '/class-wc-admin-settings.php' );
 function {PLUGIN_HOOK_CLASS_NAME}_settings_get_option( $option_name, $default = '' ) {
 
 if ( ! class_exists( '{PLUGIN_CLASS_PREFIX}_Admin_Settings', false ) ) {
-include( dirname( __FILE__ ) . '/class-wc-admin-settings.php' );
+include( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-settings.php' );
 }
 
 return {PLUGIN_CLASS_PREFIX}_Admin_Settings::get_option( $option_name, $default );
@@ -181,7 +181,7 @@ return {PLUGIN_CLASS_PREFIX}_Admin_Settings::get_option( $option_name, $default 
 /**
 * Save order items. Uses the CRUD.
 *
-* @since 2.2
+* @since {VERSION}
 * @param int $order_id Order ID
 * @param array $items Order items to save
 */

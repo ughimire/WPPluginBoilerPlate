@@ -112,19 +112,19 @@ $structures = array(
 2 => '/' . trailingslashit( $base_slug ) . trailingslashit( '%product_cat%' ),
 );
 ?>
-<table class="form-table wc-permalink-structure">
+<table class="form-table {FILE_NAME_PREFIX}-permalink-structure">
     <tbody>
     <tr>
-        <th><label><input name="product_permalink" type="radio" value="<?php echo esc_attr( $structures[0] ); ?>" class="wctog" <?php checked( $structures[0], $this->permalinks['product_base'] ); ?> /> <?php _e( 'Default', '{TEXT_DOMAIN}' ); ?></label></th>
+        <th><label><input name="product_permalink" type="radio" value="<?php echo esc_attr( $structures[0] ); ?>" class="{FILE_NAME_PREFIX}tog" <?php checked( $structures[0], $this->permalinks['product_base'] ); ?> /> <?php _e( 'Default', '{TEXT_DOMAIN}' ); ?></label></th>
         <td><code class="default-example"><?php echo esc_html( home_url() ); ?>/?product=sample-product</code> <code class="non-default-example"><?php echo esc_html( home_url() ); ?>/<?php echo esc_html( $product_base ); ?>/sample-product/</code></td>
     </tr>
     <?php if ( $shop_page_id ) : ?>
     <tr>
-        <th><label><input name="product_permalink" type="radio" value="<?php echo esc_attr( $structures[1] ); ?>" class="wctog" <?php checked( $structures[1], $this->permalinks['product_base'] ); ?> /> <?php _e( 'Shop base', '{TEXT_DOMAIN}' ); ?></label></th>
+        <th><label><input name="product_permalink" type="radio" value="<?php echo esc_attr( $structures[1] ); ?>" class="{FILE_NAME_PREFIX}tog" <?php checked( $structures[1], $this->permalinks['product_base'] ); ?> /> <?php _e( 'Shop base', '{TEXT_DOMAIN}' ); ?></label></th>
         <td><code><?php echo esc_html( home_url() ); ?>/<?php echo esc_html( $base_slug ); ?>/sample-product/</code></td>
     </tr>
     <tr>
-        <th><label><input name="product_permalink" type="radio" value="<?php echo esc_attr( $structures[2] ); ?>" class="wctog" <?php checked( $structures[2], $this->permalinks['product_base'] ); ?> /> <?php _e( 'Shop base with category', '{TEXT_DOMAIN}' ); ?></label></th>
+        <th><label><input name="product_permalink" type="radio" value="<?php echo esc_attr( $structures[2] ); ?>" class="{FILE_NAME_PREFIX}tog" <?php checked( $structures[2], $this->permalinks['product_base'] ); ?> /> <?php _e( 'Shop base with category', '{TEXT_DOMAIN}' ); ?></label></th>
         <td><code><?php echo esc_html( home_url() ); ?>/<?php echo esc_html( $base_slug ); ?>/product-category/sample-product/</code></td>
     </tr>
     <?php endif; ?>
@@ -139,18 +139,18 @@ $structures = array(
 </table>
 <script type="text/javascript">
 	jQuery( function() {
-		jQuery('input.wctog').change(function() {
+		jQuery('input.{FILE_NAME_PREFIX}tog').change(function() {
 			jQuery('#{PLUGIN_HOOK_CLASS_NAME}_permalink_structure').val( jQuery( this ).val() );
 		});
 		jQuery('.permalink-structure input').change(function() {
-			jQuery('.wc-permalink-structure').find('code.non-default-example, code.default-example').hide();
+			jQuery('.{FILE_NAME_PREFIX}-permalink-structure').find('code.non-default-example, code.default-example').hide();
 			if ( jQuery(this).val() ) {
-				jQuery('.wc-permalink-structure code.non-default-example').show();
-				jQuery('.wc-permalink-structure input').removeAttr('disabled');
+				jQuery('.{FILE_NAME_PREFIX}-permalink-structure code.non-default-example').show();
+				jQuery('.{FILE_NAME_PREFIX}-permalink-structure input').removeAttr('disabled');
 			} else {
-				jQuery('.wc-permalink-structure code.default-example').show();
-				jQuery('.wc-permalink-structure input:eq(0)').click();
-				jQuery('.wc-permalink-structure input').attr('disabled', 'disabled');
+				jQuery('.{FILE_NAME_PREFIX}-permalink-structure code.default-example').show();
+				jQuery('.{FILE_NAME_PREFIX}-permalink-structure input:eq(0)').click();
+				jQuery('.{FILE_NAME_PREFIX}-permalink-structure input').attr('disabled', 'disabled');
 			}
 		});
 		jQuery('.permalink-structure input:checked').change();

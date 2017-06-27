@@ -4,11 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Enables WooCommerce, via the the command line.
+ * Enables {PLUGIN_MAIN_CLASS_NAME}, via the the command line.
  *
  * @version 3.0.0
- * @package WooCommerce
- * @author  WooCommerce
+ * @package {PLUGIN_MAIN_CLASS_NAME}
+ * @author  {PLUGIN_MAIN_CLASS_NAME}
  */
 class {PLUGIN_CLASS_PREFIX}_CLI {
 	/**
@@ -23,10 +23,10 @@ $this->hooks();
 * Load command files.
 */
 private function includes() {
-require_once __DIR__ . '/cli/class-wc-cli-runner.php';
-require_once __DIR__ . '/cli/class-wc-cli-rest-command.php';
-require_once __DIR__ . '/cli/class-wc-cli-tool-command.php';
-require_once __DIR__ . '/cli/class-wc-cli-update-command.php';
+require_once __DIR__ . '/cli/class-{FILE_NAME_PREFIX}-cli-runner.php';
+require_once __DIR__ . '/cli/class-{FILE_NAME_PREFIX}-cli-rest-command.php';
+require_once __DIR__ . '/cli/class-{FILE_NAME_PREFIX}-cli-tool-command.php';
+require_once __DIR__ . '/cli/class-{FILE_NAME_PREFIX}-cli-update-command.php';
 }
 
 /**

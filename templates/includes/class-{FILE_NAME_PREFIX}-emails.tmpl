@@ -33,7 +33,7 @@ class {PLUGIN_CLASS_PREFIX}_Emails {
 	 *
 	 * Ensures only one instance of {PLUGIN_CLASS_PREFIX}_Emails is loaded or can be loaded.
 	 *
-	 * @since 2.1
+	 * @since {VERSION}
 	 * @static
 	 * @return {PLUGIN_CLASS_PREFIX}_Emails Main instance
 	 */
@@ -47,19 +47,19 @@ class {PLUGIN_CLASS_PREFIX}_Emails {
 	/**
 	 * Cloning is forbidden.
 	 *
-	 * @since 2.1
+	 * @since {VERSION}
 	 */
 	public function __clone() {
-		{FILE_NAME_PREFIX}_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '2.1' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '2.1' );
 	}
 
 	/**
 	 * Unserializing instances of this class is forbidden.
 	 *
-	 * @since 2.1
+	 * @since {VERSION}
 	 */
 	public function __wakeup() {
-		{FILE_NAME_PREFIX}_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '2.1' );
+		_doing_it_wrong( __FUNCTION__, __( 'Cheatin&#8217; huh?', '{TEXT_DOMAIN}' ), '2.1' );
 	}
 
 	/**
@@ -185,19 +185,19 @@ do_action( '{PLUGIN_HOOK_CLASS_NAME}_email', $this );
 */
 public function init() {
 // Include email classes
-include_once( dirname( __FILE__ ) . '/emails/class-wc-email.php' );
+include_once( dirname( __FILE__ ) . '/emails/class-{FILE_NAME_PREFIX}-email.php' );
 
-$this->emails['{PLUGIN_CLASS_PREFIX}_Email_New_Order'] 		                 = include( 'emails/class-wc-email-new-order.php' );
-$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Cancelled_Order'] 		             = include( 'emails/class-wc-email-cancelled-order.php' );
-$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Failed_Order'] 		                 = include( 'emails/class-wc-email-failed-order.php' );
-$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_On_Hold_Order'] 		     = include( 'emails/class-wc-email-customer-on-hold-order.php' );
-$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_Processing_Order'] 		 = include( 'emails/class-wc-email-customer-processing-order.php' );
-$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_Completed_Order'] 		     = include( 'emails/class-wc-email-customer-completed-order.php' );
-$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_Refunded_Order'] 		     = include( 'emails/class-wc-email-customer-refunded-order.php' );
-$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_Invoice'] 		             = include( 'emails/class-wc-email-customer-invoice.php' );
-$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_Note'] 		             = include( 'emails/class-wc-email-customer-note.php' );
-$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_Reset_Password'] 		     = include( 'emails/class-wc-email-customer-reset-password.php' );
-$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_New_Account'] 		         = include( 'emails/class-wc-email-customer-new-account.php' );
+$this->emails['{PLUGIN_CLASS_PREFIX}_Email_New_Order'] 		                 = include( 'emails/class-{FILE_NAME_PREFIX}-email-new-order.php' );
+$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Cancelled_Order'] 		             = include( 'emails/class-{FILE_NAME_PREFIX}-email-cancelled-order.php' );
+$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Failed_Order'] 		                 = include( 'emails/class-{FILE_NAME_PREFIX}-email-failed-order.php' );
+$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_On_Hold_Order'] 		     = include( 'emails/class-{FILE_NAME_PREFIX}-email-customer-on-hold-order.php' );
+$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_Processing_Order'] 		 = include( 'emails/class-{FILE_NAME_PREFIX}-email-customer-processing-order.php' );
+$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_Completed_Order'] 		     = include( 'emails/class-{FILE_NAME_PREFIX}-email-customer-completed-order.php' );
+$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_Refunded_Order'] 		     = include( 'emails/class-{FILE_NAME_PREFIX}-email-customer-refunded-order.php' );
+$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_Invoice'] 		             = include( 'emails/class-{FILE_NAME_PREFIX}-email-customer-invoice.php' );
+$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_Note'] 		             = include( 'emails/class-{FILE_NAME_PREFIX}-email-customer-note.php' );
+$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_Reset_Password'] 		     = include( 'emails/class-{FILE_NAME_PREFIX}-email-customer-reset-password.php' );
+$this->emails['{PLUGIN_CLASS_PREFIX}_Email_Customer_New_Account'] 		         = include( 'emails/class-{FILE_NAME_PREFIX}-email-customer-new-account.php' );
 
 $this->emails = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_email_classes', $this->emails );
 
@@ -354,7 +354,7 @@ $fields = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_email_order_meta_fields', arr
 /**
 * Deprecated {PLUGIN_HOOK_CLASS_NAME}_email_order_meta_keys filter.
 *
-* @since 2.3.0
+* @since {VERSION}
 */
 $_fields = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_email_order_meta_keys', array(), $sent_to_admin );
 
@@ -556,7 +556,7 @@ apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_email_attachments', array(), 'backorder
 * @deprecated 3.0.0
 * @see {PLUGIN_CLASS_PREFIX}_Structured_Data::generate_order_data()
 *
-* @since 2.6.0
+* @since {VERSION}
 * @param mixed $order
 * @param bool $sent_to_admin (default: false)
 * @param bool $plain_text (default: false)

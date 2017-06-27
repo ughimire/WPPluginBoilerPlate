@@ -152,7 +152,7 @@ update_post_meta( $order_id, '_customer_user', $customer->ID );
 
 do_action( '{PLUGIN_HOOK_CLASS_NAME}_update_new_customer_past_order', $order_id, $customer );
 
-if ( get_post_status( $order_id ) === 'wc-completed' ) {
+if ( get_post_status( $order_id ) === '{FILE_NAME_PREFIX}-completed' ) {
 $complete++;
 }
 
@@ -226,7 +226,7 @@ SELECT im.meta_value FROM {$wpdb->posts} AS p
 INNER JOIN {$wpdb->postmeta} AS pm ON p.ID = pm.post_id
 INNER JOIN {$wpdb->prefix}{PLUGIN_HOOK_CLASS_NAME}_order_items AS i ON p.ID = i.order_id
 INNER JOIN {$wpdb->prefix}{PLUGIN_HOOK_CLASS_NAME}_order_itemmeta AS im ON i.order_item_id = im.order_item_id
-WHERE p.post_status IN ( 'wc-" . implode( "','wc-", $statuses ) . "' )
+WHERE p.post_status IN ( '{FILE_NAME_PREFIX}-" . implode( "','{FILE_NAME_PREFIX}-", $statuses ) . "' )
 AND pm.meta_key IN ( '_billing_email', '_customer_user' )
 AND im.meta_key IN ( '_product_id', '_variation_id' )
 AND im.meta_value != 0
@@ -499,7 +499,7 @@ return (bool) $verified;
 /**
 * Disable author archives for customers.
 *
-* @since 2.5.0
+* @since {VERSION}
 */
 function {FILE_NAME_PREFIX}_disable_author_archives_for_customers() {
 global $author;
@@ -518,7 +518,7 @@ add_action( 'template_redirect', '{FILE_NAME_PREFIX}_disable_author_archives_for
 /**
 * Hooks into the `profile_update` hook to set the user last updated timestamp.
 *
-* @since 2.6.0
+* @since {VERSION}
 * @param int   $user_id The user that was updated.
 * @param array $old     The profile fields pre-change.
 */
@@ -531,7 +531,7 @@ add_action( 'profile_update', '{FILE_NAME_PREFIX}_update_profile_last_update_tim
 /**
 * Hooks into the update user meta function to set the user last updated timestamp.
 *
-* @since 2.6.0
+* @since {VERSION}
 * @param int    $meta_id     ID of the meta object that was changed.
 * @param int    $user_id     The user that was updated.
 * @param string $meta_key    Name of the meta key that was changed.
@@ -560,7 +560,7 @@ add_action( 'update_user_meta', '{FILE_NAME_PREFIX}_meta_update_last_update_time
 /**
 * Sets a user's "last update" time to the current timestamp.
 *
-* @since 2.6.0
+* @since {VERSION}
 * @param int $user_id The user to set a timestamp for.
 */
 function {FILE_NAME_PREFIX}_set_user_last_update_time( $user_id ) {
@@ -570,7 +570,7 @@ update_user_meta( $user_id, 'last_update', gmdate( 'U' ) );
 /**
 * Get customer saved payment methods list.
 *
-* @since 2.6.0
+* @since {VERSION}
 * @param int $customer_id
 * @return array
 */
@@ -581,7 +581,7 @@ return apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_saved_payment_methods_list', arr
 /**
 * Get info about customer's last order.
 *
-* @since 2.6.0
+* @since {VERSION}
 * @param int $customer_id Customer ID.
 * @return {PLUGIN_CLASS_PREFIX}_Order Order object if successful or false.
 */
