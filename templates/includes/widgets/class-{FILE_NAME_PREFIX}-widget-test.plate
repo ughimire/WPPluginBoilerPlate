@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author   {AUTHOR}
  * @category Widgets
  * @package  {PLUGIN_MAIN_CLASS_NAME}/Widgets
- * @version  2.3.0
+ * @version  {VERSION}
  * @extends  {PLUGIN_CLASS_PREFIX}_Widget
  */
 class {PLUGIN_CLASS_PREFIX}_Widget_Cart extends {PLUGIN_CLASS_PREFIX}_Widget {
@@ -21,54 +21,54 @@ class {PLUGIN_CLASS_PREFIX}_Widget_Cart extends {PLUGIN_CLASS_PREFIX}_Widget {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->widget_cssclass    = '{TEXT_DOMAIN} widget_shopping_cart';
-$this->widget_description = __( "Display the user's cart in the sidebar.", '{TEXT_DOMAIN}' );
-$this->widget_id          = '{PLUGIN_HOOK_CLASS_NAME}_widget_cart';
-$this->widget_name        = __( '{PLUGIN_MAIN_CLASS_NAME} cart', '{TEXT_DOMAIN}' );
-$this->settings           = array(
-'title'  => array(
-'type'  => 'text',
-'std'   => __( 'Cart', '{TEXT_DOMAIN}' ),
-'label' => __( 'Title', '{TEXT_DOMAIN}' ),
-),
-'hide_if_empty' => array(
-'type'  => 'checkbox',
-'std'   => 0,
-'label' => __( 'Hide if cart is empty', '{TEXT_DOMAIN}' ),
-),
-);
+		$this->widget_cssclass    = '{TEXT-DOMAIN} widget_shopping_cart';
+		$this->widget_description = __( "Display the user's cart in the sidebar.", '{TEXT_DOMAIN}' );
+		$this->widget_id          = '{PLUGIN_HOOK_CLASS_NAME}_widget_cart';
+		$this->widget_name        = __( 'WooCommerce cart', '{TEXT_DOMAIN}' );
+		$this->settings           = array(
+			'title'  => array(
+				'type'  => 'text',
+				'std'   => __( 'Cart', '{TEXT_DOMAIN}' ),
+				'label' => __( 'Title', '{TEXT_DOMAIN}' ),
+			),
+			'hide_if_empty' => array(
+				'type'  => 'checkbox',
+				'std'   => 0,
+				'label' => __( 'Hide if cart is empty', '{TEXT_DOMAIN}' ),
+			),
+		);
 
-parent::__construct();
-}
+		parent::__construct();
+	}
 
-/**
-* Output widget.
-*
-* @see WP_Widget
-*
-* @param array $args
-* @param array $instance
-*/
-public function widget( $args, $instance ) {
-if ( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_widget_cart_is_hidden', is_cart() || is_checkout() ) ) {
-return;
-}
+	/**
+	 * Output widget.
+	 *
+	 * @see WP_Widget
+	 *
+	 * @param array $args
+	 * @param array $instance
+	 */
+	public function widget( $args, $instance ) {
+		if ( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_widget_cart_is_hidden', is_cart() || is_checkout() ) ) {
+			return;
+		}
 
-$hide_if_empty = empty( $instance['hide_if_empty'] ) ? 0 : 1;
+		$hide_if_empty = empty( $instance['hide_if_empty'] ) ? 0 : 1;
 
-$this->widget_start( $args, $instance );
+		$this->widget_start( $args, $instance );
 
-if ( $hide_if_empty ) {
-echo '<div class="hide_cart_widget_if_empty">';
-    }
+		if ( $hide_if_empty ) {
+			echo '<div class="hide_cart_widget_if_empty">';
+		}
 
-    // Insert cart widget placeholder - code in {TEXT_DOMAIN}.js will update this on page load
-    echo '<div class="widget_shopping_cart_content"></div>';
+		// Insert cart widget placeholder - code in {TEXT-DOMAIN}.js will update this on page load
+		echo '<div class="widget_shopping_cart_content"></div>';
 
-    if ( $hide_if_empty ) {
-    echo '</div>';
-}
+		if ( $hide_if_empty ) {
+			echo '</div>';
+		}
 
-$this->widget_end( $args );
-}
+		$this->widget_end( $args );
+	}
 }

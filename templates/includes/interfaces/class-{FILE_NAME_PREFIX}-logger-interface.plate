@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Functions that must be defined to correctly fulfill logger API.
  *
- * @version        1.0.0
+ * @version  {VERSION}
  * @category       Interface
  * @author         {AUTHOR}
  */

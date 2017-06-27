@@ -1,13 +1,13 @@
 <?php
 /**
- * {PLUGIN_NAME} API
+ * WooCommerce API
  *
  * Handles {PLUGIN_CLASS_PREFIX}-API endpoint requests.
  *
  * @author   {AUTHOR}
  * @category API
  * @package  {PLUGIN_MAIN_CLASS_NAME}/API
- * @since {VERSION}
+ * @since    2.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,7 +18,7 @@ class {PLUGIN_CLASS_PREFIX}_API extends {PLUGIN_CLASS_PREFIX}_Legacy_API {
 
 	/**
 	 * Setup class.
-	 * @since {VERSION}
+	 * @since 2.0
 	 */
 	public function __construct() {
 		parent::__construct();
@@ -29,7 +29,7 @@ class {PLUGIN_CLASS_PREFIX}_API extends {PLUGIN_CLASS_PREFIX}_Legacy_API {
 		// Register API endpoints.
 		add_action( 'init', array( $this, 'add_endpoint' ), 0 );
 
-		// Handle {FILE_NAME_PREFIX}-api endpoint requests.
+		// Handle wc-api endpoint requests.
 		add_action( 'parse_request', array( $this, 'handle_api_requests' ), 0 );
 
 		// Ensure payment gateways are initialized in time for API requests.
@@ -37,256 +37,256 @@ class {PLUGIN_CLASS_PREFIX}_API extends {PLUGIN_CLASS_PREFIX}_Legacy_API {
 
 		// WP REST API.
 		$this->rest_api_init();
-}
+	}
 
-/**
-* Add new query vars.
-*
-* @since {VERSION}
-* @param array $vars
-* @return string[]
-*/
-public function add_query_vars( $vars ) {
-$vars   = parent::add_query_vars( $vars );
-$vars[] = '{FILE_NAME_PREFIX}-api';
-return $vars;
-}
+	/**
+	 * Add new query vars.
+	 *
+	 * @since 2.0
+	 * @param array $vars
+	 * @return string[]
+	 */
+	public function add_query_vars( $vars ) {
+		$vars   = parent::add_query_vars( $vars );
+		$vars[] = 'wc-api';
+		return $vars;
+	}
 
-/**
-* {PLUGIN_CLASS_PREFIX} API for payment gateway IPNs, etc.
-* @since {VERSION}
-*/
-public static function add_endpoint() {
-parent::add_endpoint();
-add_rewrite_endpoint( '{FILE_NAME_PREFIX}-api', EP_ALL );
-}
+	/**
+	 * {PLUGIN_CLASS_PREFIX} API for payment gateway IPNs, etc.
+	 * @since 2.0
+	 */
+	public static function add_endpoint() {
+		parent::add_endpoint();
+		add_rewrite_endpoint( 'wc-api', EP_ALL );
+	}
 
-/**
-* API request - Trigger any API requests.
-*
-* @since {VERSION}
-* @version 2.4
-*/
-public function handle_api_requests() {
-global $wp;
+	/**
+	 * API request - Trigger any API requests.
+	 *
+	 * @since   2.0
+	 * @version  {VERSION}
+	 */
+	public function handle_api_requests() {
+		global $wp;
 
-if ( ! empty( $_GET['{FILE_NAME_PREFIX}-api'] ) ) {
-$wp->query_vars['{FILE_NAME_PREFIX}-api'] = $_GET['{FILE_NAME_PREFIX}-api'];
-}
+		if ( ! empty( $_GET['wc-api'] ) ) {
+			$wp->query_vars['wc-api'] = $_GET['wc-api'];
+		}
 
-// {FILE_NAME_PREFIX}-api endpoint requests.
-if ( ! empty( $wp->query_vars['{FILE_NAME_PREFIX}-api'] ) ) {
+		// wc-api endpoint requests.
+		if ( ! empty( $wp->query_vars['wc-api'] ) ) {
 
-// Buffer, we won't want any output here.
-ob_start();
+			// Buffer, we won't want any output here.
+			ob_start();
 
-// No cache headers.
-nocache_headers();
+			// No cache headers.
+			nocache_headers();
 
-// Clean the API request.
-$api_request = strtolower( {FILE_NAME_PREFIX}_clean( $wp->query_vars['{FILE_NAME_PREFIX}-api'] ) );
+			// Clean the API request.
+			$api_request = strtolower( {FILE_NAME_PREFIX}_clean( $wp->query_vars['wc-api'] ) );
 
-// Trigger generic action before request hook.
-do_action( '{PLUGIN_HOOK_CLASS_NAME}_api_request', $api_request );
+			// Trigger generic action before request hook.
+			do_action( '{PLUGIN_HOOK_CLASS_NAME}_api_request', $api_request );
 
-// Is there actually something hooked into this API request? If not trigger 400 - Bad request.
-status_header( has_action( '{PLUGIN_HOOK_CLASS_NAME}_api_' . $api_request ) ? 200 : 400 );
+			// Is there actually something hooked into this API request? If not trigger 400 - Bad request.
+			status_header( has_action( '{PLUGIN_HOOK_CLASS_NAME}_api_' . $api_request ) ? 200 : 400 );
 
-// Trigger an action which plugins can hook into to fulfill the request.
-do_action( '{PLUGIN_HOOK_CLASS_NAME}_api_' . $api_request );
+			// Trigger an action which plugins can hook into to fulfill the request.
+			do_action( '{PLUGIN_HOOK_CLASS_NAME}_api_' . $api_request );
 
-// Done, clear buffer and exit.
-ob_end_clean();
-die( '-1' );
-}
-}
+			// Done, clear buffer and exit.
+			ob_end_clean();
+			die( '-1' );
+		}
+	}
 
-/**
-* Init WP REST API.
-* @since {VERSION}
-*/
-private function rest_api_init() {
-// REST API was included starting WordPress 4.4.
-if ( ! class_exists( 'WP_REST_Server' ) ) {
-return;
-}
+	/**
+	 * Init WP REST API.
+	 * @since 2.6.0
+	 */
+	private function rest_api_init() {
+		// REST API was included starting WordPress 4.4.
+		if ( ! class_exists( 'WP_REST_Server' ) ) {
+			return;
+		}
 
-$this->rest_api_includes();
+		$this->rest_api_includes();
 
-// Init REST API routes.
-add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
-}
+		// Init REST API routes.
+		add_action( 'rest_api_init', array( $this, 'register_rest_routes' ), 10 );
+	}
 
-/**
-* Include REST API classes.
-*
-* @since {VERSION}
-*/
-private function rest_api_includes() {
-// Exception handler.
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-exception.php' );
+	/**
+	 * Include REST API classes.
+	 *
+	 * @since 2.6.0
+	 */
+	private function rest_api_includes() {
+		// Exception handler.
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-exception.php' );
 
-// Authentication.
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-authentication.php' );
+		// Authentication.
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-authentication.php' );
 
-// WP-API classes and functions.
-include_once( dirname( __FILE__ ) . '/vendor/wp-rest-functions.php' );
-if ( ! class_exists( 'WP_REST_Controller' ) ) {
-include_once( dirname( __FILE__ ) . '/vendor/abstract-wp-rest-controller.php' );
-}
+		// WP-API classes and functions.
+		include_once( dirname( __FILE__ ) . '/vendor/wp-rest-functions.php' );
+		if ( ! class_exists( 'WP_REST_Controller' ) ) {
+			include_once( dirname( __FILE__ ) . '/vendor/abstract-wp-rest-controller.php' );
+		}
 
-// Abstract controllers.
-include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-rest-controller.php' );
-include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-rest-posts-controller.php' );
-include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-rest-crud-controller.php' );
-include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-rest-terms-controller.php' );
-include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-rest-shipping-zones-controller.php' );
-include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-settings-api.php' );
+		// Abstract controllers.
+		include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-rest-controller.php' );
+		include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-rest-posts-controller.php' );
+		include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-rest-crud-controller.php' );
+		include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-rest-terms-controller.php' );
+		include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-rest-shipping-zones-controller.php' );
+		include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-settings-api.php' );
 
-// REST API v1 controllers.
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-coupons-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-customer-downloads-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-customers-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-orders-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-order-notes-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-order-refunds-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-product-attribute-terms-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-product-attributes-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-product-categories-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-product-reviews-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-product-shipping-classes-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-product-tags-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-products-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-report-sales-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-report-top-sellers-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-reports-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-tax-classes-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-taxes-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-webhook-deliveries.php' );
-include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-webhooks-controller.php' );
+		// REST API v1 controllers.
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-coupons-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-customer-downloads-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-customers-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-orders-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-order-notes-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-order-refunds-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-product-attribute-terms-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-product-attributes-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-product-categories-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-product-reviews-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-product-shipping-classes-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-product-tags-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-products-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-report-sales-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-report-top-sellers-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-reports-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-tax-classes-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-taxes-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-webhook-deliveries.php' );
+		include_once( dirname( __FILE__ ) . '/api/v1/class-{FILE_NAME_PREFIX}-rest-webhooks-controller.php' );
 
-// Legacy v2 code.
-include_once( dirname( __FILE__ ) . '/api/legacy/class-{FILE_NAME_PREFIX}-rest-legacy-coupons-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/legacy/class-{FILE_NAME_PREFIX}-rest-legacy-orders-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/legacy/class-{FILE_NAME_PREFIX}-rest-legacy-products-controller.php' );
+		// Legacy v2 code.
+		include_once( dirname( __FILE__ ) . '/api/legacy/class-{FILE_NAME_PREFIX}-rest-legacy-coupons-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/legacy/class-{FILE_NAME_PREFIX}-rest-legacy-orders-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/legacy/class-{FILE_NAME_PREFIX}-rest-legacy-products-controller.php' );
 
-// REST API v2 controllers.
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-coupons-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-customer-downloads-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-customers-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-orders-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-order-notes-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-order-refunds-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-attribute-terms-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-attributes-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-categories-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-reviews-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-shipping-classes-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-tags-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-products-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-variations-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-report-sales-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-report-top-sellers-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-reports-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-settings-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-setting-options-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-shipping-zones-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-shipping-zone-locations-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-shipping-zone-methods-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-tax-classes-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-taxes-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-webhook-deliveries.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-webhooks-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-system-status-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-system-status-tools-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-shipping-methods-controller.php' );
-include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-payment-gateways-controller.php' );
-}
+		// REST API v2 controllers.
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-coupons-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-customer-downloads-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-customers-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-orders-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-order-notes-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-order-refunds-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-attribute-terms-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-attributes-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-categories-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-reviews-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-shipping-classes-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-tags-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-products-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-product-variations-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-report-sales-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-report-top-sellers-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-reports-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-settings-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-setting-options-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-shipping-zones-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-shipping-zone-locations-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-shipping-zone-methods-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-tax-classes-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-taxes-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-webhook-deliveries.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-webhooks-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-system-status-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-system-status-tools-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-shipping-methods-controller.php' );
+		include_once( dirname( __FILE__ ) . '/api/class-{FILE_NAME_PREFIX}-rest-payment-gateways-controller.php' );
+	}
 
-/**
-* Register REST API routes.
-* @since {VERSION}
-*/
-public function register_rest_routes() {
-// Register settings to the REST API.
-$this->register_wp_admin_settings();
+	/**
+	 * Register REST API routes.
+	 * @since 2.6.0
+	 */
+	public function register_rest_routes() {
+		// Register settings to the REST API.
+		$this->register_wp_admin_settings();
 
-$controllers = array(
-// v1 controllers.
-'{PLUGIN_CLASS_PREFIX}_REST_Coupons_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Customer_Downloads_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Customers_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Order_Notes_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Order_Refunds_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Orders_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Product_Attribute_Terms_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Product_Attributes_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Product_Categories_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Product_Reviews_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Product_Shipping_Classes_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Product_Tags_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Products_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Report_Sales_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Report_Top_Sellers_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Reports_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Tax_Classes_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Taxes_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Webhook_Deliveries_V1_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Webhooks_V1_Controller',
+		$controllers = array(
+			// v1 controllers.
+			'{PLUGIN_CLASS_PREFIX}_REST_Coupons_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Customer_Downloads_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Customers_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Order_Notes_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Order_Refunds_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Orders_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Product_Attribute_Terms_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Product_Attributes_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Product_Categories_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Product_Reviews_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Product_Shipping_Classes_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Product_Tags_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Products_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Report_Sales_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Report_Top_Sellers_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Reports_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Tax_Classes_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Taxes_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Webhook_Deliveries_V1_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Webhooks_V1_Controller',
 
-// v2 controllers.
-'{PLUGIN_CLASS_PREFIX}_REST_Coupons_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Customer_Downloads_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Customers_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Order_Notes_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Order_Refunds_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Orders_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Product_Attribute_Terms_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Product_Attributes_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Product_Categories_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Product_Reviews_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Product_Shipping_Classes_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Product_Tags_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Products_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Product_Variations_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Report_Sales_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Report_Top_Sellers_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Reports_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Settings_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Setting_Options_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Shipping_Zones_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Shipping_Zone_Locations_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Shipping_Zone_Methods_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Tax_Classes_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Taxes_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Webhook_Deliveries_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Webhooks_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_System_Status_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_System_Status_Tools_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Shipping_Methods_Controller',
-'{PLUGIN_CLASS_PREFIX}_REST_Payment_Gateways_Controller',
-);
+			// v2 controllers.
+			'{PLUGIN_CLASS_PREFIX}_REST_Coupons_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Customer_Downloads_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Customers_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Order_Notes_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Order_Refunds_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Orders_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Product_Attribute_Terms_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Product_Attributes_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Product_Categories_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Product_Reviews_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Product_Shipping_Classes_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Product_Tags_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Products_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Product_Variations_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Report_Sales_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Report_Top_Sellers_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Reports_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Settings_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Setting_Options_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Shipping_Zones_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Shipping_Zone_Locations_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Shipping_Zone_Methods_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Tax_Classes_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Taxes_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Webhook_Deliveries_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Webhooks_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_System_Status_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_System_Status_Tools_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Shipping_Methods_Controller',
+			'{PLUGIN_CLASS_PREFIX}_REST_Payment_Gateways_Controller',
+		);
 
-foreach ( $controllers as $controller ) {
-$this->$controller = new $controller();
-$this->$controller->register_routes();
-}
-}
+		foreach ( $controllers as $controller ) {
+			$this->$controller = new $controller();
+			$this->$controller->register_routes();
+		}
+	}
 
-/**
-* Register {PLUGIN_CLASS_PREFIX} settings from WP-API to the REST API.
-* @since {VERSION}
-*/
-public function register_wp_admin_settings() {
-$pages = {PLUGIN_CLASS_PREFIX}_Admin_Settings::get_settings_pages();
-foreach ( $pages as $page ) {
-new {PLUGIN_CLASS_PREFIX}_Register_WP_Admin_Settings( $page, 'page' );
-}
+	/**
+	 * Register {PLUGIN_CLASS_PREFIX} settings from WP-API to the REST API.
+	 * @since  3.0.0
+	 */
+	public function register_wp_admin_settings() {
+		$pages = {PLUGIN_CLASS_PREFIX}_Admin_Settings::get_settings_pages();
+		foreach ( $pages as $page ) {
+			new {PLUGIN_CLASS_PREFIX}_Register_WP_Admin_Settings( $page, 'page' );
+		}
 
-$emails = {PLUGIN_CLASS_PREFIX}_Emails::instance();
-foreach ( $emails->get_emails() as $email ) {
-new {PLUGIN_CLASS_PREFIX}_Register_WP_Admin_Settings( $email, 'email' );
-}
-}
+		$emails = {PLUGIN_CLASS_PREFIX}_Emails::instance();
+		foreach ( $emails->get_emails() as $email ) {
+			new {PLUGIN_CLASS_PREFIX}_Register_WP_Admin_Settings( $email, 'email' );
+		}
+	}
 
 }

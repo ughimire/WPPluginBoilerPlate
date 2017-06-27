@@ -2,10 +2,10 @@
 /**
  * Setup customize items.
  *
- * @author   {PLUGIN_MAIN_CLASS_NAME}
+ * @author   WooCommerce
  * @category Admin
  * @package  {PLUGIN_MAIN_CLASS_NAME}/Admin/Customize
- * @version  3.1.0
+ * @version  {VERSION}
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -30,67 +30,67 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Customize {
 
 	/**
 	 * Register customize new nav menu item types.
-	 * This will register {PLUGIN_MAIN_CLASS_NAME} account endpoints as a nav menu item type.
+	 * This will register WooCommerce account endpoints as a nav menu item type.
 	 *
-	 * @since {VERSION}
+	 * @since  3.1.0
 	 * @param  array $item_types Menu item types.
 	 * @return array
 	 */
 	public function register_customize_nav_menu_item_types( $item_types  ) {
 		$item_types[] = array(
-			'title'      => __( '{PLUGIN_MAIN_CLASS_NAME} endpoints', '{TEXT_DOMAIN}' ),
-'type_label' => __( '{PLUGIN_MAIN_CLASS_NAME} endpoint', '{TEXT_DOMAIN}' ),
-'type'       => '{PLUGIN_HOOK_CLASS_NAME}_nav',
-'object'     => '{PLUGIN_HOOK_CLASS_NAME}_endpoint',
-);
+			'title'      => __( 'WooCommerce endpoints', '{TEXT_DOMAIN}' ),
+			'type_label' => __( 'WooCommerce endpoint', '{TEXT_DOMAIN}' ),
+			'type'       => '{PLUGIN_HOOK_CLASS_NAME}_nav',
+			'object'     => '{PLUGIN_HOOK_CLASS_NAME}_endpoint',
+		);
 
-return $item_types;
-}
+		return $item_types;
+	}
 
-/**
-* Register account endpoints to customize nav menu items.
-*
-* @since {VERSION}
-* @param  array   $items  List of nav menu items.
-* @param  string  $type   Nav menu type.
-* @param  string  $object Nav menu object.
-* @param  integer $page   Page number.
-* @return array
-*/
-public function register_customize_nav_menu_items( $items = array(), $type = '', $object = '', $page = 0 ) {
-if ( '{PLUGIN_HOOK_CLASS_NAME}_endpoint' !== $object ) {
-return $items;
-}
+	/**
+	 * Register account endpoints to customize nav menu items.
+	 *
+	 * @since  3.1.0
+	 * @param  array   $items  List of nav menu items.
+	 * @param  string  $type   Nav menu type.
+	 * @param  string  $object Nav menu object.
+	 * @param  integer $page   Page number.
+	 * @return array
+	 */
+	public function register_customize_nav_menu_items( $items = array(), $type = '', $object = '', $page = 0 ) {
+		if ( '{PLUGIN_HOOK_CLASS_NAME}_endpoint' !== $object ) {
+			return $items;
+		}
 
-// Don't allow pagination since all items are loaded at once.
-if ( 0 < $page ) {
-return $items;
-}
+		// Don't allow pagination since all items are loaded at once.
+		if ( 0 < $page ) {
+			return $items;
+		}
 
-// Get items from account menu.
-$endpoints = {FILE_NAME_PREFIX}_get_account_menu_items();
+		// Get items from account menu.
+		$endpoints = {FILE_NAME_PREFIX}_get_account_menu_items();
 
-// Remove dashboard item.
-if ( isset( $endpoints['dashboard'] ) ) {
-unset( $endpoints['dashboard'] );
-}
+		// Remove dashboard item.
+		if ( isset( $endpoints['dashboard'] ) ) {
+			unset( $endpoints['dashboard'] );
+		}
 
-// Include missing lost password.
-$endpoints['lost-password'] = __( 'Lost password', '{TEXT_DOMAIN}' );
+		// Include missing lost password.
+		$endpoints['lost-password'] = __( 'Lost password', '{TEXT_DOMAIN}' );
 
-$endpoints = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_custom_nav_menu_items', $endpoints );
+		$endpoints = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_custom_nav_menu_items', $endpoints );
 
-foreach ( $endpoints as $endpoint => $title ) {
-$items[] = array(
-'id'         => $endpoint,
-'title'      => $title,
-'type_label' => __( 'Custom Link', '{TEXT_DOMAIN}' ),
-'url'        => esc_url_raw( {FILE_NAME_PREFIX}_get_account_endpoint_url( $endpoint ) ),
-);
-}
+		foreach ( $endpoints as $endpoint => $title ) {
+			$items[] = array(
+				'id'         => $endpoint,
+				'title'      => $title,
+				'type_label' => __( 'Custom Link', '{TEXT_DOMAIN}' ),
+				'url'        => esc_url_raw( {FILE_NAME_PREFIX}_get_account_endpoint_url( $endpoint ) ),
+			);
+		}
 
-return $items;
-}
+		return $items;
+	}
 }
 
 endif;

@@ -7,11 +7,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Handle data for the current customers session
  *
- * @class       {PLUGIN_CLASS_PREFIX}_Session
- * @version     {VERSION}
- * @package     {PLUGIN_MAIN_CLASS_NAME}/Abstracts
- * @category    Abstract Class
- * @author      {AUTHOR}
+ * @class    {PLUGIN_CLASS_PREFIX}_Session
+ * @version  {VERSION}
+ * @package  {PLUGIN_MAIN_CLASS_NAME}/Abstracts
+ * @category Abstract Class
+ * @author   {AUTHOR}
  */
 abstract class {PLUGIN_CLASS_PREFIX}_Session {
 

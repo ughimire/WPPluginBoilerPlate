@@ -1,13 +1,13 @@
 <?php
 /**
- * {PLUGIN_NAME} Widget Functions
+ * WooCommerce Widget Functions
  *
  * Widget related functions and widget registration.
  *
  * @author 		{AUTHOR}
  * @category 	Core
- * @package 	{PLUGIN_MAIN_CLASS_NAME}/Functions
- * @version     2.3.0
+ * @package  {PLUGIN_MAIN_CLASS_NAME}/Functions
+ * @version  {VERSION}
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -32,7 +32,7 @@ include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-to
 /**
  * Register Widgets.
  *
- * @since {VERSION}
+ * @since 2.3.0
  */
 function {FILE_NAME_PREFIX}_register_widgets() {
 	register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Cart' );

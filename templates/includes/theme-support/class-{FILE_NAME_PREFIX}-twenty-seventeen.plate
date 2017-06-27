@@ -7,9 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Twenty Seventeen suport.
  *
  * @class   {PLUGIN_CLASS_PREFIX}_Twenty_Seventeen
- * @since {VERSION}
- * @version 2.6.9
- * @package {PLUGIN_MAIN_CLASS_NAME}/Classes
+ * @since   2.6.9
+ * @version  {VERSION}
+ * @package  {PLUGIN_MAIN_CLASS_NAME}/Classes
  */
 class {PLUGIN_CLASS_PREFIX}_Twenty_Seventeen {
 
@@ -36,33 +36,33 @@ class {PLUGIN_CLASS_PREFIX}_Twenty_Seventeen {
 
 		$styles['{TEXT_DOMAIN}-twenty-seventeen'] = array(
 			'src'     => str_replace( array( 'http:', 'https:' ), '', {PLUGIN_CLASS_PREFIX}()->plugin_url() ) . '/assets/css/twenty-seventeen.css',
-'deps'    => '',
-'version' => {PLUGIN_CLASS_PREFIX}_VERSION,
-'media'   => 'all',
-);
+			'deps'    => '',
+			'version' => {PLUGIN_CLASS_PREFIX}_VERSION,
+			'media'   => 'all',
+		);
 
-return apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_twenty_seventeen_styles', $styles );
-}
+		return apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_twenty_seventeen_styles', $styles );
+	}
 
-/**
-* Open the Twenty Seventeen wrapper.
-*/
-public static function output_content_wrapper() { ?>
-<div class="wrap">
-    <div id="primary" class="content-area twentyseventeen">
-        <main id="main" class="site-main" role="main">
-            <?php
+	/**
+	 * Open the Twenty Seventeen wrapper.
+	 */
+	public static function output_content_wrapper() { ?>
+		<div class="wrap">
+			<div id="primary" class="content-area twentyseventeen">
+				<main id="main" class="site-main" role="main">
+		<?php
 	}
 
 	/**
 	 * Close the Twenty Seventeen wrapper.
 	 */
 	public static function output_content_wrapper_end() { ?>
-        </main>
-    </div>
-    <?php get_sidebar(); ?>
-</div>
-<?php
+				</main>
+			</div>
+			<?php get_sidebar(); ?>
+		</div>
+		<?php
 	}
 }
 

@@ -1,13 +1,13 @@
 <?php
 /**
- * {PLUGIN_NAME} Template Hooks
+ * WooCommerce Template Hooks
  *
- * Action/filter hooks used for {PLUGIN_MAIN_CLASS_NAME} functions/templates.
+ * Action/filter hooks used for WooCommerce functions/templates.
  *
  * @author 		{AUTHOR}
  * @category 	Core
- * @package 	{PLUGIN_MAIN_CLASS_NAME}/Templates
- * @version     {VERSION}
+ * @package  {PLUGIN_MAIN_CLASS_NAME}/Templates
+ * @version  {VERSION}
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

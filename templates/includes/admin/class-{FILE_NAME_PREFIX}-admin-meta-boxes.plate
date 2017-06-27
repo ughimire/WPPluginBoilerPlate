@@ -1,13 +1,13 @@
 <?php
 /**
- * {PLUGIN_NAME} Meta Boxes
+ * WooCommerce Meta Boxes
  *
  * Sets up the write panels used by products and orders (custom post types).
  *
  * @author      {AUTHOR}
  * @category    Admin
- * @package     {PLUGIN_MAIN_CLASS_NAME}/Admin/Meta Boxes
- * @version     {VERSION}
+ * @package  {PLUGIN_MAIN_CLASS_NAME}/Admin/Meta Boxes
+ * @version  {VERSION}
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -97,128 +97,128 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Meta_Boxes {
 
 			echo '<div id="{PLUGIN_HOOK_CLASS_NAME}_errors" class="error notice is-dismissible">';
 
-foreach ( $errors as $error ) {
-echo '<p>' . wp_kses_post( $error ) . '</p>';
-}
+			foreach ( $errors as $error ) {
+				echo '<p>' . wp_kses_post( $error ) . '</p>';
+			}
 
-echo '</div>';
+			echo '</div>';
 
-// Clear
-delete_option( '{PLUGIN_HOOK_CLASS_NAME}_meta_box_errors' );
-}
-}
+			// Clear
+			delete_option( '{PLUGIN_HOOK_CLASS_NAME}_meta_box_errors' );
+		}
+	}
 
-/**
-* Add {PLUGIN_CLASS_PREFIX} Meta boxes.
-*/
-public function add_meta_boxes() {
-$screen    = get_current_screen();
-$screen_id = $screen ? $screen->id : '';
+	/**
+	 * Add {PLUGIN_CLASS_PREFIX} Meta boxes.
+	 */
+	public function add_meta_boxes() {
+		$screen    = get_current_screen();
+		$screen_id = $screen ? $screen->id : '';
 
-// Products.
-add_meta_box( 'postexcerpt', __( 'Product short description', '{TEXT_DOMAIN}' ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Product_Short_Description::output', 'product', 'normal' );
-add_meta_box( '{TEXT_DOMAIN}-product-data', __( 'Product data', '{TEXT_DOMAIN}' ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Product_Data::output', 'product', 'normal', 'high' );
-add_meta_box( '{TEXT_DOMAIN}-product-images', __( 'Product gallery', '{TEXT_DOMAIN}' ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Product_Images::output', 'product', 'side', 'low' );
+		// Products.
+		add_meta_box( 'postexcerpt', __( 'Product short description', '{TEXT_DOMAIN}' ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Product_Short_Description::output', 'product', 'normal' );
+		add_meta_box( '{TEXT_DOMAIN}-product-data', __( 'Product data', '{TEXT_DOMAIN}' ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Product_Data::output', 'product', 'normal', 'high' );
+		add_meta_box( '{TEXT_DOMAIN}-product-images', __( 'Product gallery', '{TEXT_DOMAIN}' ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Product_Images::output', 'product', 'side', 'low' );
 
-// Orders.
-foreach ( {FILE_NAME_PREFIX}_get_order_types( 'order-meta-boxes' ) as $type ) {
-$order_type_object = get_post_type_object( $type );
-add_meta_box( '{TEXT_DOMAIN}-order-data', sprintf( __( '%s data', '{TEXT_DOMAIN}' ), $order_type_object->labels->singular_name ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Order_Data::output', $type, 'normal', 'high' );
-add_meta_box( '{TEXT_DOMAIN}-order-items', __( 'Items', '{TEXT_DOMAIN}' ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Order_Items::output', $type, 'normal', 'high' );
-add_meta_box( '{TEXT_DOMAIN}-order-notes', sprintf( __( '%s notes', '{TEXT_DOMAIN}' ), $order_type_object->labels->singular_name ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Order_Notes::output', $type, 'side', 'default' );
-add_meta_box( '{TEXT_DOMAIN}-order-downloads', __( 'Downloadable product permissions', '{TEXT_DOMAIN}' ) . {FILE_NAME_PREFIX}_help_tip( __( 'Note: Permissions for order items will automatically be granted when the order status changes to processing/completed.', '{TEXT_DOMAIN}' ) ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Order_Downloads::output', $type, 'normal', 'default' );
-add_meta_box( '{TEXT_DOMAIN}-order-actions', sprintf( __( '%s actions', '{TEXT_DOMAIN}' ), $order_type_object->labels->singular_name ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Order_Actions::output', $type, 'side', 'high' );
-}
+		// Orders.
+		foreach ( {FILE_NAME_PREFIX}_get_order_types( 'order-meta-boxes' ) as $type ) {
+			$order_type_object = get_post_type_object( $type );
+			add_meta_box( '{TEXT_DOMAIN}-order-data', sprintf( __( '%s data', '{TEXT_DOMAIN}' ), $order_type_object->labels->singular_name ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Order_Data::output', $type, 'normal', 'high' );
+			add_meta_box( '{TEXT_DOMAIN}-order-items', __( 'Items', '{TEXT_DOMAIN}' ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Order_Items::output', $type, 'normal', 'high' );
+			add_meta_box( '{TEXT_DOMAIN}-order-notes', sprintf( __( '%s notes', '{TEXT_DOMAIN}' ), $order_type_object->labels->singular_name ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Order_Notes::output', $type, 'side', 'default' );
+			add_meta_box( '{TEXT_DOMAIN}-order-downloads', __( 'Downloadable product permissions', '{TEXT_DOMAIN}' ) . {FILE_NAME_PREFIX}_help_tip( __( 'Note: Permissions for order items will automatically be granted when the order status changes to processing/completed.', '{TEXT_DOMAIN}' ) ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Order_Downloads::output', $type, 'normal', 'default' );
+			add_meta_box( '{TEXT_DOMAIN}-order-actions', sprintf( __( '%s actions', '{TEXT_DOMAIN}' ), $order_type_object->labels->singular_name ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Order_Actions::output', $type, 'side', 'high' );
+		}
 
-// Coupons.
-add_meta_box( '{TEXT_DOMAIN}-coupon-data', __( 'Coupon data', '{TEXT_DOMAIN}' ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Coupon_Data::output', 'shop_coupon', 'normal', 'high' );
+		// Coupons.
+		add_meta_box( '{TEXT_DOMAIN}-coupon-data', __( 'Coupon data', '{TEXT_DOMAIN}' ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Coupon_Data::output', 'shop_coupon', 'normal', 'high' );
 
-// Comment rating.
-if ( 'comment' === $screen_id && isset( $_GET['c'] ) && metadata_exists( 'comment', $_GET['c'], 'rating' ) ) {
-add_meta_box( '{TEXT_DOMAIN}-rating', __( 'Rating', '{TEXT_DOMAIN}' ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Product_Reviews::output', 'comment', 'normal', 'high' );
-}
-}
+		// Comment rating.
+		if ( 'comment' === $screen_id && isset( $_GET['c'] ) && metadata_exists( 'comment', $_GET['c'], 'rating' ) ) {
+			add_meta_box( '{TEXT_DOMAIN}-rating', __( 'Rating', '{TEXT_DOMAIN}' ), '{PLUGIN_CLASS_PREFIX}_Meta_Box_Product_Reviews::output', 'comment', 'normal', 'high' );
+		}
+	}
 
-/**
-* Remove bloat.
-*/
-public function remove_meta_boxes() {
-remove_meta_box( 'postexcerpt', 'product', 'normal' );
-remove_meta_box( 'product_shipping_classdiv', 'product', 'side' );
-remove_meta_box( 'commentsdiv', 'product', 'normal' );
-remove_meta_box( 'commentstatusdiv', 'product', 'side' );
-remove_meta_box( 'commentstatusdiv', 'product', 'normal' );
-remove_meta_box( 'woothemes-settings', 'shop_coupon', 'normal' );
-remove_meta_box( 'commentstatusdiv', 'shop_coupon', 'normal' );
-remove_meta_box( 'slugdiv', 'shop_coupon', 'normal' );
+	/**
+	 * Remove bloat.
+	 */
+	public function remove_meta_boxes() {
+		remove_meta_box( 'postexcerpt', 'product', 'normal' );
+		remove_meta_box( 'product_shipping_classdiv', 'product', 'side' );
+		remove_meta_box( 'commentsdiv', 'product', 'normal' );
+		remove_meta_box( 'commentstatusdiv', 'product', 'side' );
+		remove_meta_box( 'commentstatusdiv', 'product', 'normal' );
+		remove_meta_box( 'woothemes-settings', 'shop_coupon', 'normal' );
+		remove_meta_box( 'commentstatusdiv', 'shop_coupon', 'normal' );
+		remove_meta_box( 'slugdiv', 'shop_coupon', 'normal' );
 
-foreach ( {FILE_NAME_PREFIX}_get_order_types( 'order-meta-boxes' ) as $type ) {
-remove_meta_box( 'commentsdiv', $type, 'normal' );
-remove_meta_box( 'woothemes-settings', $type, 'normal' );
-remove_meta_box( 'commentstatusdiv', $type, 'normal' );
-remove_meta_box( 'slugdiv', $type, 'normal' );
-remove_meta_box( 'submitdiv', $type, 'side' );
-}
-}
+		foreach ( {FILE_NAME_PREFIX}_get_order_types( 'order-meta-boxes' ) as $type ) {
+			remove_meta_box( 'commentsdiv', $type, 'normal' );
+			remove_meta_box( 'woothemes-settings', $type, 'normal' );
+			remove_meta_box( 'commentstatusdiv', $type, 'normal' );
+			remove_meta_box( 'slugdiv', $type, 'normal' );
+			remove_meta_box( 'submitdiv', $type, 'side' );
+		}
+	}
 
-/**
-* Rename core meta boxes.
-*/
-public function rename_meta_boxes() {
-global $post;
+	/**
+	 * Rename core meta boxes.
+	 */
+	public function rename_meta_boxes() {
+		global $post;
 
-// Comments/Reviews
-if ( isset( $post ) && ( 'publish' == $post->post_status || 'private' == $post->post_status ) && post_type_supports( 'product', 'comments' ) ) {
-remove_meta_box( 'commentsdiv', 'product', 'normal' );
-add_meta_box( 'commentsdiv', __( 'Reviews', '{TEXT_DOMAIN}' ), 'post_comment_meta_box', 'product', 'normal' );
-}
-}
+		// Comments/Reviews
+		if ( isset( $post ) && ( 'publish' == $post->post_status || 'private' == $post->post_status ) && post_type_supports( 'product', 'comments' ) ) {
+			remove_meta_box( 'commentsdiv', 'product', 'normal' );
+			add_meta_box( 'commentsdiv', __( 'Reviews', '{TEXT_DOMAIN}' ), 'post_comment_meta_box', 'product', 'normal' );
+		}
+	}
 
-/**
-* Check if we're saving, the trigger an action based on the post type.
-*
-* @param  int $post_id
-* @param  object $post
-*/
-public function save_meta_boxes( $post_id, $post ) {
-// $post_id and $post are required
-if ( empty( $post_id ) || empty( $post ) || self::$saved_meta_boxes ) {
-return;
-}
+	/**
+	 * Check if we're saving, the trigger an action based on the post type.
+	 *
+	 * @param  int $post_id
+	 * @param  object $post
+	 */
+	public function save_meta_boxes( $post_id, $post ) {
+		// $post_id and $post are required
+		if ( empty( $post_id ) || empty( $post ) || self::$saved_meta_boxes ) {
+			return;
+		}
 
-// Dont' save meta boxes for revisions or autosaves
-if ( defined( 'DOING_AUTOSAVE' ) || is_int( wp_is_post_revision( $post ) ) || is_int( wp_is_post_autosave( $post ) ) ) {
-return;
-}
+		// Dont' save meta boxes for revisions or autosaves
+		if ( defined( 'DOING_AUTOSAVE' ) || is_int( wp_is_post_revision( $post ) ) || is_int( wp_is_post_autosave( $post ) ) ) {
+			return;
+		}
 
-// Check the nonce
-if ( empty( $_POST['{PLUGIN_HOOK_CLASS_NAME}_meta_nonce'] ) || ! wp_verify_nonce( $_POST['{PLUGIN_HOOK_CLASS_NAME}_meta_nonce'], '{PLUGIN_HOOK_CLASS_NAME}_save_data' ) ) {
-return;
-}
+		// Check the nonce
+		if ( empty( $_POST['{PLUGIN_HOOK_CLASS_NAME}_meta_nonce'] ) || ! wp_verify_nonce( $_POST['{PLUGIN_HOOK_CLASS_NAME}_meta_nonce'], '{PLUGIN_HOOK_CLASS_NAME}_save_data' ) ) {
+			return;
+		}
 
-// Check the post being saved == the $post_id to prevent triggering this call for other save_post events
-if ( empty( $_POST['post_ID'] ) || $_POST['post_ID'] != $post_id ) {
-return;
-}
+		// Check the post being saved == the $post_id to prevent triggering this call for other save_post events
+		if ( empty( $_POST['post_ID'] ) || $_POST['post_ID'] != $post_id ) {
+			return;
+		}
 
-// Check user has permission to edit
-if ( ! current_user_can( 'edit_post', $post_id ) ) {
-return;
-}
+		// Check user has permission to edit
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
 
-// We need this save event to run once to avoid potential endless loops. This would have been perfect:
-// remove_action( current_filter(), __METHOD__ );
-// But cannot be used due to https://github.com/{TEXT_DOMAIN}/{TEXT_DOMAIN}/issues/6485
-// When that is patched in core we can use the above. For now:
-self::$saved_meta_boxes = true;
+		// We need this save event to run once to avoid potential endless loops. This would have been perfect:
+		// remove_action( current_filter(), __METHOD__ );
+		// But cannot be used due to https://github.com/{TEXT-DOMAIN}/{TEXT-DOMAIN}/issues/6485
+		// When that is patched in core we can use the above. For now:
+		self::$saved_meta_boxes = true;
 
-// Check the post type
-if ( in_array( $post->post_type, {FILE_NAME_PREFIX}_get_order_types( 'order-meta-boxes' ) ) ) {
-do_action( '{PLUGIN_HOOK_CLASS_NAME}_process_shop_order_meta', $post_id, $post );
-} elseif ( in_array( $post->post_type, array( 'product', 'shop_coupon' ) ) ) {
-do_action( '{PLUGIN_HOOK_CLASS_NAME}_process_' . $post->post_type . '_meta', $post_id, $post );
-}
-}
+		// Check the post type
+		if ( in_array( $post->post_type, {FILE_NAME_PREFIX}_get_order_types( 'order-meta-boxes' ) ) ) {
+			do_action( '{PLUGIN_HOOK_CLASS_NAME}_process_shop_order_meta', $post_id, $post );
+		} elseif ( in_array( $post->post_type, array( 'product', 'shop_coupon' ) ) ) {
+			do_action( '{PLUGIN_HOOK_CLASS_NAME}_process_' . $post->post_type . '_meta', $post_id, $post );
+		}
+	}
 }
 
 new {PLUGIN_CLASS_PREFIX}_Admin_Meta_Boxes();

@@ -6,87 +6,87 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Handles deprecation notices and triggering of legacy filter hooks.
  *
- * @since {VERSION}
+ * @since 3.0.0
  */
 class {PLUGIN_CLASS_PREFIX}_Deprecated_Filter_Hooks extends {PLUGIN_CLASS_PREFIX}_Deprecated_Hooks {
 
 	/**
 	 * Array of deprecated hooks we need to handle.
 	 * Format of 'new' => 'old'.
-*
-* @var array
-*/
-protected $deprecated_hooks = array(
-'{PLUGIN_HOOK_CLASS_NAME}_structured_data_order'          => '{PLUGIN_HOOK_CLASS_NAME}_email_order_schema_markup',
-'{PLUGIN_HOOK_CLASS_NAME}_add_to_cart_fragments'          => 'add_to_cart_fragments',
-'{PLUGIN_HOOK_CLASS_NAME}_add_to_cart_redirect'           => 'add_to_cart_redirect',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_width'              => '{PLUGIN_HOOK_CLASS_NAME}_product_width',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_height'             => '{PLUGIN_HOOK_CLASS_NAME}_product_height',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_length'             => '{PLUGIN_HOOK_CLASS_NAME}_product_length',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_weight'             => '{PLUGIN_HOOK_CLASS_NAME}_product_weight',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_sku'                => '{PLUGIN_HOOK_CLASS_NAME}_get_sku',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_price'              => '{PLUGIN_HOOK_CLASS_NAME}_get_price',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_regular_price'      => '{PLUGIN_HOOK_CLASS_NAME}_get_regular_price',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_sale_price'         => '{PLUGIN_HOOK_CLASS_NAME}_get_sale_price',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_tax_class'          => '{PLUGIN_HOOK_CLASS_NAME}_product_tax_class',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_stock_quantity'     => '{PLUGIN_HOOK_CLASS_NAME}_get_stock_quantity',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_attributes'         => '{PLUGIN_HOOK_CLASS_NAME}_get_product_attributes',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_gallery_image_ids'  => '{PLUGIN_HOOK_CLASS_NAME}_product_gallery_attachment_ids',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_review_count'       => '{PLUGIN_HOOK_CLASS_NAME}_product_review_count',
-'{PLUGIN_HOOK_CLASS_NAME}_product_get_downloads'          => '{PLUGIN_HOOK_CLASS_NAME}_product_files',
-'{PLUGIN_HOOK_CLASS_NAME}_order_get_currency'             => '{PLUGIN_HOOK_CLASS_NAME}_get_currency',
-'{PLUGIN_HOOK_CLASS_NAME}_order_get_discount_total'       => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_discount_total',
-'{PLUGIN_HOOK_CLASS_NAME}_order_get_discount_tax'         => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_discount_tax',
-'{PLUGIN_HOOK_CLASS_NAME}_order_get_shipping_total'       => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_shipping_total',
-'{PLUGIN_HOOK_CLASS_NAME}_order_get_shipping_tax'         => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_shipping_tax',
-'{PLUGIN_HOOK_CLASS_NAME}_order_get_cart_tax'             => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_cart_tax',
-'{PLUGIN_HOOK_CLASS_NAME}_order_get_total'                => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_total',
-'{PLUGIN_HOOK_CLASS_NAME}_order_get_total_tax'            => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_total_tax',
-'{PLUGIN_HOOK_CLASS_NAME}_order_get_total_discount'       => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_total_discount',
-'{PLUGIN_HOOK_CLASS_NAME}_order_get_subtotal'             => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_subtotal',
-'{PLUGIN_HOOK_CLASS_NAME}_order_get_tax_totals'           => '{PLUGIN_HOOK_CLASS_NAME}_order_tax_totals',
-'{PLUGIN_HOOK_CLASS_NAME}_get_order_refund_get_amount'    => '{PLUGIN_HOOK_CLASS_NAME}_refund_amount',
-'{PLUGIN_HOOK_CLASS_NAME}_get_order_refund_get_reason'    => '{PLUGIN_HOOK_CLASS_NAME}_refund_reason',
-'default_checkout_billing_country'           => 'default_checkout_country',
-'default_checkout_billing_state'             => 'default_checkout_state',
-'default_checkout_billing_postcode'          => 'default_checkout_postcode',
-'{PLUGIN_HOOK_CLASS_NAME}_system_status_environment_rows' => '{PLUGIN_HOOK_CLASS_NAME}_debug_posting',
-'{PLUGIN_HOOK_CLASS_NAME}_credit_card_type_labels'        => 'wocommerce_credit_card_type_labels',
-);
+	 *
+	 * @var array
+	 */
+	protected $deprecated_hooks = array(
+		'{PLUGIN_HOOK_CLASS_NAME}_structured_data_order'          => '{PLUGIN_HOOK_CLASS_NAME}_email_order_schema_markup',
+		'{PLUGIN_HOOK_CLASS_NAME}_add_to_cart_fragments'          => 'add_to_cart_fragments',
+		'{PLUGIN_HOOK_CLASS_NAME}_add_to_cart_redirect'           => 'add_to_cart_redirect',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_width'              => '{PLUGIN_HOOK_CLASS_NAME}_product_width',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_height'             => '{PLUGIN_HOOK_CLASS_NAME}_product_height',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_length'             => '{PLUGIN_HOOK_CLASS_NAME}_product_length',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_weight'             => '{PLUGIN_HOOK_CLASS_NAME}_product_weight',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_sku'                => '{PLUGIN_HOOK_CLASS_NAME}_get_sku',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_price'              => '{PLUGIN_HOOK_CLASS_NAME}_get_price',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_regular_price'      => '{PLUGIN_HOOK_CLASS_NAME}_get_regular_price',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_sale_price'         => '{PLUGIN_HOOK_CLASS_NAME}_get_sale_price',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_tax_class'          => '{PLUGIN_HOOK_CLASS_NAME}_product_tax_class',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_stock_quantity'     => '{PLUGIN_HOOK_CLASS_NAME}_get_stock_quantity',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_attributes'         => '{PLUGIN_HOOK_CLASS_NAME}_get_product_attributes',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_gallery_image_ids'  => '{PLUGIN_HOOK_CLASS_NAME}_product_gallery_attachment_ids',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_review_count'       => '{PLUGIN_HOOK_CLASS_NAME}_product_review_count',
+		'{PLUGIN_HOOK_CLASS_NAME}_product_get_downloads'          => '{PLUGIN_HOOK_CLASS_NAME}_product_files',
+		'{PLUGIN_HOOK_CLASS_NAME}_order_get_currency'             => '{PLUGIN_HOOK_CLASS_NAME}_get_currency',
+		'{PLUGIN_HOOK_CLASS_NAME}_order_get_discount_total'       => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_discount_total',
+		'{PLUGIN_HOOK_CLASS_NAME}_order_get_discount_tax'         => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_discount_tax',
+		'{PLUGIN_HOOK_CLASS_NAME}_order_get_shipping_total'       => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_shipping_total',
+		'{PLUGIN_HOOK_CLASS_NAME}_order_get_shipping_tax'         => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_shipping_tax',
+		'{PLUGIN_HOOK_CLASS_NAME}_order_get_cart_tax'             => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_cart_tax',
+		'{PLUGIN_HOOK_CLASS_NAME}_order_get_total'                => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_total',
+		'{PLUGIN_HOOK_CLASS_NAME}_order_get_total_tax'            => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_total_tax',
+		'{PLUGIN_HOOK_CLASS_NAME}_order_get_total_discount'       => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_total_discount',
+		'{PLUGIN_HOOK_CLASS_NAME}_order_get_subtotal'             => '{PLUGIN_HOOK_CLASS_NAME}_order_amount_subtotal',
+		'{PLUGIN_HOOK_CLASS_NAME}_order_get_tax_totals'           => '{PLUGIN_HOOK_CLASS_NAME}_order_tax_totals',
+		'{PLUGIN_HOOK_CLASS_NAME}_get_order_refund_get_amount'    => '{PLUGIN_HOOK_CLASS_NAME}_refund_amount',
+		'{PLUGIN_HOOK_CLASS_NAME}_get_order_refund_get_reason'    => '{PLUGIN_HOOK_CLASS_NAME}_refund_reason',
+		'default_checkout_billing_country'           => 'default_checkout_country',
+		'default_checkout_billing_state'             => 'default_checkout_state',
+		'default_checkout_billing_postcode'          => 'default_checkout_postcode',
+		'{PLUGIN_HOOK_CLASS_NAME}_system_status_environment_rows' => '{PLUGIN_HOOK_CLASS_NAME}_debug_posting',
+		'{PLUGIN_HOOK_CLASS_NAME}_credit_card_type_labels'        => 'wocommerce_credit_card_type_labels',
+	);
 
-/**
-* Hook into the new hook so we can handle deprecated hooks once fired.
-* @param  string $hook_name
-*/
-public function hook_in( $hook_name ) {
-add_filter( $hook_name, array( $this, 'maybe_handle_deprecated_hook' ), -1000, 8 );
-}
+	/**
+	 * Hook into the new hook so we can handle deprecated hooks once fired.
+	 * @param  string $hook_name
+	 */
+	public function hook_in( $hook_name ) {
+		add_filter( $hook_name, array( $this, 'maybe_handle_deprecated_hook' ), -1000, 8 );
+	}
 
-/**
-* If the old hook is in-use, trigger it.
-*
-* @param string $new_hook
-* @param string $old_hook
-* @param array $new_callback_args
-* @param mixed $return_value
-* @return mixed
-*/
-public function handle_deprecated_hook( $new_hook, $old_hook, $new_callback_args, $return_value ) {
-if ( has_filter( $old_hook ) ) {
-$this->display_notice( $old_hook, $new_hook );
-$return_value = $this->trigger_hook( $old_hook, $new_callback_args );
-}
-return $return_value;
-}
+	/**
+	 * If the old hook is in-use, trigger it.
+	 *
+	 * @param string $new_hook
+	 * @param string $old_hook
+	 * @param array $new_callback_args
+	 * @param mixed $return_value
+	 * @return mixed
+	 */
+	public function handle_deprecated_hook( $new_hook, $old_hook, $new_callback_args, $return_value ) {
+		if ( has_filter( $old_hook ) ) {
+			$this->display_notice( $old_hook, $new_hook );
+			$return_value = $this->trigger_hook( $old_hook, $new_callback_args );
+		}
+		return $return_value;
+	}
 
-/**
-* Fire off a legacy hook with it's args.
-*
-* @param  string $old_hook
-* @param  array $new_callback_args
-* @return mixed
-*/
-protected function trigger_hook( $old_hook, $new_callback_args ) {
-return apply_filters_ref_array( $old_hook, $new_callback_args );
-}
+	/**
+	 * Fire off a legacy hook with it's args.
+	 *
+	 * @param  string $old_hook
+	 * @param  array $new_callback_args
+	 * @return mixed
+	 */
+	protected function trigger_hook( $old_hook, $new_callback_args ) {
+		return apply_filters_ref_array( $old_hook, $new_callback_args );
+	}
 }

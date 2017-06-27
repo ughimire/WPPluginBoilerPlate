@@ -26,7 +26,7 @@ if ( ! class_exists( '{PLUGIN_MAIN_CLASS_NAME}' ) ) :
  * Main {PLUGIN_MAIN_CLASS_NAME} Class.
  *
  * @class {PLUGIN_MAIN_CLASS_NAME}
- * @version	{VERSION}
+ * @version  {VERSION}
  */
 final class {PLUGIN_MAIN_CLASS_NAME} {
 

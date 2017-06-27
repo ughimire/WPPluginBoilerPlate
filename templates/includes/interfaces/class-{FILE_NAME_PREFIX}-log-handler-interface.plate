@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Functions that must be defined to correctly fulfill log handler API.
  *
- * @version        {VERSION}
+ * @version  {VERSION}
  * @category       Interface
  * @author         {AUTHOR}
  */

@@ -3,7 +3,7 @@
  * Contains the query functions for {PLUGIN_MAIN_CLASS_NAME} which alter the front-end post queries and loops
  *
  * @class 		{PLUGIN_CLASS_PREFIX}_Query
- * @version		{VERSION}
+ * @version  {VERSION}
  * @package		{PLUGIN_MAIN_CLASS_NAME}/Classes
  * @category	Class
  * @author 		{AUTHOR}

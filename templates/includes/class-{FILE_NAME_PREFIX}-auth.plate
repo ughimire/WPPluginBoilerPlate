@@ -1,13 +1,13 @@
 <?php
 /**
- * {PLUGIN_NAME} Auth
+ * WooCommerce Auth
  *
- * Handles {FILE_NAME_PREFIX}-auth endpoint requests.
+ * Handles wc-auth endpoint requests.
  *
  * @author   {AUTHOR}
  * @category API
  * @package  {PLUGIN_MAIN_CLASS_NAME}/API
- * @since {VERSION}
+ * @since    2.4.0
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -25,7 +25,7 @@ class {PLUGIN_CLASS_PREFIX}_Auth {
 	/**
 	 * Setup class.
 	 *
-	 * @since {VERSION}
+	 * @since 2.4.0
 	 */
 	public function __construct() {
 		// Add query vars
@@ -41,31 +41,31 @@ class {PLUGIN_CLASS_PREFIX}_Auth {
 	/**
 	 * Add query vars.
 	 *
-	 * @since {VERSION}
+	 * @since  2.4.0
 	 *
 	 * @param  array $vars
 	 *
 	 * @return string[]
 	 */
 	public function add_query_vars( $vars ) {
-		$vars[] = '{FILE_NAME_PREFIX}-auth-version';
-		$vars[] = '{FILE_NAME_PREFIX}-auth-route';
+		$vars[] = 'wc-auth-version';
+		$vars[] = 'wc-auth-route';
 		return $vars;
 	}
 
 	/**
 	 * Add auth endpoint.
 	 *
-	 * @since {VERSION}
+	 * @since 2.4.0
 	 */
 	public static function add_endpoint() {
-		add_rewrite_rule( '^{FILE_NAME_PREFIX}-auth/v([1]{1})/(.*)?', 'index.php?{FILE_NAME_PREFIX}-auth-version=$matches[1]&{FILE_NAME_PREFIX}-auth-route=$matches[2]', 'top' );
+		add_rewrite_rule( '^wc-auth/v([1]{1})/(.*)?', 'index.php?wc-auth-version=$matches[1]&wc-auth-route=$matches[2]', 'top' );
 	}
 
 	/**
 	 * Get scope name.
 	 *
-	 * @since {VERSION}
+	 * @since 2.4.0
 	 *
 	 * @param  string $scope
 	 *
@@ -74,329 +74,329 @@ class {PLUGIN_CLASS_PREFIX}_Auth {
 	protected function get_i18n_scope( $scope ) {
 		$permissions = array(
 			'read'       => __( 'Read', '{TEXT_DOMAIN}' ),
-'write'      => __( 'Write', '{TEXT_DOMAIN}' ),
-'read_write' => __( 'Read/Write', '{TEXT_DOMAIN}' ),
-);
+			'write'      => __( 'Write', '{TEXT_DOMAIN}' ),
+			'read_write' => __( 'Read/Write', '{TEXT_DOMAIN}' ),
+		);
 
-return $permissions[ $scope ];
-}
+		return $permissions[ $scope ];
+	}
 
-/**
-* Return a list of permissions a scope allows.
-*
-* @since {VERSION}
-*
-* @param  string $scope
-*
-* @return array
-*/
-protected function get_permissions_in_scope( $scope ) {
-$permissions = array();
-switch ( $scope ) {
-case 'read' :
-$permissions[] = __( 'View coupons', '{TEXT_DOMAIN}' );
-$permissions[] = __( 'View customers', '{TEXT_DOMAIN}' );
-$permissions[] = __( 'View orders and sales reports', '{TEXT_DOMAIN}' );
-$permissions[] = __( 'View products', '{TEXT_DOMAIN}' );
-break;
-case 'write' :
-$permissions[] = __( 'Create webhooks', '{TEXT_DOMAIN}' );
-$permissions[] = __( 'Create coupons', '{TEXT_DOMAIN}' );
-$permissions[] = __( 'Create customers', '{TEXT_DOMAIN}' );
-$permissions[] = __( 'Create orders', '{TEXT_DOMAIN}' );
-$permissions[] = __( 'Create products', '{TEXT_DOMAIN}' );
-break;
-case 'read_write' :
-$permissions[] = __( 'Create webhooks', '{TEXT_DOMAIN}' );
-$permissions[] = __( 'View and manage coupons', '{TEXT_DOMAIN}' );
-$permissions[] = __( 'View and manage customers', '{TEXT_DOMAIN}' );
-$permissions[] = __( 'View and manage orders and sales reports', '{TEXT_DOMAIN}' );
-$permissions[] = __( 'View and manage products', '{TEXT_DOMAIN}' );
-break;
-}
-return apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_api_permissions_in_scope', $permissions, $scope );
-}
+	/**
+	 * Return a list of permissions a scope allows.
+	 *
+	 * @since  2.4.0
+	 *
+	 * @param  string $scope
+	 *
+	 * @return array
+	 */
+	protected function get_permissions_in_scope( $scope ) {
+		$permissions = array();
+		switch ( $scope ) {
+			case 'read' :
+				$permissions[] = __( 'View coupons', '{TEXT_DOMAIN}' );
+				$permissions[] = __( 'View customers', '{TEXT_DOMAIN}' );
+				$permissions[] = __( 'View orders and sales reports', '{TEXT_DOMAIN}' );
+				$permissions[] = __( 'View products', '{TEXT_DOMAIN}' );
+			break;
+			case 'write' :
+				$permissions[] = __( 'Create webhooks', '{TEXT_DOMAIN}' );
+				$permissions[] = __( 'Create coupons', '{TEXT_DOMAIN}' );
+				$permissions[] = __( 'Create customers', '{TEXT_DOMAIN}' );
+				$permissions[] = __( 'Create orders', '{TEXT_DOMAIN}' );
+				$permissions[] = __( 'Create products', '{TEXT_DOMAIN}' );
+			break;
+			case 'read_write' :
+				$permissions[] = __( 'Create webhooks', '{TEXT_DOMAIN}' );
+				$permissions[] = __( 'View and manage coupons', '{TEXT_DOMAIN}' );
+				$permissions[] = __( 'View and manage customers', '{TEXT_DOMAIN}' );
+				$permissions[] = __( 'View and manage orders and sales reports', '{TEXT_DOMAIN}' );
+				$permissions[] = __( 'View and manage products', '{TEXT_DOMAIN}' );
+			break;
+		}
+		return apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_api_permissions_in_scope', $permissions, $scope );
+	}
 
-/**
-* Build auth urls.
-*
-* @since {VERSION}
-*
-* @param  array $data
-* @param  string $endpoint
-*
-* @return string
-*/
-protected function build_url( $data, $endpoint ) {
-$url = {FILE_NAME_PREFIX}_get_endpoint_url( '{FILE_NAME_PREFIX}-auth/v' . self::VERSION, $endpoint, home_url( '/' ) );
+	/**
+	 * Build auth urls.
+	 *
+	 * @since  2.4.0
+	 *
+	 * @param  array $data
+	 * @param  string $endpoint
+	 *
+	 * @return string
+	 */
+	protected function build_url( $data, $endpoint ) {
+		$url = {FILE_NAME_PREFIX}_get_endpoint_url( 'wc-auth/v' . self::VERSION, $endpoint, home_url( '/' ) );
 
-return add_query_arg( array(
-'app_name'            => {FILE_NAME_PREFIX}_clean( $data['app_name'] ),
-'user_id'             => {FILE_NAME_PREFIX}_clean( $data['user_id'] ),
-'return_url'          => urlencode( $this->get_formatted_url( $data['return_url'] ) ),
-'callback_url'        => urlencode( $this->get_formatted_url( $data['callback_url'] ) ),
-'scope'               => {FILE_NAME_PREFIX}_clean( $data['scope'] ),
-), $url );
-}
+		return add_query_arg( array(
+			'app_name'            => {FILE_NAME_PREFIX}_clean( $data['app_name'] ),
+			'user_id'             => {FILE_NAME_PREFIX}_clean( $data['user_id'] ),
+			'return_url'          => urlencode( $this->get_formatted_url( $data['return_url'] ) ),
+			'callback_url'        => urlencode( $this->get_formatted_url( $data['callback_url'] ) ),
+			'scope'               => {FILE_NAME_PREFIX}_clean( $data['scope'] ),
+		), $url );
+	}
 
-/**
-* Decode and format a URL.
-* @param  string $url
-* @return string
-*/
-protected function get_formatted_url( $url ) {
-$url = urldecode( $url );
+	/**
+	 * Decode and format a URL.
+	 * @param  string $url
+	 * @return string
+	 */
+	protected function get_formatted_url( $url ) {
+		$url = urldecode( $url );
 
-if ( ! strstr( $url, '://' ) ) {
-$url = 'https://' . $url;
-}
+		if ( ! strstr( $url, '://' ) ) {
+			$url = 'https://' . $url;
+		}
 
-return $url;
-}
+		return $url;
+	}
 
-/**
-* Make validation.
-*
-* @since {VERSION}
-*/
-protected function make_validation() {
-$params = array(
-'app_name',
-'user_id',
-'return_url',
-'callback_url',
-'scope',
-);
+	/**
+	 * Make validation.
+	 *
+	 * @since  2.4.0
+	 */
+	protected function make_validation() {
+		$params = array(
+			'app_name',
+			'user_id',
+			'return_url',
+			'callback_url',
+			'scope',
+		);
 
-foreach ( $params as $param ) {
-if ( empty( $_REQUEST[ $param ] ) ) {
-/* translators: %s: parameter */
-throw new Exception( sprintf( __( 'Missing parameter %s', '{TEXT_DOMAIN}' ), $param ) );
-}
-}
+		foreach ( $params as $param ) {
+			if ( empty( $_REQUEST[ $param ] ) ) {
+				/* translators: %s: parameter */
+				throw new Exception( sprintf( __( 'Missing parameter %s', '{TEXT_DOMAIN}' ), $param ) );
+			}
+		}
 
-if ( ! in_array( $_REQUEST['scope'], array( 'read', 'write', 'read_write' ) ) ) {
-/* translators: %s: scope */
-throw new Exception( sprintf( __( 'Invalid scope %s', '{TEXT_DOMAIN}' ), {FILE_NAME_PREFIX}_clean( $_REQUEST['scope'] ) ) );
-}
+		if ( ! in_array( $_REQUEST['scope'], array( 'read', 'write', 'read_write' ) ) ) {
+			/* translators: %s: scope */
+			throw new Exception( sprintf( __( 'Invalid scope %s', '{TEXT_DOMAIN}' ), {FILE_NAME_PREFIX}_clean( $_REQUEST['scope'] ) ) );
+		}
 
-foreach ( array( 'return_url', 'callback_url' ) as $param ) {
-$param = $this->get_formatted_url( $_REQUEST[ $param ] );
+		foreach ( array( 'return_url', 'callback_url' ) as $param ) {
+			$param = $this->get_formatted_url( $_REQUEST[ $param ] );
 
-if ( false === filter_var( $param, FILTER_VALIDATE_URL ) ) {
-/* translators: %s: url */
-throw new Exception( sprintf( __( 'The %s is not a valid URL', '{TEXT_DOMAIN}' ), $param ) );
-}
-}
+			if ( false === filter_var( $param, FILTER_VALIDATE_URL ) ) {
+				/* translators: %s: url */
+				throw new Exception( sprintf( __( 'The %s is not a valid URL', '{TEXT_DOMAIN}' ), $param ) );
+			}
+		}
 
-$callback_url = $this->get_formatted_url( $_REQUEST['callback_url'] );
+		$callback_url = $this->get_formatted_url( $_REQUEST['callback_url'] );
 
-if ( 0 !== stripos( $callback_url, 'https://' ) ) {
-throw new Exception( __( 'The callback_url need to be over SSL', '{TEXT_DOMAIN}' ) );
-}
-}
+		if ( 0 !== stripos( $callback_url, 'https://' ) ) {
+			throw new Exception( __( 'The callback_url need to be over SSL', '{TEXT_DOMAIN}' ) );
+		}
+	}
 
-/**
-* Create keys.
-*
-* @since {VERSION}
-*
-* @param  string $app_name
-* @param  string $app_user_id
-* @param  string $scope
-*
-* @return array
-*/
-protected function create_keys( $app_name, $app_user_id, $scope ) {
-global $wpdb;
+	/**
+	 * Create keys.
+	 *
+	 * @since  2.4.0
+	 *
+	 * @param  string $app_name
+	 * @param  string $app_user_id
+	 * @param  string $scope
+	 *
+	 * @return array
+	 */
+	protected function create_keys( $app_name, $app_user_id, $scope ) {
+		global $wpdb;
 
-/* translators: 1: app name 2: scope 3: date 4: time */
-$description = sprintf(
-__( '%1$s - API %2$s (created on %3$s at %4$s).', '{TEXT_DOMAIN}' ),
-{FILE_NAME_PREFIX}_clean( $app_name ),
-$this->get_i18n_scope( $scope ),
-date_i18n( {FILE_NAME_PREFIX}_date_format() ),
-date_i18n( {FILE_NAME_PREFIX}_time_format() )
-);
-$user = wp_get_current_user();
+		/* translators: 1: app name 2: scope 3: date 4: time */
+		$description = sprintf(
+			__( '%1$s - API %2$s (created on %3$s at %4$s).', '{TEXT_DOMAIN}' ),
+			{FILE_NAME_PREFIX}_clean( $app_name ),
+			$this->get_i18n_scope( $scope ),
+			date_i18n( {FILE_NAME_PREFIX}_date_format() ),
+			date_i18n( {FILE_NAME_PREFIX}_time_format() )
+		);
+		$user = wp_get_current_user();
 
-// Created API keys.
-$permissions     = ( in_array( $scope, array( 'read', 'write', 'read_write' ) ) ) ? sanitize_text_field( $scope ) : 'read';
-$consumer_key    = 'ck_' . {FILE_NAME_PREFIX}_rand_hash();
-$consumer_secret = 'cs_' . {FILE_NAME_PREFIX}_rand_hash();
+		// Created API keys.
+		$permissions     = ( in_array( $scope, array( 'read', 'write', 'read_write' ) ) ) ? sanitize_text_field( $scope ) : 'read';
+		$consumer_key    = 'ck_' . {FILE_NAME_PREFIX}_rand_hash();
+		$consumer_secret = 'cs_' . {FILE_NAME_PREFIX}_rand_hash();
 
-$wpdb->insert(
-$wpdb->prefix . '{PLUGIN_HOOK_CLASS_NAME}_api_keys',
-array(
-'user_id'         => $user->ID,
-'description'     => $description,
-'permissions'     => $permissions,
-'consumer_key'    => {FILE_NAME_PREFIX}_api_hash( $consumer_key ),
-'consumer_secret' => $consumer_secret,
-'truncated_key'   => substr( $consumer_key, -7 ),
-),
-array(
-'%d',
-'%s',
-'%s',
-'%s',
-'%s',
-'%s',
-)
-);
+		$wpdb->insert(
+			$wpdb->prefix . '{PLUGIN_HOOK_CLASS_NAME}_api_keys',
+			array(
+				'user_id'         => $user->ID,
+				'description'     => $description,
+				'permissions'     => $permissions,
+				'consumer_key'    => {FILE_NAME_PREFIX}_api_hash( $consumer_key ),
+				'consumer_secret' => $consumer_secret,
+				'truncated_key'   => substr( $consumer_key, -7 ),
+			),
+			array(
+				'%d',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+			)
+		);
 
-return array(
-'key_id'          => $wpdb->insert_id,
-'user_id'         => $app_user_id,
-'consumer_key'    => $consumer_key,
-'consumer_secret' => $consumer_secret,
-'key_permissions' => $permissions,
-);
-}
+		return array(
+			'key_id'          => $wpdb->insert_id,
+			'user_id'         => $app_user_id,
+			'consumer_key'    => $consumer_key,
+			'consumer_secret' => $consumer_secret,
+			'key_permissions' => $permissions,
+		);
+	}
 
-/**
-* Post consumer data.
-*
-* @since {VERSION}
-*
-* @param  array  $consumer_data
-* @param  string $url
-*
-* @return bool
-* @throws Exception
-*/
-protected function post_consumer_data( $consumer_data, $url ) {
-$params = array(
-'body'      => json_encode( $consumer_data ),
-'timeout'   => 60,
-'headers'   => array(
-'Content-Type' => 'application/json;charset=' . get_bloginfo( 'charset' ),
-),
-);
+	/**
+	 * Post consumer data.
+	 *
+	 * @since  2.4.0
+	 *
+	 * @param  array  $consumer_data
+	 * @param  string $url
+	 *
+	 * @return bool
+	 * @throws Exception
+	 */
+	protected function post_consumer_data( $consumer_data, $url ) {
+		$params = array(
+			'body'      => json_encode( $consumer_data ),
+			'timeout'   => 60,
+			'headers'   => array(
+				'Content-Type' => 'application/json;charset=' . get_bloginfo( 'charset' ),
+			),
+		);
 
-$response = wp_safe_remote_post( esc_url_raw( $url ), $params );
+		$response = wp_safe_remote_post( esc_url_raw( $url ), $params );
 
-if ( is_wp_error( $response ) ) {
-throw new Exception( $response->get_error_message() );
-} elseif ( 200 != $response['response']['code'] ) {
-throw new Exception( __( 'An error occurred in the request and at the time were unable to send the consumer data', '{TEXT_DOMAIN}' ) );
-}
+		if ( is_wp_error( $response ) ) {
+			throw new Exception( $response->get_error_message() );
+		} elseif ( 200 != $response['response']['code'] ) {
+			throw new Exception( __( 'An error occurred in the request and at the time were unable to send the consumer data', '{TEXT_DOMAIN}' ) );
+		}
 
-return true;
-}
+		return true;
+	}
 
-/**
-* Handle auth requests.
-*
-* @since {VERSION}
-*/
-public function handle_auth_requests() {
-global $wp;
+	/**
+	 * Handle auth requests.
+	 *
+	 * @since 2.4.0
+	 */
+	public function handle_auth_requests() {
+		global $wp;
 
-if ( ! empty( $_GET['{FILE_NAME_PREFIX}-auth-version'] ) ) {
-$wp->query_vars['{FILE_NAME_PREFIX}-auth-version'] = $_GET['{FILE_NAME_PREFIX}-auth-version'];
-}
+		if ( ! empty( $_GET['wc-auth-version'] ) ) {
+			$wp->query_vars['wc-auth-version'] = $_GET['wc-auth-version'];
+		}
 
-if ( ! empty( $_GET['{FILE_NAME_PREFIX}-auth-route'] ) ) {
-$wp->query_vars['{FILE_NAME_PREFIX}-auth-route'] = $_GET['{FILE_NAME_PREFIX}-auth-route'];
-}
+		if ( ! empty( $_GET['wc-auth-route'] ) ) {
+			$wp->query_vars['wc-auth-route'] = $_GET['wc-auth-route'];
+		}
 
-// {FILE_NAME_PREFIX}-auth endpoint requests
-if ( ! empty( $wp->query_vars['{FILE_NAME_PREFIX}-auth-version'] ) && ! empty( $wp->query_vars['{FILE_NAME_PREFIX}-auth-route'] ) ) {
-$this->auth_endpoint( $wp->query_vars['{FILE_NAME_PREFIX}-auth-route'] );
-}
-}
+		// wc-auth endpoint requests
+		if ( ! empty( $wp->query_vars['wc-auth-version'] ) && ! empty( $wp->query_vars['wc-auth-route'] ) ) {
+			$this->auth_endpoint( $wp->query_vars['wc-auth-route'] );
+		}
+	}
 
-/**
-* Auth endpoint.
-*
-* @since {VERSION}
-*
-* @param string $route
-*/
-protected function auth_endpoint( $route ) {
-ob_start();
+	/**
+	 * Auth endpoint.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param string $route
+	 */
+	protected function auth_endpoint( $route ) {
+		ob_start();
 
-$consumer_data = array();
+		$consumer_data = array();
 
-try {
-if ( 'yes' !== get_option( '{PLUGIN_HOOK_CLASS_NAME}_api_enabled' ) ) {
-throw new Exception( __( 'API disabled!', '{TEXT_DOMAIN}' ) );
-}
+		try {
+			if ( 'yes' !== get_option( '{PLUGIN_HOOK_CLASS_NAME}_api_enabled' ) ) {
+				throw new Exception( __( 'API disabled!', '{TEXT_DOMAIN}' ) );
+			}
 
-$route = strtolower( {FILE_NAME_PREFIX}_clean( $route ) );
-$this->make_validation();
+			$route = strtolower( {FILE_NAME_PREFIX}_clean( $route ) );
+			$this->make_validation();
 
-// Login endpoint
-if ( 'login' == $route && ! is_user_logged_in() ) {
-{FILE_NAME_PREFIX}_get_template( 'auth/form-login.php', array(
-'app_name'     => $_REQUEST['app_name'],
-'return_url'   => add_query_arg( array( 'success' => 0, 'user_id' => {FILE_NAME_PREFIX}_clean( $_REQUEST['user_id'] ) ), $this->get_formatted_url( $_REQUEST['return_url'] ) ),
-'redirect_url' => $this->build_url( $_REQUEST, 'authorize' ),
-) );
+			// Login endpoint
+			if ( 'login' == $route && ! is_user_logged_in() ) {
+				{FILE_NAME_PREFIX}_get_template( 'auth/form-login.php', array(
+					'app_name'     => $_REQUEST['app_name'],
+					'return_url'   => add_query_arg( array( 'success' => 0, 'user_id' => {FILE_NAME_PREFIX}_clean( $_REQUEST['user_id'] ) ), $this->get_formatted_url( $_REQUEST['return_url'] ) ),
+					'redirect_url' => $this->build_url( $_REQUEST, 'authorize' ),
+				) );
 
-exit;
+				exit;
 
-// Redirect with user is logged in
-} elseif ( 'login' == $route && is_user_logged_in() ) {
-wp_redirect( esc_url_raw( $this->build_url( $_REQUEST, 'authorize' ) ) );
-exit;
+			// Redirect with user is logged in
+			} elseif ( 'login' == $route && is_user_logged_in() ) {
+				wp_redirect( esc_url_raw( $this->build_url( $_REQUEST, 'authorize' ) ) );
+				exit;
 
-// Redirect with user is not logged in and trying to access the authorize endpoint
-} elseif ( 'authorize' == $route && ! is_user_logged_in() ) {
-wp_redirect( esc_url_raw( $this->build_url( $_REQUEST, 'login' ) ) );
-exit;
+			// Redirect with user is not logged in and trying to access the authorize endpoint
+			} elseif ( 'authorize' == $route && ! is_user_logged_in() ) {
+				wp_redirect( esc_url_raw( $this->build_url( $_REQUEST, 'login' ) ) );
+				exit;
 
-// Authorize endpoint
-} elseif ( 'authorize' == $route && current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) ) {
-{FILE_NAME_PREFIX}_get_template( 'auth/form-grant-access.php', array(
-'app_name'    => $_REQUEST['app_name'],
-'return_url'  => add_query_arg( array( 'success' => 0, 'user_id' => {FILE_NAME_PREFIX}_clean( $_REQUEST['user_id'] ) ), $this->get_formatted_url( $_REQUEST['return_url'] ) ),
-'scope'       => $this->get_i18n_scope( {FILE_NAME_PREFIX}_clean( $_REQUEST['scope'] ) ),
-'permissions' => $this->get_permissions_in_scope( {FILE_NAME_PREFIX}_clean( $_REQUEST['scope'] ) ),
-'granted_url' => wp_nonce_url( $this->build_url( $_REQUEST, 'access_granted' ), '{FILE_NAME_PREFIX}_auth_grant_access', '{FILE_NAME_PREFIX}_auth_nonce' ),
-'logout_url'  => wp_logout_url( $this->build_url( $_REQUEST, 'login' ) ),
-'user'        => wp_get_current_user(),
-) );
-exit;
+			// Authorize endpoint
+			} elseif ( 'authorize' == $route && current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) ) {
+				{FILE_NAME_PREFIX}_get_template( 'auth/form-grant-access.php', array(
+					'app_name'    => $_REQUEST['app_name'],
+					'return_url'  => add_query_arg( array( 'success' => 0, 'user_id' => {FILE_NAME_PREFIX}_clean( $_REQUEST['user_id'] ) ), $this->get_formatted_url( $_REQUEST['return_url'] ) ),
+					'scope'       => $this->get_i18n_scope( {FILE_NAME_PREFIX}_clean( $_REQUEST['scope'] ) ),
+					'permissions' => $this->get_permissions_in_scope( {FILE_NAME_PREFIX}_clean( $_REQUEST['scope'] ) ),
+					'granted_url' => wp_nonce_url( $this->build_url( $_REQUEST, 'access_granted' ), '{FILE_NAME_PREFIX}_auth_grant_access', '{FILE_NAME_PREFIX}_auth_nonce' ),
+					'logout_url'  => wp_logout_url( $this->build_url( $_REQUEST, 'login' ) ),
+					'user'        => wp_get_current_user(),
+				) );
+				exit;
 
-// Granted access endpoint
-} elseif ( 'access_granted' == $route && current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) ) {
-if ( ! isset( $_GET['{FILE_NAME_PREFIX}_auth_nonce'] ) || ! wp_verify_nonce( $_GET['{FILE_NAME_PREFIX}_auth_nonce'], '{FILE_NAME_PREFIX}_auth_grant_access' ) ) {
-throw new Exception( __( 'Invalid nonce verification', '{TEXT_DOMAIN}' ) );
-}
+			// Granted access endpoint
+			} elseif ( 'access_granted' == $route && current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) ) {
+				if ( ! isset( $_GET['{FILE_NAME_PREFIX}_auth_nonce'] ) || ! wp_verify_nonce( $_GET['{FILE_NAME_PREFIX}_auth_nonce'], '{FILE_NAME_PREFIX}_auth_grant_access' ) ) {
+					throw new Exception( __( 'Invalid nonce verification', '{TEXT_DOMAIN}' ) );
+				}
 
-$consumer_data = $this->create_keys( $_REQUEST['app_name'], $_REQUEST['user_id'], $_REQUEST['scope'] );
-$response      = $this->post_consumer_data( $consumer_data, $this->get_formatted_url( $_REQUEST['callback_url'] ) );
+				$consumer_data = $this->create_keys( $_REQUEST['app_name'], $_REQUEST['user_id'], $_REQUEST['scope'] );
+				$response      = $this->post_consumer_data( $consumer_data, $this->get_formatted_url( $_REQUEST['callback_url'] ) );
 
-if ( $response ) {
-wp_redirect( esc_url_raw( add_query_arg( array( 'success' => 1, 'user_id' => {FILE_NAME_PREFIX}_clean( $_REQUEST['user_id'] ) ), $this->get_formatted_url( $_REQUEST['return_url'] ) ) ) );
-exit;
-}
-} else {
-throw new Exception( __( 'You do not have permissions to access this page!', '{TEXT_DOMAIN}' ) );
-}
-} catch ( Exception $e ) {
-$this->maybe_delete_key( $consumer_data );
+				if ( $response ) {
+					wp_redirect( esc_url_raw( add_query_arg( array( 'success' => 1, 'user_id' => {FILE_NAME_PREFIX}_clean( $_REQUEST['user_id'] ) ), $this->get_formatted_url( $_REQUEST['return_url'] ) ) ) );
+					exit;
+				}
+			} else {
+				throw new Exception( __( 'You do not have permissions to access this page!', '{TEXT_DOMAIN}' ) );
+			}
+		} catch ( Exception $e ) {
+			$this->maybe_delete_key( $consumer_data );
 
-/* translators: %s: error messase */
-wp_die( sprintf( __( 'Error: %s.', '{TEXT_DOMAIN}' ), $e->getMessage() ), __( 'Access denied', '{TEXT_DOMAIN}' ), array( 'response' => 401 ) );
-}
-}
+			/* translators: %s: error messase */
+			wp_die( sprintf( __( 'Error: %s.', '{TEXT_DOMAIN}' ), $e->getMessage() ), __( 'Access denied', '{TEXT_DOMAIN}' ), array( 'response' => 401 ) );
+		}
+	}
 
-/**
-* Maybe delete key.
-*
-* @since {VERSION}
-*
-* @param array $key
-*/
-private function maybe_delete_key( $key ) {
-global $wpdb;
+	/**
+	 * Maybe delete key.
+	 *
+	 * @since 2.4.0
+	 *
+	 * @param array $key
+	 */
+	private function maybe_delete_key( $key ) {
+		global $wpdb;
 
-if ( isset( $key['key_id'] ) ) {
-$wpdb->delete( $wpdb->prefix . '{PLUGIN_HOOK_CLASS_NAME}_api_keys', array( 'key_id' => $key['key_id'] ), array( '%d' ) );
-}
-}
+		if ( isset( $key['key_id'] ) ) {
+			$wpdb->delete( $wpdb->prefix . '{PLUGIN_HOOK_CLASS_NAME}_api_keys', array( 'key_id' => $key['key_id'] ), array( '%d' ) );
+		}
+	}
 }
 new {PLUGIN_CLASS_PREFIX}_Auth();

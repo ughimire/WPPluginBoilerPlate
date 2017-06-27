@@ -5,8 +5,8 @@
  * @class       {PLUGIN_CLASS_PREFIX}_Admin_Permalink_Settings
  * @author      {AUTHOR}
  * @category    Admin
- * @package     {PLUGIN_MAIN_CLASS_NAME}/Admin
- * @version     2.3.0
+ * @package  {PLUGIN_MAIN_CLASS_NAME}/Admin
+ * @version  {VERSION}
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -32,49 +32,49 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Permalink_Settings {
 	 */
 	public function __construct() {
 		$this->settings_init();
-$this->settings_save();
-}
+		$this->settings_save();
+	}
 
-/**
-* Init our settings.
-*/
-public function settings_init() {
-// Add a section to the permalinks page
-add_settings_section( '{TEXT_DOMAIN}-permalink', __( 'Product permalinks', '{TEXT_DOMAIN}' ), array( $this, 'settings' ), 'permalink' );
+	/**
+	 * Init our settings.
+	 */
+	public function settings_init() {
+		// Add a section to the permalinks page
+		add_settings_section( '{TEXT_DOMAIN}-permalink', __( 'Product permalinks', '{TEXT_DOMAIN}' ), array( $this, 'settings' ), 'permalink' );
 
-// Add our settings
-add_settings_field(
-'{PLUGIN_HOOK_CLASS_NAME}_product_category_slug',            // id
-__( 'Product category base', '{TEXT_DOMAIN}' ),   // setting title
-array( $this, 'product_category_slug_input' ),  // display callback
-'permalink',                                    // settings page
-'optional'                                      // settings section
-);
-add_settings_field(
-'{PLUGIN_HOOK_CLASS_NAME}_product_tag_slug',                 // id
-__( 'Product tag base', '{TEXT_DOMAIN}' ),        // setting title
-array( $this, 'product_tag_slug_input' ),       // display callback
-'permalink',                                    // settings page
-'optional'                                      // settings section
-);
-add_settings_field(
-'{PLUGIN_HOOK_CLASS_NAME}_product_attribute_slug',           // id
-__( 'Product attribute base', '{TEXT_DOMAIN}' ),  // setting title
-array( $this, 'product_attribute_slug_input' ), // display callback
-'permalink',                                    // settings page
-'optional'                                      // settings section
-);
+		// Add our settings
+		add_settings_field(
+			'{PLUGIN_HOOK_CLASS_NAME}_product_category_slug',            // id
+			__( 'Product category base', '{TEXT_DOMAIN}' ),   // setting title
+			array( $this, 'product_category_slug_input' ),  // display callback
+			'permalink',                                    // settings page
+			'optional'                                      // settings section
+		);
+		add_settings_field(
+			'{PLUGIN_HOOK_CLASS_NAME}_product_tag_slug',                 // id
+			__( 'Product tag base', '{TEXT_DOMAIN}' ),        // setting title
+			array( $this, 'product_tag_slug_input' ),       // display callback
+			'permalink',                                    // settings page
+			'optional'                                      // settings section
+		);
+		add_settings_field(
+			'{PLUGIN_HOOK_CLASS_NAME}_product_attribute_slug',           // id
+			__( 'Product attribute base', '{TEXT_DOMAIN}' ),  // setting title
+			array( $this, 'product_attribute_slug_input' ), // display callback
+			'permalink',                                    // settings page
+			'optional'                                      // settings section
+		);
 
-$this->permalinks = {FILE_NAME_PREFIX}_get_permalink_structure();
-}
+		$this->permalinks = {FILE_NAME_PREFIX}_get_permalink_structure();
+	}
 
-/**
-* Show a slug input box.
-*/
-public function product_category_slug_input() {
-?>
-<input name="{PLUGIN_HOOK_CLASS_NAME}_product_category_slug" type="text" class="regular-text code" value="<?php echo esc_attr( $this->permalinks['category_base'] ); ?>" placeholder="<?php echo esc_attr_x( 'product-category', 'slug', '{TEXT_DOMAIN}' ) ?>" />
-<?php
+	/**
+	 * Show a slug input box.
+	 */
+	public function product_category_slug_input() {
+		?>
+		<input name="{PLUGIN_HOOK_CLASS_NAME}_product_category_slug" type="text" class="regular-text code" value="<?php echo esc_attr( $this->permalinks['category_base'] ); ?>" placeholder="<?php echo esc_attr_x( 'product-category', 'slug', '{TEXT_DOMAIN}' ) ?>" />
+		<?php
 	}
 
 	/**
@@ -82,8 +82,8 @@ public function product_category_slug_input() {
 	 */
 	public function product_tag_slug_input() {
 		?>
-<input name="{PLUGIN_HOOK_CLASS_NAME}_product_tag_slug" type="text" class="regular-text code" value="<?php echo esc_attr( $this->permalinks['tag_base'] ); ?>" placeholder="<?php echo esc_attr_x( 'product-tag', 'slug', '{TEXT_DOMAIN}' ) ?>" />
-<?php
+		<input name="{PLUGIN_HOOK_CLASS_NAME}_product_tag_slug" type="text" class="regular-text code" value="<?php echo esc_attr( $this->permalinks['tag_base'] ); ?>" placeholder="<?php echo esc_attr_x( 'product-tag', 'slug', '{TEXT_DOMAIN}' ) ?>" />
+		<?php
 	}
 
 	/**
@@ -91,8 +91,8 @@ public function product_category_slug_input() {
 	 */
 	public function product_attribute_slug_input() {
 		?>
-<input name="{PLUGIN_HOOK_CLASS_NAME}_product_attribute_slug" type="text" class="regular-text code" value="<?php echo esc_attr( $this->permalinks['attribute_base'] ); ?>" /><code>/attribute-name/attribute/</code>
-<?php
+		<input name="{PLUGIN_HOOK_CLASS_NAME}_product_attribute_slug" type="text" class="regular-text code" value="<?php echo esc_attr( $this->permalinks['attribute_base'] ); ?>" /><code>/attribute-name/attribute/</code>
+		<?php
 	}
 
 	/**
@@ -104,62 +104,62 @@ public function product_category_slug_input() {
 		// Get shop page
 		$shop_page_id   = {FILE_NAME_PREFIX}_get_page_id( 'shop' );
 		$base_slug      = urldecode( ( $shop_page_id > 0 && get_post( $shop_page_id ) ) ? get_page_uri( $shop_page_id ) : _x( 'shop', 'default-slug', '{TEXT_DOMAIN}' ) );
-$product_base   = _x( 'product', 'default-slug', '{TEXT_DOMAIN}' );
+		$product_base   = _x( 'product', 'default-slug', '{TEXT_DOMAIN}' );
 
-$structures = array(
-0 => '',
-1 => '/' . trailingslashit( $base_slug ),
-2 => '/' . trailingslashit( $base_slug ) . trailingslashit( '%product_cat%' ),
-);
-?>
-<table class="form-table {FILE_NAME_PREFIX}-permalink-structure">
-    <tbody>
-    <tr>
-        <th><label><input name="product_permalink" type="radio" value="<?php echo esc_attr( $structures[0] ); ?>" class="{FILE_NAME_PREFIX}tog" <?php checked( $structures[0], $this->permalinks['product_base'] ); ?> /> <?php _e( 'Default', '{TEXT_DOMAIN}' ); ?></label></th>
-        <td><code class="default-example"><?php echo esc_html( home_url() ); ?>/?product=sample-product</code> <code class="non-default-example"><?php echo esc_html( home_url() ); ?>/<?php echo esc_html( $product_base ); ?>/sample-product/</code></td>
-    </tr>
-    <?php if ( $shop_page_id ) : ?>
-    <tr>
-        <th><label><input name="product_permalink" type="radio" value="<?php echo esc_attr( $structures[1] ); ?>" class="{FILE_NAME_PREFIX}tog" <?php checked( $structures[1], $this->permalinks['product_base'] ); ?> /> <?php _e( 'Shop base', '{TEXT_DOMAIN}' ); ?></label></th>
-        <td><code><?php echo esc_html( home_url() ); ?>/<?php echo esc_html( $base_slug ); ?>/sample-product/</code></td>
-    </tr>
-    <tr>
-        <th><label><input name="product_permalink" type="radio" value="<?php echo esc_attr( $structures[2] ); ?>" class="{FILE_NAME_PREFIX}tog" <?php checked( $structures[2], $this->permalinks['product_base'] ); ?> /> <?php _e( 'Shop base with category', '{TEXT_DOMAIN}' ); ?></label></th>
-        <td><code><?php echo esc_html( home_url() ); ?>/<?php echo esc_html( $base_slug ); ?>/product-category/sample-product/</code></td>
-    </tr>
-    <?php endif; ?>
-    <tr>
-        <th><label><input name="product_permalink" id="{PLUGIN_HOOK_CLASS_NAME}_custom_selection" type="radio" value="custom" class="tog" <?php checked( in_array( $this->permalinks['product_base'], $structures ), false ); ?> />
-            <?php _e( 'Custom base', '{TEXT_DOMAIN}' ); ?></label></th>
-        <td>
-            <input name="product_permalink_structure" id="{PLUGIN_HOOK_CLASS_NAME}_permalink_structure" type="text" value="<?php echo esc_attr( $this->permalinks['product_base'] ? trailingslashit( $this->permalinks['product_base'] ) : '' ); ?>" class="regular-text code"> <span class="description"><?php _e( 'Enter a custom base to use. A base <strong>must</strong> be set or WordPress will use default instead.', '{TEXT_DOMAIN}' ); ?></span>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<script type="text/javascript">
-	jQuery( function() {
-		jQuery('input.{FILE_NAME_PREFIX}tog').change(function() {
-			jQuery('#{PLUGIN_HOOK_CLASS_NAME}_permalink_structure').val( jQuery( this ).val() );
-		});
-		jQuery('.permalink-structure input').change(function() {
-			jQuery('.{FILE_NAME_PREFIX}-permalink-structure').find('code.non-default-example, code.default-example').hide();
-			if ( jQuery(this).val() ) {
-				jQuery('.{FILE_NAME_PREFIX}-permalink-structure code.non-default-example').show();
-				jQuery('.{FILE_NAME_PREFIX}-permalink-structure input').removeAttr('disabled');
-			} else {
-				jQuery('.{FILE_NAME_PREFIX}-permalink-structure code.default-example').show();
-				jQuery('.{FILE_NAME_PREFIX}-permalink-structure input:eq(0)').click();
-				jQuery('.{FILE_NAME_PREFIX}-permalink-structure input').attr('disabled', 'disabled');
-			}
-		});
-		jQuery('.permalink-structure input:checked').change();
-		jQuery('#{PLUGIN_HOOK_CLASS_NAME}_permalink_structure').focus( function(){
-			jQuery('#{PLUGIN_HOOK_CLASS_NAME}_custom_selection').click();
-		} );
-	} );
-</script>
-<?php
+		$structures = array(
+			0 => '',
+			1 => '/' . trailingslashit( $base_slug ),
+			2 => '/' . trailingslashit( $base_slug ) . trailingslashit( '%product_cat%' ),
+		);
+		?>
+		<table class="form-table wc-permalink-structure">
+			<tbody>
+				<tr>
+					<th><label><input name="product_permalink" type="radio" value="<?php echo esc_attr( $structures[0] ); ?>" class="wctog" <?php checked( $structures[0], $this->permalinks['product_base'] ); ?> /> <?php _e( 'Default', '{TEXT_DOMAIN}' ); ?></label></th>
+					<td><code class="default-example"><?php echo esc_html( home_url() ); ?>/?product=sample-product</code> <code class="non-default-example"><?php echo esc_html( home_url() ); ?>/<?php echo esc_html( $product_base ); ?>/sample-product/</code></td>
+				</tr>
+				<?php if ( $shop_page_id ) : ?>
+					<tr>
+						<th><label><input name="product_permalink" type="radio" value="<?php echo esc_attr( $structures[1] ); ?>" class="wctog" <?php checked( $structures[1], $this->permalinks['product_base'] ); ?> /> <?php _e( 'Shop base', '{TEXT_DOMAIN}' ); ?></label></th>
+						<td><code><?php echo esc_html( home_url() ); ?>/<?php echo esc_html( $base_slug ); ?>/sample-product/</code></td>
+					</tr>
+					<tr>
+						<th><label><input name="product_permalink" type="radio" value="<?php echo esc_attr( $structures[2] ); ?>" class="wctog" <?php checked( $structures[2], $this->permalinks['product_base'] ); ?> /> <?php _e( 'Shop base with category', '{TEXT_DOMAIN}' ); ?></label></th>
+						<td><code><?php echo esc_html( home_url() ); ?>/<?php echo esc_html( $base_slug ); ?>/product-category/sample-product/</code></td>
+					</tr>
+				<?php endif; ?>
+				<tr>
+					<th><label><input name="product_permalink" id="{PLUGIN_HOOK_CLASS_NAME}_custom_selection" type="radio" value="custom" class="tog" <?php checked( in_array( $this->permalinks['product_base'], $structures ), false ); ?> />
+						<?php _e( 'Custom base', '{TEXT_DOMAIN}' ); ?></label></th>
+					<td>
+						<input name="product_permalink_structure" id="{PLUGIN_HOOK_CLASS_NAME}_permalink_structure" type="text" value="<?php echo esc_attr( $this->permalinks['product_base'] ? trailingslashit( $this->permalinks['product_base'] ) : '' ); ?>" class="regular-text code"> <span class="description"><?php _e( 'Enter a custom base to use. A base <strong>must</strong> be set or WordPress will use default instead.', '{TEXT_DOMAIN}' ); ?></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<script type="text/javascript">
+			jQuery( function() {
+				jQuery('input.wctog').change(function() {
+					jQuery('#{PLUGIN_HOOK_CLASS_NAME}_permalink_structure').val( jQuery( this ).val() );
+				});
+				jQuery('.permalink-structure input').change(function() {
+					jQuery('.wc-permalink-structure').find('code.non-default-example, code.default-example').hide();
+					if ( jQuery(this).val() ) {
+						jQuery('.wc-permalink-structure code.non-default-example').show();
+						jQuery('.wc-permalink-structure input').removeAttr('disabled');
+					} else {
+						jQuery('.wc-permalink-structure code.default-example').show();
+						jQuery('.wc-permalink-structure input:eq(0)').click();
+						jQuery('.wc-permalink-structure input').attr('disabled', 'disabled');
+					}
+				});
+				jQuery('.permalink-structure input:checked').change();
+				jQuery('#{PLUGIN_HOOK_CLASS_NAME}_permalink_structure').focus( function(){
+					jQuery('#{PLUGIN_HOOK_CLASS_NAME}_custom_selection').click();
+				} );
+			} );
+		</script>
+		<?php
 	}
 
 	/**
@@ -203,14 +203,14 @@ $structures = array(
 			$shop_page_id   = {FILE_NAME_PREFIX}_get_page_id( 'shop' );
 			$shop_permalink = ( $shop_page_id > 0 && get_post( $shop_page_id ) ) ? get_page_uri( $shop_page_id ) : _x( 'shop', 'default-slug', '{TEXT_DOMAIN}' );
 
-if ( $shop_page_id && trim( $permalinks['product_base'], '/' ) === $shop_permalink ) {
-$permalinks['use_verbose_page_rules'] = true;
-}
+			if ( $shop_page_id && trim( $permalinks['product_base'], '/' ) === $shop_permalink ) {
+				$permalinks['use_verbose_page_rules'] = true;
+			}
 
-update_option( '{PLUGIN_HOOK_CLASS_NAME}_permalinks', $permalinks );
-{FILE_NAME_PREFIX}_restore_locale();
-}
-}
+			update_option( '{PLUGIN_HOOK_CLASS_NAME}_permalinks', $permalinks );
+			{FILE_NAME_PREFIX}_restore_locale();
+		}
+	}
 }
 
 endif;
