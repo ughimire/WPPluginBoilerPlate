@@ -1,6 +1,6 @@
 <?php
 /**
- * WooCommerce Meta Box Functions
+ * {PLUGIN_NAME} Meta Box Functions
  *
  * @author      {AUTHOR}
  * @category    Core
@@ -31,18 +31,6 @@ function {PLUGIN_HOOK_CLASS_NAME}_wp_text_input( $field ) {
 	$data_type              = empty( $field['data_type'] ) ? '' : $field['data_type'];
 
 	switch ( $data_type ) {
-		case 'price' :
-			$field['class'] .= ' {FILE_NAME_PREFIX}_input_price';
-			$field['value']  = {FILE_NAME_PREFIX}_format_localized_price( $field['value'] );
-			break;
-		case 'decimal' :
-			$field['class'] .= ' {FILE_NAME_PREFIX}_input_decimal';
-			$field['value']  = {FILE_NAME_PREFIX}_format_localized_decimal( $field['value'] );
-			break;
-		case 'stock' :
-			$field['class'] .= ' {FILE_NAME_PREFIX}_input_stock';
-			$field['value']  = {FILE_NAME_PREFIX}_stock_amount( $field['value'] );
-			break;
 		case 'url' :
 			$field['class'] .= ' {FILE_NAME_PREFIX}_input_url';
 			$field['value']  = esc_url( $field['value'] );
@@ -251,7 +239,7 @@ function {PLUGIN_HOOK_CLASS_NAME}_wp_radio( $field ) {
 		echo {FILE_NAME_PREFIX}_help_tip( $field['description'] );
 	}
 
-	echo '<ul class="wc-radios">';
+	echo '<ul class="{FILE_NAME_PREFIX}-radios">';
 
 	foreach ( $field['options'] as $key => $value ) {
 

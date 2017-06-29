@@ -1,6 +1,6 @@
 <?php
 /**
- * WooCommerce Conditional Functions
+ * {PLUGIN_NAME} Conditional Functions
  *
  * Functions for determining the current query/page.
  *
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * is_{PLUGIN_HOOK_CLASS_NAME} - Returns true if on a page which uses WooCommerce templates (cart and checkout are standard pages with shortcodes and thus are not included).
+ * is_{PLUGIN_HOOK_CLASS_NAME} - Returns true if on a page which uses {PLUGIN_NAME} templates (cart and checkout are standard pages with shortcodes and thus are not included).
  * @return bool
  */
 function is_{PLUGIN_HOOK_CLASS_NAME}() {
@@ -176,7 +176,7 @@ if ( ! function_exists( 'is_edit_account_page' ) ) {
 	 * Check for edit account page.
 	 * Returns true when viewing the edit account page.
 	 *
-	 * @since 2.5.1
+	 * @since {VERSION}
 	 * @return bool
 	 */
 	function is_edit_account_page() {
@@ -384,7 +384,7 @@ function {FILE_NAME_PREFIX}_is_valid_url( $url ) {
 /**
  * Check if the home URL is https. If it is, we don't need to do things such as 'force ssl'.
  *
- * @since  2.4.13
+ * @since {VERSION}
  * @return bool
  */
 function {FILE_NAME_PREFIX}_site_is_https() {
@@ -394,7 +394,7 @@ function {FILE_NAME_PREFIX}_site_is_https() {
 /**
  * Check if the checkout is configured for https. Look at options, WP HTTPS plugin, or the permalink itself.
  *
- * @since  2.5.0
+ * @since {VERSION}
  * @return bool
  */
 function {FILE_NAME_PREFIX}_checkout_is_https() {

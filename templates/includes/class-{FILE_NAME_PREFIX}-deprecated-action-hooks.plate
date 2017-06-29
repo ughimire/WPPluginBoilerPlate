@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Handles deprecation notices and triggering of legacy action hooks.
  *
- * @since 3.0.0
+ * @since {VERSION}
  */
 class {PLUGIN_CLASS_PREFIX}_Deprecated_Action_Hooks extends {PLUGIN_CLASS_PREFIX}_Deprecated_Hooks {
 

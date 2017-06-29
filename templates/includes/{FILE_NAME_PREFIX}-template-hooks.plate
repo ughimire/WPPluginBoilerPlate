@@ -1,8 +1,8 @@
 <?php
 /**
- * WooCommerce Template Hooks
+ * {PLUGIN_NAME} Template Hooks
  *
- * Action/filter hooks used for WooCommerce functions/templates.
+ * Action/filter hooks used for {PLUGIN_NAME} functions/templates.
  *
  * @author 		{AUTHOR}
  * @category 	Core

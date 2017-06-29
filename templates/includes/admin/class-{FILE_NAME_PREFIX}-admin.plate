@@ -1,6 +1,6 @@
 <?php
 /**
- * WooCommerce Admin
+ * {PLUGIN_NAME} Admin
  *
  * @class    {PLUGIN_CLASS_PREFIX}_Admin
  * @author   {AUTHOR}
@@ -43,8 +43,8 @@ class {PLUGIN_CLASS_PREFIX}_Admin {
 	 * Include any classes we need within admin.
 	 */
 	public function includes() {
-		include_once( dirname( __FILE__ ) . '/wc-admin-functions.php' );
-		include_once( dirname( __FILE__ ) . '/wc-meta-box-functions.php' );
+		include_once( dirname( __FILE__ ) . '/{FILE_NAME_PREFIX}-admin-functions.php' );
+		include_once( dirname( __FILE__ ) . '/{FILE_NAME_PREFIX}-meta-box-functions.php' );
 		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-post-types.php' );
 		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-taxonomies.php' );
 		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-menus.php' );
@@ -52,28 +52,11 @@ class {PLUGIN_CLASS_PREFIX}_Admin {
 		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-notices.php' );
 		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-assets.php' );
 		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-api-keys.php' );
-		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-webhooks.php' );
-		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-pointers.php' );
-		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-importers.php' );
-		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-exporters.php' );
+
 
 		// Help Tabs
 		if ( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_enable_admin_help_tab', true ) ) {
 			include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-help.php' );
-		}
-
-		// Setup/welcome
-		if ( ! empty( $_GET['page'] ) ) {
-			switch ( $_GET['page'] ) {
-				case 'wc-setup' :
-					include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-setup-wizard.php' );
-				break;
-			}
-		}
-
-		// Importers
-		if ( defined( 'WP_LOAD_IMPORTERS' ) ) {
-			include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-importers.php' );
 		}
 
 		// Helper
@@ -81,7 +64,6 @@ class {PLUGIN_CLASS_PREFIX}_Admin {
 		include_once( dirname( __FILE__ ) . '/helper/class-{FILE_NAME_PREFIX}-helper-api.php' );
 		include_once( dirname( __FILE__ ) . '/helper/class-{FILE_NAME_PREFIX}-helper-updater.php' );
 		include_once( dirname( __FILE__ ) . '/helper/class-{FILE_NAME_PREFIX}-helper-plugin-info.php' );
-		include_once( dirname( __FILE__ ) . '/helper/class-{FILE_NAME_PREFIX}-helper-compat.php' );
 		include_once( dirname( __FILE__ ) . '/helper/class-{FILE_NAME_PREFIX}-helper.php' );
 	}
 
@@ -116,8 +98,8 @@ class {PLUGIN_CLASS_PREFIX}_Admin {
 	 */
 	public function admin_redirects() {
 		// Nonced plugin install redirects (whitelisted)
-		if ( ! empty( $_GET['wc-install-plugin-redirect'] ) ) {
-			$plugin_slug = {FILE_NAME_PREFIX}_clean( $_GET['wc-install-plugin-redirect'] );
+		if ( ! empty( $_GET['{FILE_NAME_PREFIX}-install-plugin-redirect'] ) ) {
+			$plugin_slug = {FILE_NAME_PREFIX}_clean( $_GET['{FILE_NAME_PREFIX}-install-plugin-redirect'] );
 
 			if ( current_user_can( 'install_plugins' ) && in_array( $plugin_slug, array( '{TEXT_DOMAIN}-gateway-stripe' ) ) ) {
 				$nonce = wp_create_nonce( 'install-plugin_' . $plugin_slug );
@@ -134,13 +116,13 @@ class {PLUGIN_CLASS_PREFIX}_Admin {
 		if ( get_transient( '_{FILE_NAME_PREFIX}_activation_redirect' ) ) {
 			delete_transient( '_{FILE_NAME_PREFIX}_activation_redirect' );
 
-			if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'wc-setup' ) ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || ! current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) || apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_prevent_automatic_wizard_redirect', false ) ) {
+			if ( ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( '{FILE_NAME_PREFIX}-setup' ) ) ) || is_network_admin() || isset( $_GET['activate-multi'] ) || ! current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) || apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_prevent_automatic_wizard_redirect', false ) ) {
 				return;
 			}
 
 			// If the user needs to install, send them to the setup wizard
 			if ( {PLUGIN_CLASS_PREFIX}_Admin_Notices::has_notice( 'install' ) ) {
-				wp_safe_redirect( admin_url( 'index.php?page=wc-setup' ) );
+				wp_safe_redirect( admin_url( 'index.php?page={FILE_NAME_PREFIX}-setup' ) );
 				exit;
 			}
 		}
@@ -210,9 +192,9 @@ class {PLUGIN_CLASS_PREFIX}_Admin {
 	}
 
 	/**
-	 * Change the admin footer text on WooCommerce admin pages.
+	 * Change the admin footer text on {PLUGIN_NAME} admin pages.
 	 *
-	 * @since  2.3
+	 * @since {VERSION}
 	 * @param  string $footer_text
 	 * @return string
 	 */
@@ -226,20 +208,20 @@ class {PLUGIN_CLASS_PREFIX}_Admin {
 		// Set only {PLUGIN_CLASS_PREFIX} pages.
 		${FILE_NAME_PREFIX}_pages = array_diff( ${FILE_NAME_PREFIX}_pages, array( 'profile', 'user-edit' ) );
 
-		// Check to make sure we're on a WooCommerce admin page.
+		// Check to make sure we're on a {PLUGIN_NAME} admin page.
 		if ( isset( $current_screen->id ) && apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_display_admin_footer_text', in_array( $current_screen->id, ${FILE_NAME_PREFIX}_pages ) ) ) {
 			// Change the footer text
 			if ( ! get_option( '{PLUGIN_HOOK_CLASS_NAME}_admin_footer_text_rated' ) ) {
 				/* translators: %s: five stars */
-				$footer_text = sprintf( __( 'If you like <strong>WooCommerce</strong> please leave us a %s rating. A huge thanks in advance!', '{TEXT_DOMAIN}' ), '<a href="https://wordpress.org/support/plugin/{TEXT-DOMAIN}/reviews?rate=5#new-post" target="_blank" class="wc-rating-link" data-rated="' . esc_attr__( 'Thanks :)', '{TEXT_DOMAIN}' ) . '">&#9733;&#9733;&#9733;&#9733;&#9733;</a>' );
+				$footer_text = sprintf( __( 'If you like <strong>{PLUGIN_NAME}</strong> please leave us a %s rating. A huge thanks in advance!', '{TEXT_DOMAIN}' ), '<a href="https://wordpress.org/support/plugin/{TEXT-DOMAIN}/reviews?rate=5#new-post" target="_blank" class="{FILE_NAME_PREFIX}-rating-link" data-rated="' . esc_attr__( 'Thanks :)', '{TEXT_DOMAIN}' ) . '">&#9733;&#9733;&#9733;&#9733;&#9733;</a>' );
 				{FILE_NAME_PREFIX}_enqueue_js( "
-					jQuery( 'a.wc-rating-link' ).click( function() {
+					jQuery( 'a.{FILE_NAME_PREFIX}-rating-link' ).click( function() {
 						jQuery.post( '" . {PLUGIN_CLASS_PREFIX}()->ajax_url() . "', { action: '{PLUGIN_HOOK_CLASS_NAME}_rated' } );
 						jQuery( this ).parent().text( jQuery( this ).data( 'rated' ) );
 					});
 				" );
 			} else {
-				$footer_text = __( 'Thank you for selling with WooCommerce.', '{TEXT_DOMAIN}' );
+				$footer_text = __( 'Thank you for selling with {PLUGIN_NAME}.', '{TEXT_DOMAIN}' );
 			}
 		}
 

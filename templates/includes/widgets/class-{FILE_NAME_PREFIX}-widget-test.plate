@@ -24,7 +24,7 @@ class {PLUGIN_CLASS_PREFIX}_Widget_Cart extends {PLUGIN_CLASS_PREFIX}_Widget {
 		$this->widget_cssclass    = '{TEXT-DOMAIN} widget_shopping_cart';
 		$this->widget_description = __( "Display the user's cart in the sidebar.", '{TEXT_DOMAIN}' );
 		$this->widget_id          = '{PLUGIN_HOOK_CLASS_NAME}_widget_cart';
-		$this->widget_name        = __( 'WooCommerce cart', '{TEXT_DOMAIN}' );
+		$this->widget_name        = __( '{PLUGIN_NAME} cart', '{TEXT_DOMAIN}' );
 		$this->settings           = array(
 			'title'  => array(
 				'type'  => 'text',

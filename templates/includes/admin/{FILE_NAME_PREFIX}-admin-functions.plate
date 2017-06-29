@@ -1,6 +1,6 @@
 <?php
 /**
- * WooCommerce Admin Functions
+ * {PLUGIN_NAME} Admin Functions
  *
  * @author   {AUTHOR}
  * @category Core
@@ -13,38 +13,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Get all WooCommerce screen ids.
+ * Get all {PLUGIN_NAME} screen ids.
  *
  * @return array
  */
 function {FILE_NAME_PREFIX}_get_screen_ids() {
 
-	${FILE_NAME_PREFIX}_screen_id = sanitize_title( __( 'WooCommerce', '{TEXT_DOMAIN}' ) );
+	${FILE_NAME_PREFIX}_screen_id = sanitize_title( __( '{PLUGIN_NAME}', '{TEXT_DOMAIN}' ) );
 	$screen_ids   = array(
 		'toplevel_page_' . ${FILE_NAME_PREFIX}_screen_id,
-		${FILE_NAME_PREFIX}_screen_id . '_page_{FILE_NAME_PREFIX}-reports',
-		${FILE_NAME_PREFIX}_screen_id . '_page_{FILE_NAME_PREFIX}-shipping',
 		${FILE_NAME_PREFIX}_screen_id . '_page_{FILE_NAME_PREFIX}-settings',
 		${FILE_NAME_PREFIX}_screen_id . '_page_{FILE_NAME_PREFIX}-status',
 		${FILE_NAME_PREFIX}_screen_id . '_page_{FILE_NAME_PREFIX}-addons',
-		'toplevel_page_{FILE_NAME_PREFIX}-reports',
-		'product_page_product_attributes',
-		'product_page_product_exporter',
-		'product_page_product_importer',
-		'edit-product',
-		'product',
-		'edit-shop_coupon',
-		'shop_coupon',
-		'edit-product_cat',
-		'edit-product_tag',
 		'profile',
 		'user-edit',
 	);
-
-	foreach ( {FILE_NAME_PREFIX}_get_order_types() as $type ) {
-		$screen_ids[] = $type;
-		$screen_ids[] = 'edit-' . $type;
-	}
 
 	if ( $attributes = {FILE_NAME_PREFIX}_get_attribute_taxonomies() ) {
 		foreach ( $attributes as $attribute ) {
@@ -178,133 +161,3 @@ function {PLUGIN_HOOK_CLASS_NAME}_settings_get_option( $option_name, $default = 
 	return {PLUGIN_CLASS_PREFIX}_Admin_Settings::get_option( $option_name, $default );
 }
 
-/**
- * Save order items. Uses the CRUD.
- *
- * @since 2.2
- * @param int $order_id Order ID
- * @param array $items Order items to save
- */
-function {FILE_NAME_PREFIX}_save_order_items( $order_id, $items ) {
-	// Allow other plugins to check change in order items before they are saved
-	do_action( '{PLUGIN_HOOK_CLASS_NAME}_before_save_order_items', $order_id, $items );
-
-	$order = {FILE_NAME_PREFIX}_get_order( $order_id );
-
-	// Line items and fees
-	if ( isset( $items['order_item_id'] ) ) {
-		$data_keys = array(
-			'line_tax'             => array(),
-			'line_subtotal_tax'    => array(),
-			'order_item_name'      => null,
-			'order_item_qty'       => null,
-			'order_item_tax_class' => null,
-			'line_total'           => null,
-			'line_subtotal'        => null,
-		);
-		foreach ( $items['order_item_id'] as $item_id ) {
-			if ( ! $item = $order->get_item( absint( $item_id ) ) ) {
-				continue;
-			}
-
-			$item_data = array();
-
-			foreach ( $data_keys as $key => $default ) {
-				$item_data[ $key ] = isset( $items[ $key ][ $item_id ] ) ? {FILE_NAME_PREFIX}_clean( wp_unslash( $items[ $key ][ $item_id ] ) ) : $default;
-			}
-
-			if ( '0' === $item_data['order_item_qty'] ) {
-				$item->delete();
-				continue;
-			}
-
-			$item->set_props( array(
-				'name'         => $item_data['order_item_name'],
-				'quantity'     => $item_data['order_item_qty'],
-				'tax_class'    => $item_data['order_item_tax_class'],
-				'total'        => $item_data['line_total'],
-				'subtotal'     => $item_data['line_subtotal'],
-				'taxes'        => array(
-					'total'    => $item_data['line_tax'],
-					'subtotal' => $item_data['line_subtotal_tax'],
-				),
-			) );
-
-			if ( isset( $items['meta_key'][ $item_id ], $items['meta_value'][ $item_id ] ) ) {
-				foreach ( $items['meta_key'][ $item_id ] as $meta_id => $meta_key ) {
-					$meta_value = isset( $items['meta_value'][ $item_id ][ $meta_id ] ) ? wp_unslash( $items['meta_value'][ $item_id ][ $meta_id ] ) : '';
-
-					if ( '' === $meta_key && '' === $meta_value ) {
-						if ( ! strstr( $meta_id, 'new-' ) ) {
-							$item->delete_meta_data_by_mid( $meta_id );
-						}
-					} elseif ( strstr( $meta_id, 'new-' ) ) {
-						$item->add_meta_data( $meta_key, $meta_value, false );
-					} else {
-						$item->update_meta_data( $meta_key, $meta_value, $meta_id );
-					}
-				}
-			}
-
-			$item->save();
-		}
-	}
-
-	// Shipping Rows
-	if ( isset( $items['shipping_method_id'] ) ) {
-		$data_keys = array(
-			'shipping_method'       => null,
-			'shipping_method_title' => null,
-			'shipping_cost'         => 0,
-			'shipping_taxes'        => array(),
-		);
-
-		foreach ( $items['shipping_method_id'] as $item_id ) {
-			if ( ! $item = $order->get_item( absint( $item_id ) ) ) {
-				continue;
-			}
-
-			$item_data = array();
-
-			foreach ( $data_keys as $key => $default ) {
-				$item_data[ $key ] = isset( $items[ $key ][ $item_id ] ) ? {FILE_NAME_PREFIX}_clean( wp_unslash( $items[ $key ][ $item_id ] ) ) : $default;
-			}
-
-			$item->set_props( array(
-				'method_id'    => $item_data['shipping_method'],
-				'method_title' => $item_data['shipping_method_title'],
-				'total'        => $item_data['shipping_cost'],
-				'taxes'        => array(
-					'total'    => $item_data['shipping_taxes'],
-				),
-			) );
-
-			if ( isset( $items['meta_key'][ $item_id ], $items['meta_value'][ $item_id ] ) ) {
-				foreach ( $items['meta_key'][ $item_id ] as $meta_id => $meta_key ) {
-					$meta_value = isset( $items['meta_value'][ $item_id ][ $meta_id ] ) ? wp_unslash( $items['meta_value'][ $item_id ][ $meta_id ] ) : '';
-
-					if ( '' === $meta_key && '' === $meta_value ) {
-						if ( ! strstr( $meta_id, 'new-' ) ) {
-							$item->delete_meta_data_by_mid( $meta_id );
-						}
-					} elseif ( strstr( $meta_id, 'new-' ) ) {
-						$item->add_meta_data( $meta_key, $meta_value, false );
-					} else {
-						$item->update_meta_data( $meta_key, $meta_value, $meta_id );
-					}
-				}
-			}
-
-			$item->save();
-		}
-	}
-
-	// Updates tax totals
-	$order->update_taxes();
-
-	// Calc totals - this also triggers save
-	$order->calculate_totals( false );
-
-	// Inform other plugins that the items have been saved
-	do_action( '{PLUGIN_HOOK_CLASS_NAME}_saved_order_items', $order_id, $items );
-}

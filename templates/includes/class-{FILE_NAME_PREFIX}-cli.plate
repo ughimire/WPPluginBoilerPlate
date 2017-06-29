@@ -4,11 +4,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Enables WooCommerce, via the the command line.
+ * Enables {PLUGIN_NAME}, via the the command line.
  *
  * @version  {VERSION}
  * @package  {PLUGIN_MAIN_CLASS_NAME}
- * @author  WooCommerce
+ * @author  {PLUGIN_NAME}
  */
 class {PLUGIN_CLASS_PREFIX}_CLI {
 	/**

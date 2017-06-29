@@ -1,13 +1,13 @@
 <?php
 /**
- * WooCommerce API
+ * {PLUGIN_NAME} API
  *
  * Handles {PLUGIN_CLASS_PREFIX}-API endpoint requests.
  *
  * @author   {AUTHOR}
  * @category API
  * @package  {PLUGIN_MAIN_CLASS_NAME}/API
- * @since    2.0
+ * @since {VERSION}
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -18,7 +18,7 @@ class {PLUGIN_CLASS_PREFIX}_API extends {PLUGIN_CLASS_PREFIX}_Legacy_API {
 
 	/**
 	 * Setup class.
-	 * @since 2.0
+	 * @since {VERSION}
 	 */
 	public function __construct() {
 		parent::__construct();
@@ -29,7 +29,7 @@ class {PLUGIN_CLASS_PREFIX}_API extends {PLUGIN_CLASS_PREFIX}_Legacy_API {
 		// Register API endpoints.
 		add_action( 'init', array( $this, 'add_endpoint' ), 0 );
 
-		// Handle wc-api endpoint requests.
+		// Handle {FILE_NAME_PREFIX}-api endpoint requests.
 		add_action( 'parse_request', array( $this, 'handle_api_requests' ), 0 );
 
 		// Ensure payment gateways are initialized in time for API requests.
@@ -42,40 +42,40 @@ class {PLUGIN_CLASS_PREFIX}_API extends {PLUGIN_CLASS_PREFIX}_Legacy_API {
 	/**
 	 * Add new query vars.
 	 *
-	 * @since 2.0
+	 * @since {VERSION}
 	 * @param array $vars
 	 * @return string[]
 	 */
 	public function add_query_vars( $vars ) {
 		$vars   = parent::add_query_vars( $vars );
-		$vars[] = 'wc-api';
+		$vars[] = '{FILE_NAME_PREFIX}-api';
 		return $vars;
 	}
 
 	/**
 	 * {PLUGIN_CLASS_PREFIX} API for payment gateway IPNs, etc.
-	 * @since 2.0
+	 * @since {VERSION}
 	 */
 	public static function add_endpoint() {
 		parent::add_endpoint();
-		add_rewrite_endpoint( 'wc-api', EP_ALL );
+		add_rewrite_endpoint( '{FILE_NAME_PREFIX}-api', EP_ALL );
 	}
 
 	/**
 	 * API request - Trigger any API requests.
 	 *
-	 * @since   2.0
+	 * @since {VERSION}
 	 * @version  {VERSION}
 	 */
 	public function handle_api_requests() {
 		global $wp;
 
-		if ( ! empty( $_GET['wc-api'] ) ) {
-			$wp->query_vars['wc-api'] = $_GET['wc-api'];
+		if ( ! empty( $_GET['{FILE_NAME_PREFIX}-api'] ) ) {
+			$wp->query_vars['{FILE_NAME_PREFIX}-api'] = $_GET['{FILE_NAME_PREFIX}-api'];
 		}
 
-		// wc-api endpoint requests.
-		if ( ! empty( $wp->query_vars['wc-api'] ) ) {
+		// {FILE_NAME_PREFIX}-api endpoint requests.
+		if ( ! empty( $wp->query_vars['{FILE_NAME_PREFIX}-api'] ) ) {
 
 			// Buffer, we won't want any output here.
 			ob_start();
@@ -84,7 +84,7 @@ class {PLUGIN_CLASS_PREFIX}_API extends {PLUGIN_CLASS_PREFIX}_Legacy_API {
 			nocache_headers();
 
 			// Clean the API request.
-			$api_request = strtolower( {FILE_NAME_PREFIX}_clean( $wp->query_vars['wc-api'] ) );
+			$api_request = strtolower( {FILE_NAME_PREFIX}_clean( $wp->query_vars['{FILE_NAME_PREFIX}-api'] ) );
 
 			// Trigger generic action before request hook.
 			do_action( '{PLUGIN_HOOK_CLASS_NAME}_api_request', $api_request );
@@ -103,7 +103,7 @@ class {PLUGIN_CLASS_PREFIX}_API extends {PLUGIN_CLASS_PREFIX}_Legacy_API {
 
 	/**
 	 * Init WP REST API.
-	 * @since 2.6.0
+	 * @since {VERSION}
 	 */
 	private function rest_api_init() {
 		// REST API was included starting WordPress 4.4.
@@ -120,7 +120,7 @@ class {PLUGIN_CLASS_PREFIX}_API extends {PLUGIN_CLASS_PREFIX}_Legacy_API {
 	/**
 	 * Include REST API classes.
 	 *
-	 * @since 2.6.0
+	 * @since {VERSION}
 	 */
 	private function rest_api_includes() {
 		// Exception handler.
@@ -205,7 +205,7 @@ class {PLUGIN_CLASS_PREFIX}_API extends {PLUGIN_CLASS_PREFIX}_Legacy_API {
 
 	/**
 	 * Register REST API routes.
-	 * @since 2.6.0
+	 * @since {VERSION}
 	 */
 	public function register_rest_routes() {
 		// Register settings to the REST API.
@@ -275,7 +275,7 @@ class {PLUGIN_CLASS_PREFIX}_API extends {PLUGIN_CLASS_PREFIX}_Legacy_API {
 
 	/**
 	 * Register {PLUGIN_CLASS_PREFIX} settings from WP-API to the REST API.
-	 * @since  3.0.0
+	 * @since {VERSION}
 	 */
 	public function register_wp_admin_settings() {
 		$pages = {PLUGIN_CLASS_PREFIX}_Admin_Settings::get_settings_pages();

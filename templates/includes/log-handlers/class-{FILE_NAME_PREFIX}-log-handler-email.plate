@@ -149,8 +149,8 @@ class {PLUGIN_CLASS_PREFIX}_Log_Handler_Email extends {PLUGIN_CLASS_PREFIX}_Log_
 
 		return sprintf(
 			_n(
-				'[%1$s] %2$s: %3$s WooCommerce log message',
-				'[%1$s] %2$s: %3$s WooCommerce log messages',
+				'[%1$s] %2$s: %3$s {PLUGIN_NAME} log message',
+				'[%1$s] %2$s: %3$s {PLUGIN_NAME} log messages',
 				$log_count,
 				'{TEXT_DOMAIN}'
 			),
@@ -170,8 +170,8 @@ class {PLUGIN_CLASS_PREFIX}_Log_Handler_Email extends {PLUGIN_CLASS_PREFIX}_Log_
 		$entries = implode( PHP_EOL, $this->logs );
 		$log_count = count( $this->logs );
 		return _n(
-				'You have received the following WooCommerce log message:',
-				'You have received the following WooCommerce log messages:',
+				'You have received the following {PLUGIN_NAME} log message:',
+				'You have received the following {PLUGIN_NAME} log messages:',
 				$log_count,
 				'{TEXT_DOMAIN}'
 			)

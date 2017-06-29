@@ -44,7 +44,7 @@ class {PLUGIN_CLASS_PREFIX}_Background_Updater extends WP_Background_Process {
 
 		if ( is_wp_error( $dispatched ) ) {
 			$logger->error(
-				sprintf( 'Unable to dispatch WooCommerce updater: %s', $dispatched->get_error_message() ),
+				sprintf( 'Unable to dispatch {PLUGIN_NAME} updater: %s', $dispatched->get_error_message() ),
 				array( 'source' => '{FILE_NAME_PREFIX}_db_updates' )
 			);
 		}
@@ -106,7 +106,7 @@ class {PLUGIN_CLASS_PREFIX}_Background_Updater extends WP_Background_Process {
 
 		$logger = {FILE_NAME_PREFIX}_get_logger();
 
-		include_once( dirname( __FILE__ ) . '/wc-update-functions.php' );
+		include_once( dirname( __FILE__ ) . '/{FILE_NAME_PREFIX}-update-functions.php' );
 
 		if ( is_callable( $callback ) ) {
 			$logger->info( sprintf( 'Running %s callback', $callback ), array( 'source' => '{FILE_NAME_PREFIX}_db_updates' ) );

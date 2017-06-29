@@ -114,7 +114,7 @@ class {PLUGIN_CLASS_PREFIX}_Install {
 	}
 
 	/**
-	 * Check WooCommerce version and run the updater is required.
+	 * Check {PLUGIN_NAME} version and run the updater is required.
 	 *
 	 * This check is done on all requests and runs if the versions do not match.
 	 */
@@ -137,7 +137,7 @@ class {PLUGIN_CLASS_PREFIX}_Install {
 		}
 		if ( ! empty( $_GET['force_update_{PLUGIN_HOOK_CLASS_NAME}'] ) ) {
 			do_action( 'wp_{FILE_NAME_PREFIX}_updater_cron' );
-			wp_safe_redirect( admin_url( 'admin.php?page=wc-settings' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page={FILE_NAME_PREFIX}-settings' ) );
 			exit;
 		}
 	}
@@ -234,7 +234,7 @@ class {PLUGIN_CLASS_PREFIX}_Install {
 	/**
 	 * Get list of DB update callbacks.
 	 *
-	 * @since  3.0.0
+	 * @since {VERSION}
 	 * @return array
 	 */
 	public static function get_db_update_callbacks() {
@@ -318,7 +318,7 @@ class {PLUGIN_CLASS_PREFIX}_Install {
 	 * Create pages that the plugin relies on, storing page IDs in variables.
 	 */
 	public static function create_pages() {
-		include_once( dirname( __FILE__ ) . '/admin/wc-admin-functions.php' );
+		include_once( dirname( __FILE__ ) . '/admin/{FILE_NAME_PREFIX}-admin-functions.php' );
 
 		$pages = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_create_pages', array(
 			'shop' => array(
@@ -716,7 +716,7 @@ CREATE TABLE {$wpdb->prefix}{PLUGIN_HOOK_CLASS_NAME}_termmeta (
 	}
 
 	/**
-	 * Get capabilities for WooCommerce - these are assigned to admin/shop manager during installation or reset.
+	 * Get capabilities for {PLUGIN_NAME} - these are assigned to admin/shop manager during installation or reset.
 	 *
 	 * @return array
 	 */
@@ -899,7 +899,7 @@ CREATE TABLE {$wpdb->prefix}{PLUGIN_HOOK_CLASS_NAME}_termmeta (
 	 */
 	public static function plugin_action_links( $links ) {
 		$action_links = array(
-			'settings' => '<a href="' . admin_url( 'admin.php?page=wc-settings' ) . '" aria-label="' . esc_attr__( 'View WooCommerce settings', '{TEXT_DOMAIN}' ) . '">' . esc_html__( 'Settings', '{TEXT_DOMAIN}' ) . '</a>',
+			'settings' => '<a href="' . admin_url( 'admin.php?page={FILE_NAME_PREFIX}-settings' ) . '" aria-label="' . esc_attr__( 'View {PLUGIN_NAME} settings', '{TEXT_DOMAIN}' ) . '">' . esc_html__( 'Settings', '{TEXT_DOMAIN}' ) . '</a>',
 		);
 
 		return array_merge( $action_links, $links );
@@ -915,8 +915,8 @@ CREATE TABLE {$wpdb->prefix}{PLUGIN_HOOK_CLASS_NAME}_termmeta (
 	public static function plugin_row_meta( $links, $file ) {
 		if ( {PLUGIN_CLASS_PREFIX}_PLUGIN_BASENAME == $file ) {
 			$row_meta = array(
-				'docs'    => '<a href="' . esc_url( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_docs_url', 'https://docs.{TEXT-DOMAIN}.com/documentation/plugins/{TEXT-DOMAIN}/' ) ) . '" aria-label="' . esc_attr__( 'View WooCommerce documentation', '{TEXT_DOMAIN}' ) . '">' . esc_html__( 'Docs', '{TEXT_DOMAIN}' ) . '</a>',
-				'apidocs' => '<a href="' . esc_url( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_apidocs_url', 'https://docs.{TEXT-DOMAIN}.com/wc-apidocs/' ) ) . '" aria-label="' . esc_attr__( 'View WooCommerce API docs', '{TEXT_DOMAIN}' ) . '">' . esc_html__( 'API docs', '{TEXT_DOMAIN}' ) . '</a>',
+				'docs'    => '<a href="' . esc_url( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_docs_url', 'https://docs.{TEXT-DOMAIN}.com/documentation/plugins/{TEXT-DOMAIN}/' ) ) . '" aria-label="' . esc_attr__( 'View {PLUGIN_NAME} documentation', '{TEXT_DOMAIN}' ) . '">' . esc_html__( 'Docs', '{TEXT_DOMAIN}' ) . '</a>',
+				'apidocs' => '<a href="' . esc_url( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_apidocs_url', 'https://docs.{TEXT-DOMAIN}.com/{FILE_NAME_PREFIX}-apidocs/' ) ) . '" aria-label="' . esc_attr__( 'View {PLUGIN_NAME} API docs', '{TEXT_DOMAIN}' ) . '">' . esc_html__( 'API docs', '{TEXT_DOMAIN}' ) . '</a>',
 				'support' => '<a href="' . esc_url( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_support_url', 'https://{TEXT-DOMAIN}.com/my-account/tickets/' ) ) . '" aria-label="' . esc_attr__( 'Visit premium customer support', '{TEXT_DOMAIN}' ) . '">' . esc_html__( 'Premium support', '{TEXT_DOMAIN}' ) . '</a>',
 			);
 
@@ -967,7 +967,7 @@ CREATE TABLE {$wpdb->prefix}{PLUGIN_HOOK_CLASS_NAME}_termmeta (
 	 * installer - opt in).
 	 * @param string $plugin_to_install_id
 	 * @param array $plugin_to_install
-	 * @since 2.6.0
+	 * @since {VERSION}
 	 */
 	public static function background_installer( $plugin_to_install_id, $plugin_to_install ) {
 		// Explicitly clear the event.
@@ -1062,7 +1062,7 @@ CREATE TABLE {$wpdb->prefix}{PLUGIN_HOOK_CLASS_NAME}_termmeta (
 							__( '%1$s could not be installed (%2$s). <a href="%3$s">Please install it manually by clicking here.</a>', '{TEXT_DOMAIN}' ),
 							$plugin_to_install['name'],
 							$e->getMessage(),
-							esc_url( admin_url( 'index.php?wc-install-plugin-redirect=' . $plugin_to_install['repo-slug'] ) )
+							esc_url( admin_url( 'index.php?{FILE_NAME_PREFIX}-install-plugin-redirect=' . $plugin_to_install['repo-slug'] ) )
 						)
 					);
 				}
@@ -1099,7 +1099,7 @@ CREATE TABLE {$wpdb->prefix}{PLUGIN_HOOK_CLASS_NAME}_termmeta (
 	 * Install a theme from .org in the background via a cron job (used by installer - opt in).
 	 *
 	 * @param string $theme_slug
-	 * @since 3.1.0
+	 * @since {VERSION}
 	 */
 	public static function theme_background_installer( $theme_slug ) {
 		// Explicitly clear the event.

@@ -7,7 +7,7 @@
  * @author 		{AUTHOR}
  * @category 	Core
  * @package 	{PLUGIN_MAIN_CLASS_NAME}/Functions
- * @version  {VERSION}
+ * @version     {VERSION}
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

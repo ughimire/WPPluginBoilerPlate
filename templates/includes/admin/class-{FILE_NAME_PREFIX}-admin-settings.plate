@@ -1,6 +1,6 @@
 <?php
 /**
- * WooCommerce Admin Settings Class
+ * {PLUGIN_NAME} Admin Settings Class
  *
  * @author   {AUTHOR}
  * @category Admin
@@ -584,7 +584,7 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Settings {
 							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
 							<?php echo $tooltip_html; ?>
 						</th>
-						<td class="forminp"><select name="<?php echo esc_attr( $value['id'] ); ?>" style="<?php echo esc_attr( $value['css'] ); ?>" data-placeholder="<?php esc_attr_e( 'Choose a country&hellip;', '{TEXT_DOMAIN}' ); ?>" aria-label="<?php esc_attr_e( 'Country', '{TEXT_DOMAIN}' ) ?>" class="wc-enhanced-select">
+						<td class="forminp"><select name="<?php echo esc_attr( $value['id'] ); ?>" style="<?php echo esc_attr( $value['css'] ); ?>" data-placeholder="<?php esc_attr_e( 'Choose a country&hellip;', '{TEXT_DOMAIN}' ); ?>" aria-label="<?php esc_attr_e( 'Country', '{TEXT_DOMAIN}' ) ?>" class="{FILE_NAME_PREFIX}-enhanced-select">
 							<?php {PLUGIN_CLASS_PREFIX}()->countries->country_dropdown_options( $country, $state ); ?>
 						</select> <?php echo $description; ?>
 						</td>
@@ -609,7 +609,7 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Settings {
 							<?php echo $tooltip_html; ?>
 						</th>
 						<td class="forminp">
-							<select multiple="multiple" name="<?php echo esc_attr( $value['id'] ); ?>[]" style="width:350px" data-placeholder="<?php esc_attr_e( 'Choose countries&hellip;', '{TEXT_DOMAIN}' ); ?>" aria-label="<?php esc_attr_e( 'Country', '{TEXT_DOMAIN}' ) ?>" class="wc-enhanced-select">
+							<select multiple="multiple" name="<?php echo esc_attr( $value['id'] ); ?>[]" style="width:350px" data-placeholder="<?php esc_attr_e( 'Choose countries&hellip;', '{TEXT_DOMAIN}' ); ?>" aria-label="<?php esc_attr_e( 'Country', '{TEXT_DOMAIN}' ) ?>" class="{FILE_NAME_PREFIX}-enhanced-select">
 								<?php
 									if ( ! empty( $countries ) ) {
 										foreach ( $countries as $key => $val ) {
@@ -759,13 +759,13 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Settings {
 
 			/**
 			 * Sanitize the value of an option.
-			 * @since 2.4.0
+			 * @since {VERSION}
 			 */
 			$value = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_admin_settings_sanitize_option', $value, $option, $raw_value );
 
 			/**
 			 * Sanitize the value of an option by option name.
-			 * @since 2.4.0
+			 * @since {VERSION}
 			 */
 			$value = apply_filters( "{PLUGIN_HOOK_CLASS_NAME}_admin_settings_sanitize_option_$option_name", $value, $option, $raw_value );
 

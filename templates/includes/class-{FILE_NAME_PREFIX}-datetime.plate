@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * {PLUGIN_CLASS_PREFIX} Wrapper for PHP DateTime.
  *
  * @class    {PLUGIN_CLASS_PREFIX}_DateTime
- * @since    3.0.0
+ * @since {VERSION}
  * @package  {PLUGIN_MAIN_CLASS_NAME}/Classes
  * @category Class
  * @author   {AUTHOR}
@@ -24,7 +24,7 @@ class {PLUGIN_CLASS_PREFIX}_DateTime extends DateTime {
 	/**
 	 * Output an ISO 8601 date string in local timezone.
 	 *
-	 * @since  3.0.0
+	 * @since {VERSION}
 	 * @return string
 	 */
 	public function __toString() {
@@ -66,7 +66,7 @@ class {PLUGIN_CLASS_PREFIX}_DateTime extends DateTime {
 	/**
 	 * Missing in PHP 5.2.
 	 *
-	 * @since  3.0.0
+	 * @since {VERSION}
 	 * @return int
 	 */
 	public function getTimestamp() {
@@ -76,7 +76,7 @@ class {PLUGIN_CLASS_PREFIX}_DateTime extends DateTime {
 	/**
 	 * Get the timestamp with the WordPress timezone offset added or subtracted.
 	 *
-	 * @since  3.0.0
+	 * @since {VERSION}
 	 * @return int
 	 */
 	public function getOffsetTimestamp() {
@@ -86,7 +86,7 @@ class {PLUGIN_CLASS_PREFIX}_DateTime extends DateTime {
 	/**
 	 * Format a date based on the offset timestamp.
 	 *
-	 * @since  3.0.0
+	 * @since {VERSION}
 	 * @param  string $format
 	 * @return string
 	 */
@@ -97,7 +97,7 @@ class {PLUGIN_CLASS_PREFIX}_DateTime extends DateTime {
 	/**
 	 * Return a localised date based on offset timestamp. Wrapper for date_i18n function.
 	 *
-	 * @since  3.0.0
+	 * @since {VERSION}
 	 * @param  string $format
 	 * @return string
 	 */
