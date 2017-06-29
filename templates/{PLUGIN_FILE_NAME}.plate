@@ -226,7 +226,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-query.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-integrations.php' ); // Loads integrations
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-cache-helper.php' ); // Cache Helper
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-https.php' ); // https Helper
  		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-background-emailer.php' );
 
 		/**
@@ -239,7 +238,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		/**
 		 * REST API.
 		 */
-  		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-api.php' ); // API Class
  		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-auth.php' ); // Auth Class
  		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-register-wp-admin-settings.php' );
 
@@ -264,7 +262,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		}
 
 		$this->query = new {PLUGIN_CLASS_PREFIX}_Query();
-		$this->api   = new {PLUGIN_CLASS_PREFIX}_API();
 	}
 
 	/**

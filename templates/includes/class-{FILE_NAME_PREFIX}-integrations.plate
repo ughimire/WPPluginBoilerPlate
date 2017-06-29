@@ -1,0 +1,54 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+/**
+ * {PLUGIN_MAIN_CLASS_NAME} Integrations class
+ *
+ * Loads Integrations into {PLUGIN_MAIN_CLASS_NAME}.
+ *
+ * @class    {PLUGIN_CLASS_PREFIX}_Integrations
+ * @version  {VERSION}
+ * @package  {PLUGIN_MAIN_CLASS_NAME}/Classes/Integrations
+ * @category Class
+ * @author   {AUTHOR}
+ */
+class {PLUGIN_CLASS_PREFIX}_Integrations {
+
+	/**
+	 * Array of integrations.
+	 *
+	 * @var array
+	 */
+	public $integrations = array();
+
+	/**
+	 * Initialize integrations.
+	 */
+	public function __construct() {
+
+		do_action( '{PLUGIN_HOOK_CLASS_NAME}_integrations_init' );
+
+		$load_integrations = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_integrations', array() );
+
+		// Load integration classes
+		foreach ( $load_integrations as $integration ) {
+
+			$load_integration = new $integration();
+
+			$this->integrations[ $load_integration->id ] = $load_integration;
+		}
+	}
+
+	/**
+	 * Return loaded integrations.
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function get_integrations() {
+		return $this->integrations;
+	}
+}

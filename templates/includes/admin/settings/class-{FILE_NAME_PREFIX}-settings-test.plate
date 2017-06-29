@@ -1,0 +1,533 @@
+<?php
+/**
+ * {PLUGIN_MAIN_CLASS_NAME} Product Settings
+ *
+ * @author   {AUTHOR}
+ * @category Admin
+ * @package  {PLUGIN_MAIN_CLASS_NAME}/Admin
+ * @version  {VERSION}
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+if ( ! class_exists( '{PLUGIN_CLASS_PREFIX}_Settings_Products', false ) ) :
+
+/**
+ * {PLUGIN_CLASS_PREFIX}_Settings_Products.
+ */
+class {PLUGIN_CLASS_PREFIX}_Settings_Test extends {PLUGIN_CLASS_PREFIX}_Settings_Page {
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+
+		$this->id    = 'products';
+		$this->label = __( 'Products', '{TEXT_DOMAIN}' );
+
+		add_filter( '{PLUGIN_HOOK_CLASS_NAME}_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
+		add_action( '{PLUGIN_HOOK_CLASS_NAME}_settings_' . $this->id, array( $this, 'output' ) );
+		add_action( '{PLUGIN_HOOK_CLASS_NAME}_settings_save_' . $this->id, array( $this, 'save' ) );
+		add_action( '{PLUGIN_HOOK_CLASS_NAME}_sections_' . $this->id, array( $this, 'output_sections' ) );
+	}
+
+	/**
+	 * Get sections.
+	 *
+	 * @return array
+	 */
+	public function get_sections() {
+
+		$sections = array(
+			''          	=> __( 'General', '{TEXT_DOMAIN}' ),
+			'display'       => __( 'Display', '{TEXT_DOMAIN}' ),
+			'inventory' 	=> __( 'Inventory', '{TEXT_DOMAIN}' ),
+			'downloadable' 	=> __( 'Downloadable products', '{TEXT_DOMAIN}' ),
+		);
+
+		return apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_get_sections_' . $this->id, $sections );
+	}
+
+	/**
+	 * Output the settings.
+	 */
+	public function output() {
+		global $current_section;
+
+		$settings = $this->get_settings( $current_section );
+
+		{PLUGIN_CLASS_PREFIX}_Admin_Settings::output_fields( $settings );
+	}
+
+	/**
+	 * Save settings.
+	 */
+	public function save() {
+		global $current_section;
+
+		$settings = $this->get_settings( $current_section );
+		{PLUGIN_CLASS_PREFIX}_Admin_Settings::save_fields( $settings );
+	}
+
+	/**
+	 * Get settings array.
+	 *
+	 * @param string $current_section
+	 *
+	 * @return array
+	 */
+	public function get_settings( $current_section = '' ) {
+		if ( 'display' == $current_section ) {
+
+			$settings = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_product_settings', array(
+
+				array(
+					'title' => __( 'Shop &amp; product pages', '{TEXT_DOMAIN}' ),
+					'type' 	=> 'title',
+					'desc' 	=> '',
+					'id' 	=> 'catalog_options',
+				),
+
+				array(
+					'title'    => __( 'Shop page', '{TEXT_DOMAIN}' ),
+					'desc'     => '<br/>' . sprintf( __( 'The base page can also be used in your <a href="%s">product permalinks</a>.', '{TEXT_DOMAIN}' ), admin_url( 'options-permalink.php' ) ),
+					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_shop_page_id',
+					'type'     => 'single_select_page',
+					'default'  => '',
+					'class'    => 'wc-enhanced-select-nostd',
+					'css'      => 'min-width:300px;',
+					'desc_tip' => __( 'This sets the base page of your shop - this is where your product archive will be.', '{TEXT_DOMAIN}' ),
+				),
+
+				array(
+					'title'    => __( 'Shop page display', '{TEXT_DOMAIN}' ),
+					'desc'     => __( 'This controls what is shown on the product archive.', '{TEXT_DOMAIN}' ),
+					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_shop_page_display',
+					'class'    => 'wc-enhanced-select',
+					'css'      => 'min-width:300px;',
+					'default'  => '',
+					'type'     => 'select',
+					'options'  => array(
+						''              => __( 'Show products', '{TEXT_DOMAIN}' ),
+						'subcategories' => __( 'Show categories', '{TEXT_DOMAIN}' ),
+						'both'          => __( 'Show categories &amp; products', '{TEXT_DOMAIN}' ),
+					),
+					'desc_tip' => true,
+				),
+
+				array(
+					'title'    => __( 'Default category display', '{TEXT_DOMAIN}' ),
+					'desc'     => __( 'This controls what is shown on category archives.', '{TEXT_DOMAIN}' ),
+					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_category_archive_display',
+					'class'    => 'wc-enhanced-select',
+					'css'      => 'min-width:300px;',
+					'default'  => '',
+					'type'     => 'select',
+					'options'  => array(
+						''              => __( 'Show products', '{TEXT_DOMAIN}' ),
+						'subcategories' => __( 'Show subcategories', '{TEXT_DOMAIN}' ),
+						'both'          => __( 'Show subcategories &amp; products', '{TEXT_DOMAIN}' ),
+					),
+					'desc_tip' => true,
+				),
+
+				array(
+					'title'    => __( 'Default product sorting', '{TEXT_DOMAIN}' ),
+					'desc'     => __( 'This controls the default sort order of the catalog.', '{TEXT_DOMAIN}' ),
+					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_default_catalog_orderby',
+					'class'    => 'wc-enhanced-select',
+					'css'      => 'min-width:300px;',
+					'default'  => 'menu_order',
+					'type'     => 'select',
+					'options'  => apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_default_catalog_orderby_options', array(
+						'menu_order' => __( 'Default sorting (custom ordering + name)', '{TEXT_DOMAIN}' ),
+						'popularity' => __( 'Popularity (sales)', '{TEXT_DOMAIN}' ),
+						'rating'     => __( 'Average rating', '{TEXT_DOMAIN}' ),
+						'date'       => __( 'Sort by most recent', '{TEXT_DOMAIN}' ),
+						'price'      => __( 'Sort by price (asc)', '{TEXT_DOMAIN}' ),
+						'price-desc' => __( 'Sort by price (desc)', '{TEXT_DOMAIN}' ),
+					) ),
+					'desc_tip' => true,
+				),
+
+				array(
+					'title'         => __( 'Add to cart behaviour', '{TEXT_DOMAIN}' ),
+					'desc'          => __( 'Redirect to the cart page after successful addition', '{TEXT_DOMAIN}' ),
+					'id'            => '{PLUGIN_HOOK_CLASS_NAME}_cart_redirect_after_add',
+					'default'       => 'no',
+					'type'          => 'checkbox',
+					'checkboxgroup' => 'start',
+				),
+
+				array(
+					'desc'          => __( 'Enable AJAX add to cart buttons on archives', '{TEXT_DOMAIN}' ),
+					'id'            => '{PLUGIN_HOOK_CLASS_NAME}_enable_ajax_add_to_cart',
+					'default'       => 'yes',
+					'type'          => 'checkbox',
+					'checkboxgroup' => 'end',
+				),
+
+				array(
+					'type' 	=> 'sectionend',
+					'id' 	=> 'catalog_options',
+				),
+
+				array(
+					'title' => __( 'Product images', '{TEXT_DOMAIN}' ),
+					'type' 	=> 'title',
+					'desc' 	=> sprintf( __( 'These settings affect the display and dimensions of images in your catalog - the display on the front-end will still be affected by CSS styles. After changing these settings you may need to <a target="_blank" href="%s">regenerate your thumbnails</a>.', '{TEXT_DOMAIN}' ), 'https://wordpress.org/plugins/regenerate-thumbnails/' ),
+					'id' 	=> 'image_options',
+				),
+
+				array(
+					'title'    => __( 'Catalog images', '{TEXT_DOMAIN}' ),
+					'desc'     => __( 'This size is usually used in product listings. (W x H)', '{TEXT_DOMAIN}' ),
+					'id'       => 'shop_catalog_image_size',
+					'css'      => '',
+					'type'     => 'image_width',
+					'default'  => array(
+						'width'  => '300',
+						'height' => '300',
+						'crop'   => 1,
+					),
+					'desc_tip' => true,
+				),
+
+				array(
+					'title'    => __( 'Single product image', '{TEXT_DOMAIN}' ),
+					'desc'     => __( 'This is the size used by the main image on the product page. (W x H)', '{TEXT_DOMAIN}' ),
+					'id'       => 'shop_single_image_size',
+					'css'      => '',
+					'type'     => 'image_width',
+					'default'  => array(
+						'width'  => '600',
+						'height' => '600',
+						'crop'   => 1,
+					),
+					'desc_tip' => true,
+				),
+
+				array(
+					'title'    => __( 'Product thumbnails', '{TEXT_DOMAIN}' ),
+					'desc'     => __( 'This size is usually used for the gallery of images on the product page. (W x H)', '{TEXT_DOMAIN}' ),
+					'id'       => 'shop_thumbnail_image_size',
+					'css'      => '',
+					'type'     => 'image_width',
+					'default'  => array(
+						'width'  => '180',
+						'height' => '180',
+						'crop'   => 1,
+					),
+					'desc_tip' => true,
+				),
+
+				array(
+					'type' 	=> 'sectionend',
+					'id' 	=> 'image_options',
+				),
+
+			));
+		} elseif ( 'inventory' == $current_section ) {
+
+			$settings = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_inventory_settings', array(
+
+				array(
+					'title' => __( 'Inventory', '{TEXT_DOMAIN}' ),
+					'type' 	=> 'title',
+					'desc' 	=> '',
+					'id' 	=> 'product_inventory_options',
+				),
+
+				array(
+					'title'   => __( 'Manage stock', '{TEXT_DOMAIN}' ),
+					'desc'    => __( 'Enable stock management', '{TEXT_DOMAIN}' ),
+					'id'      => '{PLUGIN_HOOK_CLASS_NAME}_manage_stock',
+					'default' => 'yes',
+					'type'    => 'checkbox',
+				),
+
+				array(
+					'title'             => __( 'Hold stock (minutes)', '{TEXT_DOMAIN}' ),
+					'desc'              => __( 'Hold stock (for unpaid orders) for x minutes. When this limit is reached, the pending order will be cancelled. Leave blank to disable.', '{TEXT_DOMAIN}' ),
+					'id'                => '{PLUGIN_HOOK_CLASS_NAME}_hold_stock_minutes',
+					'type'              => 'number',
+					'custom_attributes' => array(
+						'min'           => 0,
+						'step'          => 1,
+					),
+					'css'               => 'width: 80px;',
+					'default'           => '60',
+					'autoload'          => false,
+					'class'             => 'manage_stock_field',
+				),
+
+				array(
+					'title'         => __( 'Notifications', '{TEXT_DOMAIN}' ),
+					'desc'          => __( 'Enable low stock notifications', '{TEXT_DOMAIN}' ),
+					'id'            => '{PLUGIN_HOOK_CLASS_NAME}_notify_low_stock',
+					'default'       => 'yes',
+					'type'          => 'checkbox',
+					'checkboxgroup' => 'start',
+					'autoload'      => false,
+					'class'         => 'manage_stock_field',
+				),
+
+				array(
+					'desc'          => __( 'Enable out of stock notifications', '{TEXT_DOMAIN}' ),
+					'id'            => '{PLUGIN_HOOK_CLASS_NAME}_notify_no_stock',
+					'default'       => 'yes',
+					'type'          => 'checkbox',
+					'checkboxgroup' => 'end',
+					'autoload'      => false,
+					'class'         => 'manage_stock_field',
+				),
+
+				array(
+					'title'    => __( 'Notification recipient(s)', '{TEXT_DOMAIN}' ),
+					'desc'     => __( 'Enter recipients (comma separated) that will receive this notification.', '{TEXT_DOMAIN}' ),
+					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_stock_email_recipient',
+					'type'     => 'text',
+					'default'  => get_option( 'admin_email' ),
+					'css'      => 'width: 250px;',
+					'autoload' => false,
+					'desc_tip' => true,
+					'class'    => 'manage_stock_field',
+				),
+
+				array(
+					'title'             => __( 'Low stock threshold', '{TEXT_DOMAIN}' ),
+					'desc'              => __( 'When product stock reaches this amount you will be notified via email.', '{TEXT_DOMAIN}' ),
+					'id'                => '{PLUGIN_HOOK_CLASS_NAME}_notify_low_stock_amount',
+					'css'               => 'width:50px;',
+					'type'              => 'number',
+					'custom_attributes' => array(
+						'min'           => 0,
+						'step'          => 1,
+					),
+					'default'           => '2',
+					'autoload'          => false,
+					'desc_tip'          => true,
+					'class'             => 'manage_stock_field',
+				),
+
+				array(
+					'title'             => __( 'Out of stock threshold', '{TEXT_DOMAIN}' ),
+					'desc'              => __( 'When product stock reaches this amount the stock status will change to "out of stock" and you will be notified via email. This setting does not affect existing "in stock" products.', '{TEXT_DOMAIN}' ),
+					'id'                => '{PLUGIN_HOOK_CLASS_NAME}_notify_no_stock_amount',
+					'css'               => 'width:50px;',
+					'type'              => 'number',
+					'custom_attributes' => array(
+						'min'           => 0,
+						'step'          => 1,
+					),
+					'default'           => '0',
+					'desc_tip'          => true,
+					'class'             => 'manage_stock_field',
+				),
+
+				array(
+					'title'    => __( 'Out of stock visibility', '{TEXT_DOMAIN}' ),
+					'desc'     => __( 'Hide out of stock items from the catalog', '{TEXT_DOMAIN}' ),
+					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_hide_out_of_stock_items',
+					'default'  => 'no',
+					'type'     => 'checkbox',
+				),
+
+				array(
+					'title'    => __( 'Stock display format', '{TEXT_DOMAIN}' ),
+					'desc'     => __( 'This controls how stock quantities are displayed on the frontend.', '{TEXT_DOMAIN}' ),
+					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_stock_format',
+					'css'      => 'min-width:150px;',
+					'class'    => 'wc-enhanced-select',
+					'default'  => '',
+					'type'     => 'select',
+					'options'  => array(
+						''           => __( 'Always show quantity remaining in stock e.g. "12 in stock"', '{TEXT_DOMAIN}' ),
+						'low_amount' => __( 'Only show quantity remaining in stock when low e.g. "Only 2 left in stock"', '{TEXT_DOMAIN}' ),
+						'no_amount'  => __( 'Never show quantity remaining in stock', '{TEXT_DOMAIN}' ),
+					),
+					'desc_tip' => true,
+				),
+
+				array(
+					'type' 	=> 'sectionend',
+					'id' 	=> 'product_inventory_options',
+				),
+
+			));
+
+		} elseif ( 'downloadable' == $current_section ) {
+			$settings = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_downloadable_products_settings', array(
+				array(
+					'title' => __( 'Downloadable products', '{TEXT_DOMAIN}' ),
+					'type' 	=> 'title',
+					'id' 	=> 'digital_download_options',
+				),
+
+				array(
+					'title'    => __( 'File download method', '{TEXT_DOMAIN}' ),
+					'desc'     => __( 'Forcing downloads will keep URLs hidden, but some servers may serve large files unreliably. If supported, <code>X-Accel-Redirect</code>/ <code>X-Sendfile</code> can be used to serve downloads instead (server requires <code>mod_xsendfile</code>).', '{TEXT_DOMAIN}' ),
+					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_file_download_method',
+					'type'     => 'select',
+					'class'    => 'wc-enhanced-select',
+					'css'      => 'min-width:300px;',
+					'default'  => 'force',
+					'desc_tip' => true,
+					'options'  => array(
+						'force'     => __( 'Force downloads', '{TEXT_DOMAIN}' ),
+						'xsendfile' => __( 'X-Accel-Redirect/X-Sendfile', '{TEXT_DOMAIN}' ),
+						'redirect'  => __( 'Redirect only', '{TEXT_DOMAIN}' ),
+					),
+					'autoload' => false,
+				),
+
+				array(
+					'title'         => __( 'Access restriction', '{TEXT_DOMAIN}' ),
+					'desc'          => __( 'Downloads require login', '{TEXT_DOMAIN}' ),
+					'id'            => '{PLUGIN_HOOK_CLASS_NAME}_downloads_require_login',
+					'type'          => 'checkbox',
+					'default'       => 'no',
+					'desc_tip'      => __( 'This setting does not apply to guest purchases.', '{TEXT_DOMAIN}' ),
+					'checkboxgroup' => 'start',
+					'autoload'      => false,
+				),
+
+				array(
+					'desc'          => __( 'Grant access to downloadable products after payment', '{TEXT_DOMAIN}' ),
+					'id'            => '{PLUGIN_HOOK_CLASS_NAME}_downloads_grant_access_after_payment',
+					'type'          => 'checkbox',
+					'default'       => 'yes',
+					'desc_tip'      => __( 'Enable this option to grant access to downloads when orders are "processing", rather than "completed".', '{TEXT_DOMAIN}' ),
+					'checkboxgroup' => 'end',
+					'autoload'      => false,
+				),
+
+				array(
+					'type' 	=> 'sectionend',
+					'id' 	=> 'digital_download_options',
+				),
+
+			));
+
+		} else {
+			$settings = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_products_general_settings', array(
+				array(
+					'title' 	=> __( 'Measurements', '{TEXT_DOMAIN}' ),
+					'type' 		=> 'title',
+					'id' 		=> 'product_measurement_options',
+				),
+
+				array(
+					'title'    => __( 'Weight unit', '{TEXT_DOMAIN}' ),
+					'desc'     => __( 'This controls what unit you will define weights in.', '{TEXT_DOMAIN}' ),
+					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_weight_unit',
+					'class'    => 'wc-enhanced-select',
+					'css'      => 'min-width:300px;',
+					'default'  => 'kg',
+					'type'     => 'select',
+					'options'  => array(
+						'kg'  => __( 'kg', '{TEXT_DOMAIN}' ),
+						'g'   => __( 'g', '{TEXT_DOMAIN}' ),
+						'lbs' => __( 'lbs', '{TEXT_DOMAIN}' ),
+						'oz'  => __( 'oz', '{TEXT_DOMAIN}' ),
+					),
+					'desc_tip' => true,
+				),
+
+				array(
+					'title'    => __( 'Dimensions unit', '{TEXT_DOMAIN}' ),
+					'desc'     => __( 'This controls what unit you will define lengths in.', '{TEXT_DOMAIN}' ),
+					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_dimension_unit',
+					'class'    => 'wc-enhanced-select',
+					'css'      => 'min-width:300px;',
+					'default'  => 'cm',
+					'type'     => 'select',
+					'options'  => array(
+						'm'  => __( 'm', '{TEXT_DOMAIN}' ),
+						'cm' => __( 'cm', '{TEXT_DOMAIN}' ),
+						'mm' => __( 'mm', '{TEXT_DOMAIN}' ),
+						'in' => __( 'in', '{TEXT_DOMAIN}' ),
+						'yd' => __( 'yd', '{TEXT_DOMAIN}' ),
+					),
+					'desc_tip' => true,
+				),
+
+				array(
+					'type' 	=> 'sectionend',
+					'id' 	=> 'product_measurement_options',
+				),
+
+				array(
+					'title' => __( 'Reviews', '{TEXT_DOMAIN}' ),
+					'type' 	=> 'title',
+					'desc' 	=> '',
+					'id' 	=> 'product_rating_options',
+				),
+
+				array(
+					'title'           => __( 'Enable reviews', '{TEXT_DOMAIN}' ),
+					'desc'            => __( 'Enable product reviews', '{TEXT_DOMAIN}' ),
+					'id'              => '{PLUGIN_HOOK_CLASS_NAME}_enable_reviews',
+					'default'         => 'yes',
+					'type'            => 'checkbox',
+					'checkboxgroup'   => 'start',
+					'show_if_checked' => 'option',
+				),
+
+				array(
+					'desc'            => __( 'Show "verified owner" label on customer reviews', '{TEXT_DOMAIN}' ),
+					'id'              => '{PLUGIN_HOOK_CLASS_NAME}_review_rating_verification_label',
+					'default'         => 'yes',
+					'type'            => 'checkbox',
+					'checkboxgroup'   => '',
+					'show_if_checked' => 'yes',
+					'autoload'        => false,
+				),
+
+				array(
+					'desc'            => __( 'Reviews can only be left by "verified owners"', '{TEXT_DOMAIN}' ),
+					'id'              => '{PLUGIN_HOOK_CLASS_NAME}_review_rating_verification_required',
+					'default'         => 'no',
+					'type'            => 'checkbox',
+					'checkboxgroup'   => 'end',
+					'show_if_checked' => 'yes',
+					'autoload'        => false,
+				),
+
+				array(
+					'title'           => __( 'Product ratings', '{TEXT_DOMAIN}' ),
+					'desc'            => __( 'Enable star rating on reviews', '{TEXT_DOMAIN}' ),
+					'id'              => '{PLUGIN_HOOK_CLASS_NAME}_enable_review_rating',
+					'default'         => 'yes',
+					'type'            => 'checkbox',
+					'checkboxgroup'   => 'start',
+					'show_if_checked' => 'option',
+				),
+
+				array(
+					'desc'            => __( 'Star ratings should be required, not optional', '{TEXT_DOMAIN}' ),
+					'id'              => '{PLUGIN_HOOK_CLASS_NAME}_review_rating_required',
+					'default'         => 'yes',
+					'type'            => 'checkbox',
+					'checkboxgroup'   => 'end',
+					'show_if_checked' => 'yes',
+					'autoload'        => false,
+				),
+
+				array(
+					'type' 	=> 'sectionend',
+					'id' 	=> 'product_rating_options',
+				),
+
+			));
+		}
+
+		return apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_get_settings_' . $this->id, $settings, $current_section );
+	}
+}
+
+endif;
+
+return new {PLUGIN_CLASS_PREFIX}_Settings_Products();

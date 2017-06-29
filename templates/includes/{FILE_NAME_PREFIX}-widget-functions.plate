@@ -16,18 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Include widget classes.
 include_once( dirname( __FILE__ ) . '/abstracts/abstract-{FILE_NAME_PREFIX}-widget.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-cart.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-layered-nav-filters.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-layered-nav.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-price-filter.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-product-categories.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-product-search.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-product-tag-cloud.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-products.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-rating-filter.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-recent-reviews.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-recently-viewed.php' );
-include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-top-rated-products.php' );
+include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-test.php' );
 
 /**
  * Register Widgets.
@@ -36,19 +25,6 @@ include_once( dirname( __FILE__ ) . '/widgets/class-{FILE_NAME_PREFIX}-widget-to
  */
 function {FILE_NAME_PREFIX}_register_widgets() {
 	register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Cart' );
-	register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Layered_Nav_Filters' );
-	register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Layered_Nav' );
-	register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Price_Filter' );
-	register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Product_Categories' );
-	register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Product_Search' );
-	register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Product_Tag_Cloud' );
-	register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Products' );
-	register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Recently_Viewed' );
 
-	if ( 'yes' === get_option( '{PLUGIN_HOOK_CLASS_NAME}_enable_reviews', 'yes' ) ) {
-		register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Top_Rated_Products' );
-		register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Recent_Reviews' );
-		register_widget( '{PLUGIN_CLASS_PREFIX}_Widget_Rating_Filter' );
-	}
 }
 add_action( 'widgets_init', '{FILE_NAME_PREFIX}_register_widgets' );

@@ -50,14 +50,7 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Settings {
 			include_once( dirname( __FILE__ ) . '/settings/class-{FILE_NAME_PREFIX}-settings-page.php' );
 
 			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-general.php' );
-			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-products.php' );
-			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-tax.php' );
-			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-shipping.php' );
-			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-checkout.php' );
-			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-accounts.php' );
-			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-emails.php' );
-			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-integrations.php' );
-			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-api.php' );
+			$settings[] = include( 'settings/class-{FILE_NAME_PREFIX}-settings-test.php' );
 
 			self::$settings = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_get_settings_pages', $settings );
 		}

@@ -16,21 +16,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Include core functions (available in both admin and frontend).
 include( '{FILE_NAME_PREFIX}-conditional-functions.php' );
-include( '{FILE_NAME_PREFIX}-coupon-functions.php' );
 include( '{FILE_NAME_PREFIX}-user-functions.php' );
-include( '{FILE_NAME_PREFIX}-deprecated-functions.php' );
 include( '{FILE_NAME_PREFIX}-formatting-functions.php' );
-include( '{FILE_NAME_PREFIX}-order-functions.php' );
-include( '{FILE_NAME_PREFIX}-order-item-functions.php' );
 include( '{FILE_NAME_PREFIX}-page-functions.php' );
-include( '{FILE_NAME_PREFIX}-product-functions.php' );
-include( '{FILE_NAME_PREFIX}-stock-functions.php' );
-include( '{FILE_NAME_PREFIX}-account-functions.php' );
 include( '{FILE_NAME_PREFIX}-term-functions.php' );
-include( '{FILE_NAME_PREFIX}-attribute-functions.php' );
 include( '{FILE_NAME_PREFIX}-rest-functions.php' );
 include( '{FILE_NAME_PREFIX}-widget-functions.php' );
-include( '{FILE_NAME_PREFIX}-webhook-functions.php' );
 
 /**
  * Filters on data used in admin and frontend.

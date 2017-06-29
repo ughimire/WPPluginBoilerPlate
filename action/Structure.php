@@ -100,6 +100,11 @@ final class Structure {
 
 				'cli' => array(),
 
+				'data-stores' => array(
+
+					'class-{FILE_NAME_PREFIX}-data-store-wp.php'
+				),
+
 				'emails' => array(
 
 					'class-{FILE_NAME_PREFIX}-email.php',
@@ -169,8 +174,6 @@ final class Structure {
 				),
 				'class-{FILE_NAME_PREFIX}-ajax.php',
 
-				'class-{FILE_NAME_PREFIX}-api.php',
-
 				'class-{FILE_NAME_PREFIX}-auth.php',
 
 				'class-{FILE_NAME_PREFIX}-autoloader.php',
@@ -213,13 +216,29 @@ final class Structure {
 
 				'class-{FILE_NAME_PREFIX}-validation.php',
 
+				'class-{FILE_NAME_PREFIX}-data-exception.php',
+
+				'class-{FILE_NAME_PREFIX}-data-store.php',
+
+				'class-{FILE_NAME_PREFIX}-integrations.php',
+
 				'{FILE_NAME_PREFIX}-core-functions.php',
 
 				'{FILE_NAME_PREFIX}-template-hooks.php',
 
 				'{FILE_NAME_PREFIX}-user-functions.php',
 
-				'{FILE_NAME_PREFIX}-widget-functions.php'
+				'{FILE_NAME_PREFIX}-conditional-functions.php',
+
+				'{FILE_NAME_PREFIX}-widget-functions.php',
+
+				'{FILE_NAME_PREFIX}-formatting-functions.php',
+
+				'{FILE_NAME_PREFIX}-page-functions.php',
+
+				'{FILE_NAME_PREFIX}-rest-functions.php',
+
+				'{FILE_NAME_PREFIX}-term-functions.php',
 			),
 
 

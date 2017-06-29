@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @version  {VERSION}
  * @extends  {PLUGIN_CLASS_PREFIX}_Widget
  */
-class {PLUGIN_CLASS_PREFIX}_Widget_Cart extends {PLUGIN_CLASS_PREFIX}_Widget {
+class {PLUGIN_CLASS_PREFIX}_Widget_Test extends {PLUGIN_CLASS_PREFIX}_Widget {
 
 	/**
 	 * Constructor.
