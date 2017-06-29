@@ -35,6 +35,8 @@ final class Structure {
 
 				'abstracts' => array(
 
+					'abstract-{FILE_NAME_PREFIX}-data.php',
+
 					'abstract-{FILE_NAME_PREFIX}-log-handler.php',
 
 					'abstract-{FILE_NAME_PREFIX}-object-query.php',
