@@ -15,7 +15,7 @@ if ( ! function_exists( 'wp_parse_slug_list' ) ) {
 	/**
 	 * Clean up an array, comma- or space-separated list of slugs.
 	 *
-	 * @since
+	 * @since {VERSION}
 	 *
 	 * @param  array|string $list List of slugs.
 	 * @return array Sanitized array of slugs.

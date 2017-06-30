@@ -8,8 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * {PLUGIN_CLASS_PREFIX}_Cache_Helper class.
  *
  * @class 		{PLUGIN_CLASS_PREFIX}_Cache_Helper
- * @version  {VERSION}
- * @package  {PLUGIN_MAIN_CLASS_NAME}/Classes
+ * @version     {VERSION}
+ * @package     {PLUGIN_MAIN_CLASS_NAME}/Classes
  * @category	Class
  * @author 		{AUTHOR}
  */

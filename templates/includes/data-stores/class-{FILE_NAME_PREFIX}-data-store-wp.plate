@@ -40,7 +40,7 @@ class {PLUGIN_CLASS_PREFIX}_Data_Store_WP {
 	/**
 	 * Get and store terms from a taxonomy.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @param  {PLUGIN_CLASS_PREFIX}_Data|integer $object
 	 * @param  string $taxonomy Taxonomy name e.g. product_cat
 	 * @return array of terms
@@ -61,7 +61,7 @@ class {PLUGIN_CLASS_PREFIX}_Data_Store_WP {
 	/**
 	 * Returns an array of meta for an object.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @param  {PLUGIN_CLASS_PREFIX}_Data
 	 * @return array
 	 */
@@ -82,7 +82,7 @@ class {PLUGIN_CLASS_PREFIX}_Data_Store_WP {
 	/**
 	 * Deletes meta based on meta ID.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @param  {PLUGIN_CLASS_PREFIX}_Data
 	 * @param  stdClass (containing at least ->id)
 	 * @return array
@@ -94,7 +94,7 @@ class {PLUGIN_CLASS_PREFIX}_Data_Store_WP {
 	/**
 	 * Add new piece of meta.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @param  {PLUGIN_CLASS_PREFIX}_Data
 	 * @param  stdClass (containing ->key and ->value)
 	 * @return int meta ID
@@ -106,7 +106,7 @@ class {PLUGIN_CLASS_PREFIX}_Data_Store_WP {
 	/**
 	 * Update meta.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @param  {PLUGIN_CLASS_PREFIX}_Data
 	 * @param  stdClass (containing ->id, ->key and ->value)
 	 */
@@ -117,7 +117,7 @@ class {PLUGIN_CLASS_PREFIX}_Data_Store_WP {
 	/**
 	 * Table structure is slightly different between meta types, this function will return what we need to know.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @return array Array elements: table, object_id_field, meta_id_field
 	 */
 	protected function get_db_info() {
@@ -128,7 +128,7 @@ class {PLUGIN_CLASS_PREFIX}_Data_Store_WP {
 
 		// If we are dealing with a type of metadata that is not a core type, the table should be prefixed.
 		if ( ! in_array( $this->meta_type, array( 'post', 'user', 'comment', 'term' ) ) ) {
-			$table .= 'woocommerce_';
+			$table .= '{PLUGIN_HOOK_CLASS_NAME}_';
 		}
 
 		$table          .= $this->meta_type . 'meta';
@@ -154,7 +154,7 @@ class {PLUGIN_CLASS_PREFIX}_Data_Store_WP {
 	/**
 	 * Internal meta keys we don't want exposed as part of meta_data. This is in
 	 * addition to all data props with _ prefix.
-	 * @since 2.6.0
+	 * @since {VERSION}
 	 *
 	 * @param string $key
 	 *
@@ -200,7 +200,7 @@ class {PLUGIN_CLASS_PREFIX}_Data_Store_WP {
 	/**
 	 * Get valid WP_Query args from a {PLUGIN_CLASS_PREFIX}_Object_Query's query variables.
 	 *
-	 * @since 3.1.0
+	 * @since {VERSION}
 	 * @param array $query_vars query vars from a {PLUGIN_CLASS_PREFIX}_Object_Query
 	 * @return array
 	 */
@@ -243,7 +243,7 @@ class {PLUGIN_CLASS_PREFIX}_Data_Store_WP {
 			}
 		}
 
-		return apply_filters( 'woocommerce_get_wp_query_args', $wp_query_args, $query_vars );
+		return apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_get_wp_query_args', $wp_query_args, $query_vars );
 	}
 
 	/**

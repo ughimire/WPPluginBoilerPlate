@@ -151,7 +151,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	/**
 	 * Get the data store.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @return object
 	 */
 	public function get_data_store() {
@@ -161,7 +161,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	/**
 	 * Returns the unique ID for this object.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @return int
 	 */
 	public function get_id() {
@@ -171,7 +171,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	/**
 	 * Delete an object, set the ID to 0, and return result.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @param  bool $force_delete
 	 * @return bool result
 	 */
@@ -187,13 +187,13 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	/**
 	 * Save should create or update based on object existence.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @return int
 	 */
 	public function save() {
 		if ( $this->data_store ) {
 			// Trigger action before saving to the DB. Allows you to adjust object props before save.
-			do_action( 'woocommerce_before_' . $this->object_type . '_object_save', $this, $this->data_store );
+			do_action( '{PLUGIN_HOOK_CLASS_NAME}_before_' . $this->object_type . '_object_save', $this, $this->data_store );
 
 			if ( $this->get_id() ) {
 				$this->data_store->update( $this );
@@ -207,7 +207,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	/**
 	 * Change data to JSON format.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @return string Data in JSON format.
 	 */
 	public function __toString() {
@@ -217,7 +217,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	/**
 	 * Returns all data for this object.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @return array
 	 */
 	public function get_data() {
@@ -227,7 +227,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	/**
 	 * Returns array of expected data keys for this object.
 	 *
-	 * @since   {VERSION}
+	 * @since {VERSION}
 	 * @return array
 	 */
 	public function get_data_keys() {
@@ -237,7 +237,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	/**
 	 * Returns all "extra" data keys for an object (for sub objects like product types).
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @return array
 	 */
 	public function get_extra_data_keys() {
@@ -247,7 +247,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	/**
 	 * Filter null meta values from array.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 *
 	 * @param mixed $meta
 	 *
@@ -271,7 +271,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	/**
 	 * Get Meta Data by Key.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @param  string $key
 	 * @param  bool $single return first found meta with key, or all with $key
 	 * @param  string $context What the value is for. Valid values are view and edit.
@@ -302,7 +302,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	/**
 	 * See if meta data exists, since get_meta always returns a '' or array().
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @param  string $key
 	 * @return boolean
 	 */
@@ -355,7 +355,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 
 	/**
 	 * Update meta data by key or ID, if provided.
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 *
 	 * @param  string $key
 	 * @param  string $value
@@ -524,7 +524,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	/**
 	 * Get object read property.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @return boolean
 	 */
 	public function get_object_read() {
@@ -535,7 +535,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	 * Set a collection of props in one go, collect any errors, and return the result.
 	 * Only sets using public methods.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 *
 	 * @param  array $props Key value pairs to set. Key is the prop and should map to a setter function name.
 	 * @param string $context
@@ -611,11 +611,11 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	/**
 	 * Prefix for action and filter hooks on data.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @return string
 	 */
 	protected function get_hook_prefix() {
-		return 'woocommerce_' . $this->object_type . '_get_';
+		return '{PLUGIN_HOOK_CLASS_NAME}_' . $this->object_type . '_get_';
 	}
 
 	/**
@@ -624,7 +624,7 @@ abstract class {PLUGIN_CLASS_PREFIX}_Data {
 	 * Gets the value from either current pending changes, or the data itself.
 	 * Context controls what happens to the value before it's returned.
 	 *
-	 * @since  {VERSION}
+	 * @since {VERSION}
 	 * @param  string $prop Name of prop to get.
 	 * @param  string $context What the value is for. Valid values are view and edit.
 	 * @return mixed

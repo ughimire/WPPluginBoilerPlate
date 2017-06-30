@@ -1,23 +1,23 @@
 <?php
 /**
- * WooCommerce General Settings
+ * {PLUGIN_MAIN_CLASS_NAME} General Settings
  *
- * @author      WooThemes
+ * @author      {AUTHOR}
  * @category    Admin
- * @package     WooCommerce/Admin
- * @version     2.1.0
+ * @package     {PLUGIN_MAIN_CLASS_NAME}/Admin
+ * @version     {VERSION}
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-if ( ! class_exists( 'WC_Settings_General', false ) ) :
+if ( ! class_exists( '{PLUGIN_CLASS_PREFIX}_Settings_General', false ) ) :
 
 /**
- * WC_Admin_Settings_General.
+ * {PLUGIN_CLASS_PREFIX}_Admin_Settings_General.
  */
-class WC_Settings_General extends WC_Settings_Page {
+class {PLUGIN_CLASS_PREFIX}_Settings_General extends {PLUGIN_CLASS_PREFIX}_Settings_Page {
 
 	/**
 	 * Constructor.
@@ -27,9 +27,9 @@ class WC_Settings_General extends WC_Settings_Page {
 		$this->id    = 'general';
 		$this->label = __( 'General', 'woocommerce' );
 
-		add_filter( 'woocommerce_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
-		add_action( 'woocommerce_settings_' . $this->id, array( $this, 'output' ) );
-		add_action( 'woocommerce_settings_save_' . $this->id, array( $this, 'save' ) );
+		add_filter( '{PLUGIN_HOOK_CLASS_NAME}_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
+		add_action( '{PLUGIN_HOOK_CLASS_NAME}_settings_' . $this->id, array( $this, 'output' ) );
+		add_action( '{PLUGIN_HOOK_CLASS_NAME}_settings_save_' . $this->id, array( $this, 'save' ) );
 	}
 
 	/**
@@ -39,20 +39,20 @@ class WC_Settings_General extends WC_Settings_Page {
 	 */
 	public function get_settings() {
 
-		$currency_code_options = get_woocommerce_currencies();
+		$currency_code_options = get_{PLUGIN_HOOK_CLASS_NAME}_currencies();
 
 		foreach ( $currency_code_options as $code => $name ) {
-			$currency_code_options[ $code ] = $name . ' (' . get_woocommerce_currency_symbol( $code ) . ')';
+			$currency_code_options[ $code ] = $name . ' (' . get_{PLUGIN_HOOK_CLASS_NAME}_currency_symbol( $code ) . ')';
 		}
 
-		$settings = apply_filters( 'woocommerce_general_settings', array(
+		$settings = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_general_settings', array(
 
 			array( 'title' => __( 'General options', 'woocommerce' ), 'type' => 'title', 'desc' => '', 'id' => 'general_options' ),
 
 			array(
 				'title'    => __( 'Base location', 'woocommerce' ),
 				'desc'     => __( 'This is the base location for your business. Tax rates will be based on this country.', 'woocommerce' ),
-				'id'       => 'woocommerce_default_country',
+				'id'       => '{PLUGIN_HOOK_CLASS_NAME}_default_country',
 				'css'      => 'min-width:350px;',
 				'default'  => 'GB',
 				'type'     => 'single_select_country',
@@ -62,7 +62,7 @@ class WC_Settings_General extends WC_Settings_Page {
 			array(
 				'title'    => __( 'Selling location(s)', 'woocommerce' ),
 				'desc'     => __( 'This option lets you limit which countries you are willing to sell to.', 'woocommerce' ),
-				'id'       => 'woocommerce_allowed_countries',
+				'id'       => '{PLUGIN_HOOK_CLASS_NAME}_allowed_countries',
 				'default'  => 'all',
 				'type'     => 'select',
 				'class'    => 'wc-enhanced-select',
@@ -78,7 +78,7 @@ class WC_Settings_General extends WC_Settings_Page {
 			array(
 				'title'   => __( 'Sell to all countries, except for&hellip;', 'woocommerce' ),
 				'desc'    => '',
-				'id'      => 'woocommerce_all_except_countries',
+				'id'      => '{PLUGIN_HOOK_CLASS_NAME}_all_except_countries',
 				'css'     => 'min-width: 350px;',
 				'default' => '',
 				'type'    => 'multi_select_countries',
@@ -87,7 +87,7 @@ class WC_Settings_General extends WC_Settings_Page {
 			array(
 				'title'   => __( 'Sell to specific countries', 'woocommerce' ),
 				'desc'    => '',
-				'id'      => 'woocommerce_specific_allowed_countries',
+				'id'      => '{PLUGIN_HOOK_CLASS_NAME}_specific_allowed_countries',
 				'css'     => 'min-width: 350px;',
 				'default' => '',
 				'type'    => 'multi_select_countries',
@@ -96,7 +96,7 @@ class WC_Settings_General extends WC_Settings_Page {
 			array(
 				'title'    => __( 'Shipping location(s)', 'woocommerce' ),
 				'desc'     => __( 'Choose which countries you want to ship to, or choose to ship to all locations you sell to.', 'woocommerce' ),
-				'id'       => 'woocommerce_ship_to_countries',
+				'id'       => '{PLUGIN_HOOK_CLASS_NAME}_ship_to_countries',
 				'default'  => '',
 				'type'     => 'select',
 				'class'    => 'wc-enhanced-select',
@@ -112,7 +112,7 @@ class WC_Settings_General extends WC_Settings_Page {
 			array(
 				'title'   => __( 'Ship to specific countries', 'woocommerce' ),
 				'desc'    => '',
-				'id'      => 'woocommerce_specific_ship_to_countries',
+				'id'      => '{PLUGIN_HOOK_CLASS_NAME}_specific_ship_to_countries',
 				'css'     => '',
 				'default' => '',
 				'type'    => 'multi_select_countries',
@@ -120,7 +120,7 @@ class WC_Settings_General extends WC_Settings_Page {
 
 			array(
 				'title'    => __( 'Default customer location', 'woocommerce' ),
-				'id'       => 'woocommerce_default_customer_address',
+				'id'       => '{PLUGIN_HOOK_CLASS_NAME}_default_customer_address',
 				'desc_tip' => __( 'This option determines a customers default location. The MaxMind GeoLite Database will be periodically downloaded to your wp-content directory if using geolocation.', 'woocommerce' ),
 				'default'  => 'geolocation',
 				'type'     => 'select',
@@ -136,7 +136,7 @@ class WC_Settings_General extends WC_Settings_Page {
 			array(
 				'title'   => __( 'Enable taxes', 'woocommerce' ),
 				'desc'    => __( 'Enable taxes and tax calculations', 'woocommerce' ),
-				'id'      => 'woocommerce_calc_taxes',
+				'id'      => '{PLUGIN_HOOK_CLASS_NAME}_calc_taxes',
 				'default' => 'no',
 				'type'    => 'checkbox',
 			),
@@ -144,7 +144,7 @@ class WC_Settings_General extends WC_Settings_Page {
 			array(
 				'title'   => __( 'Store notice', 'woocommerce' ),
 				'desc'    => __( 'Enable site-wide store notice text', 'woocommerce' ),
-				'id'      => 'woocommerce_demo_store',
+				'id'      => '{PLUGIN_HOOK_CLASS_NAME}_demo_store',
 				'default' => 'no',
 				'type'    => 'checkbox',
 			),
@@ -152,7 +152,7 @@ class WC_Settings_General extends WC_Settings_Page {
 			array(
 				'title'    => __( 'Store notice text', 'woocommerce' ),
 				'desc'     => '',
-				'id'       => 'woocommerce_demo_store_notice',
+				'id'       => '{PLUGIN_HOOK_CLASS_NAME}_demo_store_notice',
 				'default'  => __( 'This is a demo store for testing purposes &mdash; no orders shall be fulfilled.', 'woocommerce' ),
 				'type'     => 'textarea',
 				'css'     => 'width:350px; height: 65px;',
@@ -166,7 +166,7 @@ class WC_Settings_General extends WC_Settings_Page {
 			array(
 				'title'    => __( 'Currency', 'woocommerce' ),
 				'desc'     => __( 'This controls what currency prices are listed at in the catalog and which currency gateways will take payments in.', 'woocommerce' ),
-				'id'       => 'woocommerce_currency',
+				'id'       => '{PLUGIN_HOOK_CLASS_NAME}_currency',
 				'css'      => 'min-width:350px;',
 				'default'  => 'GBP',
 				'type'     => 'select',
@@ -178,16 +178,16 @@ class WC_Settings_General extends WC_Settings_Page {
 			array(
 				'title'    => __( 'Currency position', 'woocommerce' ),
 				'desc'     => __( 'This controls the position of the currency symbol.', 'woocommerce' ),
-				'id'       => 'woocommerce_currency_pos',
+				'id'       => '{PLUGIN_HOOK_CLASS_NAME}_currency_pos',
 				'css'      => 'min-width:350px;',
 				'class'    => 'wc-enhanced-select',
 				'default'  => 'left',
 				'type'     => 'select',
 				'options'  => array(
-					'left'        => __( 'Left', 'woocommerce' ) . ' (' . get_woocommerce_currency_symbol() . '99.99)',
-					'right'       => __( 'Right', 'woocommerce' ) . ' (99.99' . get_woocommerce_currency_symbol() . ')',
-					'left_space'  => __( 'Left with space', 'woocommerce' ) . ' (' . get_woocommerce_currency_symbol() . ' 99.99)',
-					'right_space' => __( 'Right with space', 'woocommerce' ) . ' (99.99 ' . get_woocommerce_currency_symbol() . ')',
+					'left'        => __( 'Left', 'woocommerce' ) . ' (' . get_{PLUGIN_HOOK_CLASS_NAME}_currency_symbol() . '99.99)',
+					'right'       => __( 'Right', 'woocommerce' ) . ' (99.99' . get_{PLUGIN_HOOK_CLASS_NAME}_currency_symbol() . ')',
+					'left_space'  => __( 'Left with space', 'woocommerce' ) . ' (' . get_{PLUGIN_HOOK_CLASS_NAME}_currency_symbol() . ' 99.99)',
+					'right_space' => __( 'Right with space', 'woocommerce' ) . ' (99.99 ' . get_{PLUGIN_HOOK_CLASS_NAME}_currency_symbol() . ')',
 				),
 				'desc_tip' => true,
 			),
@@ -195,7 +195,7 @@ class WC_Settings_General extends WC_Settings_Page {
 			array(
 				'title'    => __( 'Thousand separator', 'woocommerce' ),
 				'desc'     => __( 'This sets the thousand separator of displayed prices.', 'woocommerce' ),
-				'id'       => 'woocommerce_price_thousand_sep',
+				'id'       => '{PLUGIN_HOOK_CLASS_NAME}_price_thousand_sep',
 				'css'      => 'width:50px;',
 				'default'  => ',',
 				'type'     => 'text',
@@ -205,7 +205,7 @@ class WC_Settings_General extends WC_Settings_Page {
 			array(
 				'title'    => __( 'Decimal separator', 'woocommerce' ),
 				'desc'     => __( 'This sets the decimal separator of displayed prices.', 'woocommerce' ),
-				'id'       => 'woocommerce_price_decimal_sep',
+				'id'       => '{PLUGIN_HOOK_CLASS_NAME}_price_decimal_sep',
 				'css'      => 'width:50px;',
 				'default'  => '.',
 				'type'     => 'text',
@@ -215,7 +215,7 @@ class WC_Settings_General extends WC_Settings_Page {
 			array(
 				'title'    => __( 'Number of decimals', 'woocommerce' ),
 				'desc'     => __( 'This sets the number of decimal points shown in displayed prices.', 'woocommerce' ),
-				'id'       => 'woocommerce_price_num_decimals',
+				'id'       => '{PLUGIN_HOOK_CLASS_NAME}_price_num_decimals',
 				'css'      => 'width:50px;',
 				'default'  => '2',
 				'desc_tip' => true,
@@ -230,7 +230,7 @@ class WC_Settings_General extends WC_Settings_Page {
 
 		) );
 
-		return apply_filters( 'woocommerce_get_settings_' . $this->id, $settings );
+		return apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_get_settings_' . $this->id, $settings );
 	}
 
 	/**
@@ -253,10 +253,10 @@ class WC_Settings_General extends WC_Settings_Page {
 	public function save() {
 		$settings = $this->get_settings();
 
-		WC_Admin_Settings::save_fields( $settings );
+		{PLUGIN_CLASS_PREFIX}_Admin_Settings::save_fields( $settings );
 	}
 }
 
 endif;
 
-return new WC_Settings_General();
+return new {PLUGIN_CLASS_PREFIX}_Settings_General();

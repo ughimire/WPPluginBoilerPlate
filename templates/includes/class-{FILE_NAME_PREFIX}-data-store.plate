@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * {PLUGIN_CLASS_PREFIX} Data Store.
  *
- * @since    {VERSION}
+ * @since {VERSION}
  * @version  {VERSION}
  * @category Class
  * @author   {AUTHOR}
