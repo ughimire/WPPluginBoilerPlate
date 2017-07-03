@@ -113,7 +113,7 @@ add_action( 'template_redirect', '{FILE_NAME_PREFIX}_prevent_adjacent_posts_rel_
  */
 function {FILE_NAME_PREFIX}_gallery_noscript() {
 	?>
-	<noscript><style>.woocommerce-product-gallery{ opacity: 1 !important; }</style></noscript>
+	<noscript><style>.{TEXT_DOMAIN}-product-gallery{ opacity: 1 !important; }</style></noscript>
 	<?php
 }
 add_action( 'wp_head', '{FILE_NAME_PREFIX}_gallery_noscript' );
@@ -202,10 +202,10 @@ function {FILE_NAME_PREFIX}_products_rss_feed() {
 function {FILE_NAME_PREFIX}_generator_tag( $gen, $type ) {
 	switch ( $type ) {
 		case 'html':
-			$gen .= "\n" . '<meta name="generator" content="WooCommerce ' . esc_attr( WC_VERSION ) . '">';
+			$gen .= "\n" . '<meta name="generator" content="{PLUGIN_NAME} ' . esc_attr( WC_VERSION ) . '">';
 			break;
 		case 'xhtml':
-			$gen .= "\n" . '<meta name="generator" content="WooCommerce ' . esc_attr( WC_VERSION ) . '" />';
+			$gen .= "\n" . '<meta name="generator" content="{PLUGIN_NAME} ' . esc_attr( WC_VERSION ) . '" />';
 			break;
 	}
 	return $gen;
@@ -220,35 +220,35 @@ function {FILE_NAME_PREFIX}_generator_tag( $gen, $type ) {
 function {FILE_NAME_PREFIX}_body_class( $classes ) {
 	$classes = (array) $classes;
 
-	if ( is_woocommerce() ) {
+	if ( is_{PLUGIN_HOOK_CLASS_NAME}() ) {
 
 		$classes[] = '{TEXT_DOMAIN}';
-		$classes[] = 'woocommerce-page';
+		$classes[] = '{TEXT_DOMAIN}-page';
 
 	} elseif ( is_checkout() ) {
 
-		$classes[] = 'woocommerce-checkout';
-		$classes[] = 'woocommerce-page';
+		$classes[] = '{TEXT_DOMAIN}-checkout';
+		$classes[] = '{TEXT_DOMAIN}-page';
 
 	} elseif ( is_cart() ) {
 
-		$classes[] = 'woocommerce-cart';
-		$classes[] = 'woocommerce-page';
+		$classes[] = '{TEXT_DOMAIN}-cart';
+		$classes[] = '{TEXT_DOMAIN}-page';
 
 	} elseif ( is_account_page() ) {
 
-		$classes[] = 'woocommerce-account';
-		$classes[] = 'woocommerce-page';
+		$classes[] = '{TEXT_DOMAIN}-account';
+		$classes[] = '{TEXT_DOMAIN}-page';
 
 	}
 
 	if ( is_store_notice_showing() ) {
-		$classes[] = 'woocommerce-demo-store';
+		$classes[] = '{TEXT_DOMAIN}-demo-store';
 	}
 
 	foreach ( {PLUGIN_CLASS_PREFIX}()->query->query_vars as $key => $value ) {
 		if ( is_{FILE_NAME_PREFIX}_endpoint_url( $key ) ) {
-			$classes[] = 'woocommerce-' . sanitize_html_class( $key );
+			$classes[] = '{TEXT_DOMAIN}-' . sanitize_html_class( $key );
 		}
 	}
 
@@ -414,7 +414,7 @@ function {FILE_NAME_PREFIX}_query_string_form_fields( $values = null, $exclude =
 if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_content' ) ) {
 
 	/**
-	 * Output WooCommerce content.
+	 * Output {PLUGIN_NAME} content.
 	 *
 	 * This function is only used in the optional 'woocommerce.php' template.
 	 * which people can add to their themes to add basic woocommerce support.
@@ -520,7 +520,7 @@ if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_demo_store' ) ) {
 			$notice = __( 'This is a demo store for testing purposes &mdash; no orders shall be fulfilled.', '{TEXT_DOMAIN}' );
 		}
 
-		echo apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_demo_store', '<p class="woocommerce-store-notice demo_store">' . wp_kses_post( $notice ) . ' <a href="#" class="woocommerce-store-notice__dismiss-link">' . esc_html__( 'Dismiss', '{TEXT_DOMAIN}' ) . '</a></p>', $notice );
+		echo apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_demo_store', '<p class="{TEXT_DOMAIN}-store-notice demo_store">' . wp_kses_post( $notice ) . ' <a href="#" class="{TEXT_DOMAIN}-store-notice__dismiss-link">' . esc_html__( 'Dismiss', '{TEXT_DOMAIN}' ) . '</a></p>', $notice );
 	}
 }
 
@@ -608,7 +608,7 @@ if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_template_loop_product_title' )
 	 * Show the product title in the product loop. By default this is an H2.
 	 */
 	function {PLUGIN_HOOK_CLASS_NAME}_template_loop_product_title() {
-		echo '<h2 class="woocommerce-loop-product__title">' . get_the_title() . '</h2>';
+		echo '<h2 class="{TEXT_DOMAIN}-loop-product__title">' . get_the_title() . '</h2>';
 	}
 }
 if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_template_loop_category_title' ) ) {
@@ -620,7 +620,7 @@ if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_template_loop_category_title' 
 	 */
 	function {PLUGIN_HOOK_CLASS_NAME}_template_loop_category_title( $category ) {
 		?>
-		<h2 class="woocommerce-loop-category__title">
+		<h2 class="{TEXT_DOMAIN}-loop-category__title">
 			<?php
 				echo $category->name;
 
@@ -636,7 +636,7 @@ if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_template_loop_category_title' 
  * Insert the opening anchor tag for products in the loop.
  */
 function {PLUGIN_HOOK_CLASS_NAME}_template_loop_product_link_open() {
-	echo '<a href="' . get_the_permalink() . '" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">';
+	echo '<a href="' . get_the_permalink() . '" class="{TEXT_DOMAIN}-LoopProduct-link {TEXT_DOMAIN}-loop-product__link">';
 }
 /**
  * Insert the opening anchor tag for products in the loop.
@@ -781,8 +781,8 @@ if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_get_product_thumbnail' ) ) {
 	 *
 	 * @subpackage	Loop
 	 * @param string $size (default: 'shop_catalog')
-	 * @param int $deprecated1 Deprecated since WooCommerce 2.0 (default: 0)
-	 * @param int $deprecated2 Deprecated since WooCommerce 2.0 (default: 0)
+	 * @param int $deprecated1 Deprecated since {PLUGIN_NAME} 2.0 (default: 0)
+	 * @param int $deprecated2 Deprecated since {PLUGIN_NAME} 2.0 (default: 0)
 	 * @return string
 	 */
 	function {PLUGIN_HOOK_CLASS_NAME}_get_product_thumbnail( $size = 'shop_catalog', $deprecated1 = 0, $deprecated2 = 0 ) {
@@ -1510,7 +1510,7 @@ if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_mini_cart' ) ) {
 if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_login_form' ) ) {
 
 	/**
-	 * Output the WooCommerce Login Form.
+	 * Output the {PLUGIN_NAME} Login Form.
 	 *
 	 * @subpackage	Forms
 	 * @param array $args
@@ -1532,7 +1532,7 @@ if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_login_form' ) ) {
 if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_checkout_login_form' ) ) {
 
 	/**
-	 * Output the WooCommerce Checkout Login Form.
+	 * Output the {PLUGIN_NAME} Checkout Login Form.
 	 *
 	 * @subpackage	Checkout
 	 */
@@ -1544,14 +1544,14 @@ if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_checkout_login_form' ) ) {
 if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_breadcrumb' ) ) {
 
 	/**
-	 * Output the WooCommerce Breadcrumb.
+	 * Output the {PLUGIN_NAME} Breadcrumb.
 	 *
 	 * @param array $args
 	 */
 	function {PLUGIN_HOOK_CLASS_NAME}_breadcrumb( $args = array() ) {
 		$args = wp_parse_args( $args, apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_breadcrumb_defaults', array(
 			'delimiter'   => '&nbsp;&#47;&nbsp;',
-			'wrap_before' => '<nav class="woocommerce-breadcrumb">',
+			'wrap_before' => '<nav class="{TEXT_DOMAIN}-breadcrumb">',
 			'wrap_after'  => '</nav>',
 			'before'      => '',
 			'after'       => '',
@@ -2182,7 +2182,7 @@ if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_single_variation' ) ) {
 	 * Output placeholders for the single variation.
 	 */
 	function {PLUGIN_HOOK_CLASS_NAME}_single_variation() {
-		echo '<div class="woocommerce-variation single_variation"></div>';
+		echo '<div class="{TEXT_DOMAIN}-variation single_variation"></div>';
 	}
 }
 

@@ -142,7 +142,7 @@ add_filter( 'wp_nav_menu_objects', '{FILE_NAME_PREFIX}_nav_menu_items', 10 );
  */
 function {FILE_NAME_PREFIX}_nav_menu_item_classes( $menu_items ) {
 
-	if ( ! is_woocommerce() ) {
+	if ( ! is_{PLUGIN_HOOK_CLASS_NAME}() ) {
 		return $menu_items;
 	}
 
@@ -195,7 +195,7 @@ add_filter( 'wp_nav_menu_objects', '{FILE_NAME_PREFIX}_nav_menu_item_classes', 2
  * @return string
  */
 function {FILE_NAME_PREFIX}_list_pages( $pages ) {
-	if ( is_woocommerce() ) {
+	if ( is_{PLUGIN_HOOK_CLASS_NAME}() ) {
 		// Remove current_page_parent class from any item.
 		$pages = str_replace( 'current_page_parent', '', $pages );
 		// Find shop_page_id through woocommerce options.
