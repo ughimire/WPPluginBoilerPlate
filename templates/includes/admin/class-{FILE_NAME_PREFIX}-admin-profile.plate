@@ -68,13 +68,7 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Profile {
 						'label'       => __( 'Postcode / ZIP', '{TEXT_DOMAIN}' ),
 						'description' => '',
 					),
-					'billing_country' => array(
-						'label'       => __( 'Country', '{TEXT_DOMAIN}' ),
-						'description' => '',
-						'class'       => 'js_field-country',
-						'type'        => 'select',
-						'options'     => array( '' => __( 'Select a country&hellip;', '{TEXT_DOMAIN}' ) ) + {PLUGIN_CLASS_PREFIX}()->countries->get_allowed_countries(),
-					),
+
 					'billing_state' => array(
 						'label'       => __( 'State / County', '{TEXT_DOMAIN}' ),
 						'description' => __( 'State / County or state code', '{TEXT_DOMAIN}' ),
@@ -127,14 +121,7 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Profile {
 					'shipping_postcode' => array(
 						'label'       => __( 'Postcode / ZIP', '{TEXT_DOMAIN}' ),
 						'description' => '',
-					),
-					'shipping_country' => array(
-						'label'       => __( 'Country', '{TEXT_DOMAIN}' ),
-						'description' => '',
-						'class'       => 'js_field-country',
-						'type'        => 'select',
-						'options'     => array( '' => __( 'Select a country&hellip;', '{TEXT_DOMAIN}' ) ) + {PLUGIN_CLASS_PREFIX}()->countries->get_allowed_countries(),
-					),
+
 					'shipping_state' => array(
 						'label'       => __( 'State / County', '{TEXT_DOMAIN}' ),
 						'description' => __( 'State / County or state code', '{TEXT_DOMAIN}' ),

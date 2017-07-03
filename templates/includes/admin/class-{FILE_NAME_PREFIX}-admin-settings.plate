@@ -560,61 +560,6 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Settings {
 					</tr><?php
 					break;
 
-				// Single country selects
-				case 'single_select_country' :
-					$country_setting = (string) self::get_option( $value['id'] );
-
-					if ( strstr( $country_setting, ':' ) ) {
-						$country_setting = explode( ':', $country_setting );
-						$country         = current( $country_setting );
-						$state           = end( $country_setting );
-					} else {
-						$country = $country_setting;
-						$state   = '*';
-					}
-					?><tr valign="top">
-						<th scope="row" class="titledesc">
-							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-							<?php echo $tooltip_html; ?>
-						</th>
-						<td class="forminp"><select name="<?php echo esc_attr( $value['id'] ); ?>" style="<?php echo esc_attr( $value['css'] ); ?>" data-placeholder="<?php esc_attr_e( 'Choose a country&hellip;', '{TEXT_DOMAIN}' ); ?>" aria-label="<?php esc_attr_e( 'Country', '{TEXT_DOMAIN}' ) ?>" class="{FILE_NAME_PREFIX}-enhanced-select">
-							<?php {PLUGIN_CLASS_PREFIX}()->countries->country_dropdown_options( $country, $state ); ?>
-						</select> <?php echo $description; ?>
-						</td>
-					</tr><?php
-					break;
-
-				// Country multiselects
-				case 'multi_select_countries' :
-
-					$selections = (array) self::get_option( $value['id'] );
-
-					if ( ! empty( $value['options'] ) ) {
-						$countries = $value['options'];
-					} else {
-						$countries = {PLUGIN_CLASS_PREFIX}()->countries->countries;
-					}
-
-					asort( $countries );
-					?><tr valign="top">
-						<th scope="row" class="titledesc">
-							<label for="<?php echo esc_attr( $value['id'] ); ?>"><?php echo esc_html( $value['title'] ); ?></label>
-							<?php echo $tooltip_html; ?>
-						</th>
-						<td class="forminp">
-							<select multiple="multiple" name="<?php echo esc_attr( $value['id'] ); ?>[]" style="width:350px" data-placeholder="<?php esc_attr_e( 'Choose countries&hellip;', '{TEXT_DOMAIN}' ); ?>" aria-label="<?php esc_attr_e( 'Country', '{TEXT_DOMAIN}' ) ?>" class="{FILE_NAME_PREFIX}-enhanced-select">
-								<?php
-									if ( ! empty( $countries ) ) {
-										foreach ( $countries as $key => $val ) {
-											echo '<option value="' . esc_attr( $key ) . '" ' . selected( in_array( $key, $selections ), true, false ) . '>' . $val . '</option>';
-										}
-									}
-								?>
-							</select> <?php echo ( $description ) ? $description : ''; ?> <br /><a class="select_all button" href="#"><?php _e( 'Select all', '{TEXT_DOMAIN}' ); ?></a> <a class="select_none button" href="#"><?php _e( 'Select none', '{TEXT_DOMAIN}' ); ?></a>
-						</td>
-					</tr><?php
-					break;
-
 				// Default: run an action
 				default:
 					do_action( '{PLUGIN_HOOK_CLASS_NAME}_admin_field_' . $value['type'], $value );

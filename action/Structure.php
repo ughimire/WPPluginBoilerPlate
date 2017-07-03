@@ -264,6 +264,8 @@ final class Structure {
 				'{FILE_NAME_PREFIX}-template-functions.php',
 
 				'{FILE_NAME_PREFIX}-term-functions.php',
+
+				'{FILE_NAME_PREFIX}-notice-functions.php',
 			),
 
 

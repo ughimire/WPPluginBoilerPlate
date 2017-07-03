@@ -202,10 +202,10 @@ function {FILE_NAME_PREFIX}_products_rss_feed() {
 function {FILE_NAME_PREFIX}_generator_tag( $gen, $type ) {
 	switch ( $type ) {
 		case 'html':
-			$gen .= "\n" . '<meta name="generator" content="{PLUGIN_NAME} ' . esc_attr( WC_VERSION ) . '">';
+			$gen .= "\n" . '<meta name="generator" content="{PLUGIN_NAME} ' . esc_attr( {PLUGIN_CLASS_PREFIX}_VERSION ) . '">';
 			break;
 		case 'xhtml':
-			$gen .= "\n" . '<meta name="generator" content="{PLUGIN_NAME} ' . esc_attr( WC_VERSION ) . '" />';
+			$gen .= "\n" . '<meta name="generator" content="{PLUGIN_NAME} ' . esc_attr( {PLUGIN_CLASS_PREFIX}_VERSION ) . '" />';
 			break;
 	}
 	return $gen;
@@ -1977,60 +1977,6 @@ if ( ! function_exists( '{PLUGIN_HOOK_CLASS_NAME}_form_field' ) ) {
 		$field_container = '<p class="form-row %1$s" id="%2$s" data-priority="' . esc_attr( $sort ) . '">%3$s</p>';
 
 		switch ( $args['type'] ) {
-			case 'country' :
-
-				$countries = 'shipping_country' === $key ? {PLUGIN_CLASS_PREFIX}()->countries->get_shipping_countries() : {PLUGIN_CLASS_PREFIX}()->countries->get_allowed_countries();
-
-				if ( 1 === sizeof( $countries ) ) {
-
-					$field .= '<strong>' . current( array_values( $countries ) ) . '</strong>';
-
-					$field .= '<input type="hidden" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" value="' . current( array_keys( $countries ) ) . '" ' . implode( ' ', $custom_attributes ) . ' class="country_to_state" />';
-
-				} else {
-
-					$field = '<select name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" class="country_to_state country_select ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" ' . implode( ' ', $custom_attributes ) . '>' . '<option value="">' . esc_html__( 'Select a country&hellip;', '{TEXT_DOMAIN}' ) . '</option>';
-
-					foreach ( $countries as $ckey => $cvalue ) {
-						$field .= '<option value="' . esc_attr( $ckey ) . '" ' . selected( $value, $ckey, false ) . '>' . $cvalue . '</option>';
-					}
-
-					$field .= '</select>';
-
-					$field .= '<noscript><input type="submit" name="{PLUGIN_HOOK_CLASS_NAME}_checkout_update_totals" value="' . esc_attr__( 'Update country', '{TEXT_DOMAIN}' ) . '" /></noscript>';
-
-				}
-
-				break;
-			case 'state' :
-				/* Get country this state field is representing */
-				$for_country = isset( $args['country'] ) ? $args['country'] : {PLUGIN_CLASS_PREFIX}()->checkout->get_value( 'billing_state' === $key ? 'billing_country' : 'shipping_country' );
-				$states      = {PLUGIN_CLASS_PREFIX}()->countries->get_states( $for_country );
-
-				if ( is_array( $states ) && empty( $states ) ) {
-
-					$field_container = '<p class="form-row %1$s" id="%2$s" style="display: none">%3$s</p>';
-
-					$field .= '<input type="hidden" class="hidden" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" value="" ' . implode( ' ', $custom_attributes ) . ' placeholder="' . esc_attr( $args['placeholder'] ) . '" />';
-
-				} elseif ( ! is_null( $for_country ) && is_array( $states ) ) {
-
-					$field .= '<select name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" class="state_select ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" ' . implode( ' ', $custom_attributes ) . ' data-placeholder="' . esc_attr( $args['placeholder'] ) . '">
-						<option value="">' . esc_html__( 'Select a state&hellip;', '{TEXT_DOMAIN}' ) . '</option>';
-
-					foreach ( $states as $ckey => $cvalue ) {
-						$field .= '<option value="' . esc_attr( $ckey ) . '" ' . selected( $value, $ckey, false ) . '>' . $cvalue . '</option>';
-					}
-
-					$field .= '</select>';
-
-				} else {
-
-					$field .= '<input type="text" class="input-text ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" value="' . esc_attr( $value ) . '"  placeholder="' . esc_attr( $args['placeholder'] ) . '" name="' . esc_attr( $key ) . '" id="' . esc_attr( $args['id'] ) . '" ' . implode( ' ', $custom_attributes ) . ' />';
-
-				}
-
-				break;
 			case 'textarea' :
 
 				$field .= '<textarea name="' . esc_attr( $key ) . '" class="input-text ' . esc_attr( implode( ' ', $args['input_class'] ) ) . '" id="' . esc_attr( $args['id'] ) . '" placeholder="' . esc_attr( $args['placeholder'] ) . '" ' . ( empty( $args['custom_attributes']['rows'] ) ? ' rows="2"' : '' ) . ( empty( $args['custom_attributes']['cols'] ) ? ' cols="5"' : '' ) . implode( ' ', $custom_attributes ) . '>' . esc_textarea( $value ) . '</textarea>';

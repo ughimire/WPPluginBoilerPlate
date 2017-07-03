@@ -144,6 +144,9 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		$this->define( '{PLUGIN_CLASS_PREFIX}_VERSION', $this->version );
 		$this->define( '{PLUGIN_MAIN_CLASS_NAME_UPPERCASE}_VERSION', $this->version );
 		$this->define( '{PLUGIN_CLASS_PREFIX}_TEMPLATE_DEBUG_MODE', false );
+		$this->define( '{PLUGIN_CLASS_PREFIX}_LOG_DIR', $upload_dir['basedir'] . '/wc-logs/' );
+        $this->define( '{PLUGIN_CLASS_PREFIX}_SESSION_CACHE_GROUP', 'wc_session_id' );
+        $this->define( '{PLUGIN_CLASS_PREFIX}_TEMPLATE_DEBUG_MODE', false );
 	}
 
 	/**
@@ -272,7 +275,6 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/{FILE_NAME_PREFIX}-template-hooks.php' );
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-template-loader.php' );                // Template Loader
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-frontend-scripts.php' );               // Frontend Scripts
-		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-form-handler.php' );                   // Form Handlers
 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-shortcodes.php' );                     // Shortcodes class
 
 		if ( $this->is_active_theme( 'twentyseventeen' ) ) {
