@@ -29,11 +29,6 @@ function {FILE_NAME_PREFIX}_get_screen_ids() {
 		'user-edit',
 	);
 
-	if ( $attributes = {FILE_NAME_PREFIX}_get_attribute_taxonomies() ) {
-		foreach ( $attributes as $attribute ) {
-			$screen_ids[] = 'edit-' . {FILE_NAME_PREFIX}_attribute_taxonomy_name( $attribute->attribute_name );
-		}
-	}
 
 	return apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_screen_ids', $screen_ids );
 }
@@ -117,7 +112,7 @@ function {FILE_NAME_PREFIX}_create_page( $slug, $option = '', $page_title = '', 
 /**
  * Output admin fields.
  *
- * Loops though the {TEXT-DOMAIN} options array and outputs each field.
+ * Loops though the {TEXT_DOMAIN} options array and outputs each field.
  *
  * @param array $options Opens array to output
  */

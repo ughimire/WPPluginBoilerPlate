@@ -39,14 +39,6 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Taxonomies {
 		// Taxonomy page descriptions
 		add_action( 'product_cat_pre_add_form', array( $this, 'product_cat_description' ) );
 
-		$attribute_taxonomies = {FILE_NAME_PREFIX}_get_attribute_taxonomies();
-
-		if ( ! empty( $attribute_taxonomies ) ) {
-			foreach ( $attribute_taxonomies as $attribute ) {
-				add_action( 'pa_' . $attribute->attribute_name . '_pre_add_form', array( $this, 'product_attribute_description' ) );
-			}
-		}
-
 		// Maintain hierarchy of terms
 		add_filter( 'wp_terms_checklist_args', array( $this, 'disable_checked_ontop' ) );
 	}
@@ -127,9 +119,9 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Taxonomies {
 
 					// Create the media frame.
 					file_frame = wp.media.frames.downloadable_file = wp.media({
-						title: '<?php _e( "Choose an image", "{TEXT-DOMAIN}" ); ?>',
+						title: '<?php _e( "Choose an image", "{TEXT_DOMAIN}" ); ?>',
 						button: {
-							text: '<?php _e( "Use image", "{TEXT-DOMAIN}" ); ?>'
+							text: '<?php _e( "Use image", "{TEXT_DOMAIN}" ); ?>'
 						},
 						multiple: false
 					});
@@ -237,9 +229,9 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Taxonomies {
 
 						// Create the media frame.
 						file_frame = wp.media.frames.downloadable_file = wp.media({
-							title: '<?php _e( "Choose an image", "{TEXT-DOMAIN}" ); ?>',
+							title: '<?php _e( "Choose an image", "{TEXT_DOMAIN}" ); ?>',
 							button: {
-								text: '<?php _e( "Use image", "{TEXT-DOMAIN}" ); ?>'
+								text: '<?php _e( "Use image", "{TEXT_DOMAIN}" ); ?>'
 							},
 							multiple: false
 						});

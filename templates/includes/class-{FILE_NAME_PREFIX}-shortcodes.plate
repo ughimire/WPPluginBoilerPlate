@@ -128,7 +128,7 @@ class {PLUGIN_CLASS_PREFIX}_Shortcodes {
 		{PLUGIN_HOOK_CLASS_NAME}_reset_loop();
 		wp_reset_postdata();
 
-		return '<div class="{TEXT-DOMAIN} columns-' . $columns . '">' . ob_get_clean() . '</div>';
+		return '<div class="{TEXT_DOMAIN} columns-' . $columns . '">' . ob_get_clean() . '</div>';
 	}
 
 	/**
@@ -288,7 +288,7 @@ class {PLUGIN_CLASS_PREFIX}_Shortcodes {
 
 		{PLUGIN_HOOK_CLASS_NAME}_reset_loop();
 
-		return '<div class="{TEXT-DOMAIN} columns-' . $columns . '">' . ob_get_clean() . '</div>';
+		return '<div class="{TEXT_DOMAIN} columns-' . $columns . '">' . ob_get_clean() . '</div>';
 	}
 
 	/**
@@ -468,7 +468,7 @@ class {PLUGIN_CLASS_PREFIX}_Shortcodes {
 
 		ob_start();
 		?>
-		<p class="product {TEXT-DOMAIN} add_to_cart_inline <?php echo esc_attr( $atts['class'] ); ?>"<?php echo $styles; ?>>
+		<p class="product {TEXT_DOMAIN} add_to_cart_inline <?php echo esc_attr( $atts['class'] ); ?>"<?php echo $styles; ?>>
 
 			<?php if ( 'true' == $atts['show_price'] ) : ?>
 				<?php echo $product->get_price_html(); ?>
@@ -754,7 +754,7 @@ class {PLUGIN_CLASS_PREFIX}_Shortcodes {
 		$wp_query = $previous_wp_query;
 		wp_reset_postdata();
 
-		return '<div class="{TEXT-DOMAIN}">' . ob_get_clean() . '</div>';
+		return '<div class="{TEXT_DOMAIN}">' . ob_get_clean() . '</div>';
 	}
 
 	/**
@@ -765,7 +765,7 @@ class {PLUGIN_CLASS_PREFIX}_Shortcodes {
 	public static function shop_messages() {
 		ob_start();
 		{FILE_NAME_PREFIX}_print_notices();
-		return '<div class="{TEXT-DOMAIN}">' . ob_get_clean() . '</div>';
+		return '<div class="{TEXT_DOMAIN}">' . ob_get_clean() . '</div>';
 	}
 
 	/**

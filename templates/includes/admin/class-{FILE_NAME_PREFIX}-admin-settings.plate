@@ -120,7 +120,7 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Settings {
 	/**
 	 * Settings page.
 	 *
-	 * Handles the display of the main {TEXT-DOMAIN} settings page in admin.
+	 * Handles the display of the main {TEXT_DOMAIN} settings page in admin.
 	 */
 	public static function output() {
 		global $current_section, $current_tab;
@@ -207,7 +207,7 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Settings {
 	/**
 	 * Output admin fields.
 	 *
-	 * Loops though the {TEXT-DOMAIN} options array and outputs each field.
+	 * Loops though the {TEXT_DOMAIN} options array and outputs each field.
 	 *
 	 * @param array[] $options Opens array to output
 	 */
@@ -667,7 +667,7 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Settings {
 	/**
 	 * Save admin fields.
 	 *
-	 * Loops though the {TEXT-DOMAIN} options array and outputs each field.
+	 * Loops though the {TEXT_DOMAIN} options array and outputs each field.
 	 *
 	 * @param array $options Options array to output
 	 * @param array $data Optional. Data to use for saving. Defaults to $_POST.

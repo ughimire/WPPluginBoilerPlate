@@ -251,7 +251,7 @@ class {PLUGIN_CLASS_PREFIX}_Emails {
 	}
 
 	/**
-	 * Wraps a message in the {TEXT-DOMAIN} mail template.
+	 * Wraps a message in the {TEXT_DOMAIN} mail template.
 	 *
 	 * @param mixed $email_heading
 	 * @param string $message

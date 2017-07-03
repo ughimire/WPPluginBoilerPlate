@@ -96,7 +96,7 @@ class {PLUGIN_CLASS_PREFIX}_Install {
 		add_action( 'init', array( __CLASS__, 'check_version' ), 5 );
 		add_action( 'init', array( __CLASS__, 'init_background_updater' ), 5 );
 		add_action( 'admin_init', array( __CLASS__, 'install_actions' ) );
-		add_action( 'in_plugin_update_message-{TEXT_DOMAIN}/{TEXT-DOMAIN}.php', array( __CLASS__, 'in_plugin_update_message' ) );
+		add_action( 'in_plugin_update_message-{TEXT_DOMAIN}/{TEXT_DOMAIN}.php', array( __CLASS__, 'in_plugin_update_message' ) );
 		add_filter( 'plugin_action_links_' . {PLUGIN_CLASS_PREFIX}_PLUGIN_BASENAME, array( __CLASS__, 'plugin_action_links' ) );
 		add_filter( 'plugin_row_meta', array( __CLASS__, 'plugin_row_meta' ), 10, 2 );
 		add_filter( 'wpmu_drop_tables', array( __CLASS__, 'wpmu_drop_tables' ) );
@@ -170,7 +170,6 @@ class {PLUGIN_CLASS_PREFIX}_Install {
 		// Also register endpoints - this needs to be done prior to rewrite rule flush
 		{PLUGIN_CLASS_PREFIX}()->query->init_query_vars();
 		{PLUGIN_CLASS_PREFIX}()->query->add_endpoints();
-		{PLUGIN_CLASS_PREFIX}_API::add_endpoint();
 		{PLUGIN_CLASS_PREFIX}_Auth::add_endpoint();
 
 		self::create_terms();
@@ -455,7 +454,7 @@ class {PLUGIN_CLASS_PREFIX}_Install {
 	/**
 	 * Get Table schema.
 	 *
-	 * https://github.com/{TEXT-DOMAIN}/{TEXT-DOMAIN}/wiki/Database-Description/
+	 * https://github.com/{TEXT_DOMAIN}/{TEXT_DOMAIN}/wiki/Database-Description/
 	 *
 	 * A note on indexes; Indexes have a maximum size of 767 bytes. Historically, we haven't need to be concerned about that.
 	 * As of WordPress 4.2, however, we moved to utf8mb4, which uses 4 bytes per character. This means that an index which
@@ -839,7 +838,7 @@ CREATE TABLE {$wpdb->prefix}{PLUGIN_HOOK_CLASS_NAME}_termmeta (
 		$transient_name = '{FILE_NAME_PREFIX}_upgrade_notice_' . $args['Version'];
 
 		if ( false === ( $upgrade_notice = get_transient( $transient_name ) ) ) {
-			$response = wp_safe_remote_get( 'https://plugins.svn.wordpress.org/{TEXT-DOMAIN}/trunk/readme.txt' );
+			$response = wp_safe_remote_get( 'https://plugins.svn.wordpress.org/{TEXT_DOMAIN}/trunk/readme.txt' );
 
 			if ( ! is_wp_error( $response ) && ! empty( $response['body'] ) ) {
 				$upgrade_notice = self::parse_update_notice( $response['body'], $args['new_version'] );
@@ -915,9 +914,9 @@ CREATE TABLE {$wpdb->prefix}{PLUGIN_HOOK_CLASS_NAME}_termmeta (
 	public static function plugin_row_meta( $links, $file ) {
 		if ( {PLUGIN_CLASS_PREFIX}_PLUGIN_BASENAME == $file ) {
 			$row_meta = array(
-				'docs'    => '<a href="' . esc_url( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_docs_url', 'https://docs.{TEXT-DOMAIN}.com/documentation/plugins/{TEXT-DOMAIN}/' ) ) . '" aria-label="' . esc_attr__( 'View {PLUGIN_NAME} documentation', '{TEXT_DOMAIN}' ) . '">' . esc_html__( 'Docs', '{TEXT_DOMAIN}' ) . '</a>',
-				'apidocs' => '<a href="' . esc_url( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_apidocs_url', 'https://docs.{TEXT-DOMAIN}.com/{FILE_NAME_PREFIX}-apidocs/' ) ) . '" aria-label="' . esc_attr__( 'View {PLUGIN_NAME} API docs', '{TEXT_DOMAIN}' ) . '">' . esc_html__( 'API docs', '{TEXT_DOMAIN}' ) . '</a>',
-				'support' => '<a href="' . esc_url( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_support_url', 'https://{TEXT-DOMAIN}.com/my-account/tickets/' ) ) . '" aria-label="' . esc_attr__( 'Visit premium customer support', '{TEXT_DOMAIN}' ) . '">' . esc_html__( 'Premium support', '{TEXT_DOMAIN}' ) . '</a>',
+				'docs'    => '<a href="' . esc_url( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_docs_url', 'https://docs.{TEXT_DOMAIN}.com/documentation/plugins/{TEXT_DOMAIN}/' ) ) . '" aria-label="' . esc_attr__( 'View {PLUGIN_NAME} documentation', '{TEXT_DOMAIN}' ) . '">' . esc_html__( 'Docs', '{TEXT_DOMAIN}' ) . '</a>',
+				'apidocs' => '<a href="' . esc_url( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_apidocs_url', 'https://docs.{TEXT_DOMAIN}.com/{FILE_NAME_PREFIX}-apidocs/' ) ) . '" aria-label="' . esc_attr__( 'View {PLUGIN_NAME} API docs', '{TEXT_DOMAIN}' ) . '">' . esc_html__( 'API docs', '{TEXT_DOMAIN}' ) . '</a>',
+				'support' => '<a href="' . esc_url( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_support_url', 'https://{TEXT_DOMAIN}.com/my-account/tickets/' ) ) . '" aria-label="' . esc_attr__( 'Visit premium customer support', '{TEXT_DOMAIN}' ) . '">' . esc_html__( 'Premium support', '{TEXT_DOMAIN}' ) . '</a>',
 			);
 
 			return array_merge( $links, $row_meta );

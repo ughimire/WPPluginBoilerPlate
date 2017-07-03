@@ -53,9 +53,32 @@ final class Structure {
 					),
 					'settings'   => array(
 
-						'views' => array()
+						'views' => array(),
+
+						'class-{FILE_NAME_PREFIX}-settings-page.php',
+
+						'class-{FILE_NAME_PREFIX}-settings-general.php',
+
+						'class-{FILE_NAME_PREFIX}-settings-test.php'
+
 					),
-					'views'      => array(),
+					'views'      => array(
+
+						'html-notice-install.php',
+
+						'html-notice-template-check.php',
+
+						'html-notice-theme-support.php',
+
+						'html-notice-update.php',
+
+						'html-notice-updated.php',
+
+						'html-notice-updating.php',
+
+						'html-admin-settings.php',
+
+					),
 
 					'class-{FILE_NAME_PREFIX}-admin.php',
 
@@ -237,6 +260,8 @@ final class Structure {
 				'{FILE_NAME_PREFIX}-page-functions.php',
 
 				'{FILE_NAME_PREFIX}-rest-functions.php',
+
+				'{FILE_NAME_PREFIX}-template-functions.php',
 
 				'{FILE_NAME_PREFIX}-term-functions.php',
 			),

@@ -28,12 +28,12 @@ class {PLUGIN_CLASS_PREFIX}_Template_Loader {
 	 *
 	 * Handles template usage so that we can use our own templates instead of the themes.
 	 *
-	 * Templates are in the 'templates' folder. {TEXT-DOMAIN} looks for theme.
-	 * overrides in /theme/{TEXT-DOMAIN}/ by default.
+	 * Templates are in the 'templates' folder. {TEXT_DOMAIN} looks for theme.
+	 * overrides in /theme/{TEXT_DOMAIN}/ by default.
 	 *
-	 * For beginners, it also looks for a {TEXT-DOMAIN}.php template first. If the user adds.
-	 * this to the theme (containing a {TEXT-DOMAIN}() inside) this will be used for all.
-	 * {TEXT-DOMAIN} templates.
+	 * For beginners, it also looks for a {TEXT_DOMAIN}.php template first. If the user adds.
+	 * this to the theme (containing a {TEXT_DOMAIN}() inside) this will be used for all.
+	 * {TEXT_DOMAIN} templates.
 	 *
 	 * @param mixed $template
 	 * @return string
@@ -95,7 +95,7 @@ class {PLUGIN_CLASS_PREFIX}_Template_Loader {
 	 */
 	private static function get_template_loader_files( $default_file ) {
 		$search_files   = apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_template_loader_files', array(), $default_file );
-		$search_files[] = '{TEXT-DOMAIN}.php';
+		$search_files[] = '{TEXT_DOMAIN}.php';
 
 		if ( is_product_taxonomy() ) {
 			$term   = get_queried_object();

@@ -21,7 +21,7 @@ class {PLUGIN_CLASS_PREFIX}_Widget_Test extends {PLUGIN_CLASS_PREFIX}_Widget {
 	 * Constructor.
 	 */
 	public function __construct() {
-		$this->widget_cssclass    = '{TEXT-DOMAIN} widget_shopping_cart';
+		$this->widget_cssclass    = '{TEXT_DOMAIN} widget_shopping_cart';
 		$this->widget_description = __( "Display the user's cart in the sidebar.", '{TEXT_DOMAIN}' );
 		$this->widget_id          = '{PLUGIN_HOOK_CLASS_NAME}_widget_cart';
 		$this->widget_name        = __( '{PLUGIN_NAME} cart', '{TEXT_DOMAIN}' );
@@ -62,7 +62,7 @@ class {PLUGIN_CLASS_PREFIX}_Widget_Test extends {PLUGIN_CLASS_PREFIX}_Widget {
 			echo '<div class="hide_cart_widget_if_empty">';
 		}
 
-		// Insert cart widget placeholder - code in {TEXT-DOMAIN}.js will update this on page load
+		// Insert cart widget placeholder - code in {TEXT_DOMAIN}.js will update this on page load
 		echo '<div class="widget_shopping_cart_content"></div>';
 
 		if ( $hide_if_empty ) {

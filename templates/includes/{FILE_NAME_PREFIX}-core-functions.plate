@@ -144,7 +144,7 @@ function {FILE_NAME_PREFIX}_update_order( $args ) {
 function {FILE_NAME_PREFIX}_get_template_part( $slug, $name = '' ) {
 	$template = '';
 
-	// Look in yourtheme/slug-name.php and yourtheme/{TEXT-DOMAIN}/slug-name.php
+	// Look in yourtheme/slug-name.php and yourtheme/{TEXT_DOMAIN}/slug-name.php
 	if ( $name && ! {PLUGIN_CLASS_PREFIX}_TEMPLATE_DEBUG_MODE ) {
 		$template = locate_template( array( "{$slug}-{$name}.php", {PLUGIN_CLASS_PREFIX}()->template_path() . "{$slug}-{$name}.php" ) );
 	}
@@ -154,7 +154,7 @@ function {FILE_NAME_PREFIX}_get_template_part( $slug, $name = '' ) {
 		$template = {PLUGIN_CLASS_PREFIX}()->plugin_path() . "/templates/{$slug}-{$name}.php";
 	}
 
-	// If template file doesn't exist, look in yourtheme/slug.php and yourtheme/{TEXT-DOMAIN}/slug.php
+	// If template file doesn't exist, look in yourtheme/slug.php and yourtheme/{TEXT_DOMAIN}/slug.php
 	if ( ! $template && ! {PLUGIN_CLASS_PREFIX}_TEMPLATE_DEBUG_MODE ) {
 		$template = locate_template( array( "{$slug}.php", {PLUGIN_CLASS_PREFIX}()->template_path() . "{$slug}.php" ) );
 	}

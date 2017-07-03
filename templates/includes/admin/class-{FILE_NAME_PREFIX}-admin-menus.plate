@@ -54,7 +54,7 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Menus {
 		global $menu;
 
 		if ( current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) ) {
-			$menu[] = array( '', 'read', 'separator-{TEXT_DOMAIN}', '', 'wp-menu-separator {TEXT-DOMAIN}' );
+			$menu[] = array( '', 'read', 'separator-{TEXT_DOMAIN}', '', 'wp-menu-separator {TEXT_DOMAIN}' );
 		}
 
 		add_menu_page( __( '{PLUGIN_NAME}', '{TEXT_DOMAIN}' ), __( '{PLUGIN_NAME}', '{TEXT_DOMAIN}' ), 'manage_{PLUGIN_HOOK_CLASS_NAME}', '{TEXT_DOMAIN}', null, null, '55.5' );
@@ -86,8 +86,7 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Menus {
 	 * Loads gateways and shipping methods into memory for use within settings.
 	 */
 	public function settings_page_init() {
-		{PLUGIN_CLASS_PREFIX}()->payment_gateways();
-		{PLUGIN_CLASS_PREFIX}()->shipping();
+
 	}
 
 	/**
@@ -136,10 +135,10 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Menus {
 			unset( $submenu['{TEXT_DOMAIN}'][0] );
 
 			// Add count if user has access
-			if ( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_include_processing_order_count_in_menu', true ) && current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) && ( $order_count = {FILE_NAME_PREFIX}_processing_order_count() ) ) {
+			if ( apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_include_processing_order_count_in_menu', true ) && current_user_can( 'manage_{PLUGIN_HOOK_CLASS_NAME}' ) ) {
 				foreach ( $submenu['{TEXT_DOMAIN}'] as $key => $menu_item ) {
 					if ( 0 === strpos( $menu_item[0], _x( 'Orders', 'Admin menu name', '{TEXT_DOMAIN}' ) ) ) {
-						$submenu['{TEXT_DOMAIN}'][ $key ][0] .= ' <span class="awaiting-mod update-plugins count-' . $order_count . '"><span class="processing-count">' . number_format_i18n( $order_count ) . '</span></span>';
+						$submenu['{TEXT_DOMAIN}'][ $key ][0] .= ' <span class="awaiting-mod update-plugins count"><span class="processing-count">' . number_format_i18n( $order_count ) . '</span></span>';
 						break;
 					}
 				}

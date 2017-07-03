@@ -277,11 +277,11 @@ class {PLUGIN_CLASS_PREFIX}_Data_Store_WP {
 				// Query with operators and possible range of dates.
 			} elseif ( preg_match( $query_parse_regex, $query_var, $sections ) ) {
 				if ( ! empty( $sections[1] ) ) {
-					$dates[] = is_numeric( $sections[1] ) ? new {PLUGIN_CLASS_PREFIX}_DateTime( "@{$sections[1]}", new DateTimeZone( 'UTC' ) ) : wc_string_to_datetime( $sections[1] );
+					$dates[] = is_numeric( $sections[1] ) ? new {PLUGIN_CLASS_PREFIX}_DateTime( "@{$sections[1]}", new DateTimeZone( 'UTC' ) ) : {FILE_NAME_PREFIX}_string_to_datetime( $sections[1] );
 				}
 
 				$operator = in_array( $sections[2], $valid_operators ) ? $sections[2] : '';
-				$dates[] = is_numeric( $sections[3] ) ? new {PLUGIN_CLASS_PREFIX}_DateTime( "@{$sections[3]}", new DateTimeZone( 'UTC' ) ) : wc_string_to_datetime( $sections[3] );
+				$dates[] = is_numeric( $sections[3] ) ? new {PLUGIN_CLASS_PREFIX}_DateTime( "@{$sections[3]}", new DateTimeZone( 'UTC' ) ) : {FILE_NAME_PREFIX}_string_to_datetime( $sections[3] );
 
 				if ( ! is_numeric( $sections[1] ) && ! is_numeric( $sections[3] ) ) {
 					$precision = 'day';
@@ -289,7 +289,7 @@ class {PLUGIN_CLASS_PREFIX}_Data_Store_WP {
 
 				// Specific time query with a string.
 			} else {
-				$dates[] = wc_string_to_datetime( $query_var );
+				$dates[] = {FILE_NAME_PREFIX}_string_to_datetime( $query_var );
 				$precision = 'day';
 			}
 		} catch ( Exception $e ) {

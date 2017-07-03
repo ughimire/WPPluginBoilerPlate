@@ -65,7 +65,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_General extends {PLUGIN_CLASS_PREFIX}_Setti
 				'id'       => '{PLUGIN_HOOK_CLASS_NAME}_allowed_countries',
 				'default'  => 'all',
 				'type'     => 'select',
-				'class'    => 'wc-enhanced-select',
+				'class'    => '{FILE_NAME_PREFIX}-enhanced-select',
 				'css'      => 'min-width: 350px;',
 				'desc_tip' => true,
 				'options'  => array(
@@ -99,7 +99,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_General extends {PLUGIN_CLASS_PREFIX}_Setti
 				'id'       => '{PLUGIN_HOOK_CLASS_NAME}_ship_to_countries',
 				'default'  => '',
 				'type'     => 'select',
-				'class'    => 'wc-enhanced-select',
+				'class'    => '{FILE_NAME_PREFIX}-enhanced-select',
 				'desc_tip' => true,
 				'options'  => array(
 					''         => __( 'Ship to all countries you sell to', 'woocommerce' ),
@@ -124,7 +124,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_General extends {PLUGIN_CLASS_PREFIX}_Setti
 				'desc_tip' => __( 'This option determines a customers default location. The MaxMind GeoLite Database will be periodically downloaded to your wp-content directory if using geolocation.', 'woocommerce' ),
 				'default'  => 'geolocation',
 				'type'     => 'select',
-				'class'    => 'wc-enhanced-select',
+				'class'    => '{FILE_NAME_PREFIX}-enhanced-select',
 				'options'  => array(
 					''                 => __( 'No location by default', 'woocommerce' ),
 					'base'             => __( 'Shop base address', 'woocommerce' ),
@@ -170,7 +170,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_General extends {PLUGIN_CLASS_PREFIX}_Setti
 				'css'      => 'min-width:350px;',
 				'default'  => 'GBP',
 				'type'     => 'select',
-				'class'    => 'wc-enhanced-select',
+				'class'    => '{FILE_NAME_PREFIX}-enhanced-select',
 				'desc_tip' => true,
 				'options'  => $currency_code_options,
 			),
@@ -180,7 +180,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_General extends {PLUGIN_CLASS_PREFIX}_Setti
 				'desc'     => __( 'This controls the position of the currency symbol.', 'woocommerce' ),
 				'id'       => '{PLUGIN_HOOK_CLASS_NAME}_currency_pos',
 				'css'      => 'min-width:350px;',
-				'class'    => 'wc-enhanced-select',
+				'class'    => '{FILE_NAME_PREFIX}-enhanced-select',
 				'default'  => 'left',
 				'type'     => 'select',
 				'options'  => array(
@@ -242,7 +242,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_General extends {PLUGIN_CLASS_PREFIX}_Setti
 	 * @param string $desc (default: '')
 	 */
 	public function color_picker( $name, $id, $value, $desc = '' ) {
-		echo '<div class="color_box">' . wc_help_tip( $desc ) . '
+		echo '<div class="color_box">' . {FILE_NAME_PREFIX}_help_tip( $desc ) . '
 			<input name="' . esc_attr( $id ) . '" id="' . esc_attr( $id ) . '" type="text" value="' . esc_attr( $value ) . '" class="colorpick" /> <div id="colorPickerDiv_' . esc_attr( $id ) . '" class="colorpickdiv"></div>
 		</div>';
 	}

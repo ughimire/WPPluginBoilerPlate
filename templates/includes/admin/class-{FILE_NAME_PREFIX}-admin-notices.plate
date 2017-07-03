@@ -30,11 +30,7 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Notices {
 	private static $core_notices = array(
 		'install'             => 'install_notice',
 		'update'              => 'update_notice',
-		'template_files'      => 'template_file_check_notice',
 		'theme_support'       => 'theme_check_notice',
-		'legacy_shipping'     => 'legacy_shipping_notice',
-		'no_shipping_methods' => 'no_shipping_methods_notice',
-		'simplify_commerce'   => 'simplify_commerce_notice',
 	);
 
 	/**
@@ -216,98 +212,6 @@ class {PLUGIN_CLASS_PREFIX}_Admin_Notices {
 			include( 'views/html-notice-theme-support.php' );
 		} else {
 			self::remove_notice( 'theme_support' );
-		}
-	}
-
-	/**
-	 * Show a notice highlighting bad template files.
-	 */
-	public static function template_file_check_notice() {
-		$core_templates = {PLUGIN_CLASS_PREFIX}_Admin_Status::scan_template_files( {PLUGIN_CLASS_PREFIX}()->plugin_path() . '/templates' );
-		$outdated       = false;
-
-		foreach ( $core_templates as $file ) {
-
-			$theme_file = false;
-			if ( file_exists( get_stylesheet_directory() . '/' . $file ) ) {
-				$theme_file = get_stylesheet_directory() . '/' . $file;
-			} elseif ( file_exists( get_stylesheet_directory() . '/{TEXT-DOMAIN}/' . $file ) ) {
-				$theme_file = get_stylesheet_directory() . '/{TEXT-DOMAIN}/' . $file;
-			} elseif ( file_exists( get_template_directory() . '/' . $file ) ) {
-				$theme_file = get_template_directory() . '/' . $file;
-			} elseif ( file_exists( get_template_directory() . '/{TEXT-DOMAIN}/' . $file ) ) {
-				$theme_file = get_template_directory() . '/{TEXT-DOMAIN}/' . $file;
-			}
-
-			if ( false !== $theme_file ) {
-				$core_version  = {PLUGIN_CLASS_PREFIX}_Admin_Status::get_file_version( {PLUGIN_CLASS_PREFIX}()->plugin_path() . '/templates/' . $file );
-				$theme_version = {PLUGIN_CLASS_PREFIX}_Admin_Status::get_file_version( $theme_file );
-
-				if ( $core_version && $theme_version && version_compare( $theme_version, $core_version, '<' ) ) {
-					$outdated = true;
-					break;
-				}
-			}
-		}
-
-		if ( $outdated ) {
-			include( 'views/html-notice-template-check.php' );
-		} else {
-			self::remove_notice( 'template_files' );
-		}
-	}
-
-	/**
-	 * Show a notice asking users to convert to shipping zones.
-	 */
-	public static function legacy_shipping_notice() {
-		$maybe_load_legacy_methods = array( 'flat_rate', 'free_shipping', 'international_delivery', 'local_delivery', 'local_pickup' );
-		$enabled                   = false;
-
-		foreach ( $maybe_load_legacy_methods as $method ) {
-			$options = get_option( '{PLUGIN_HOOK_CLASS_NAME}_' . $method . '_settings' );
-			if ( $options && isset( $options['enabled'] ) && 'yes' === $options['enabled'] ) {
-				$enabled = true;
-			}
-		}
-
-		if ( $enabled ) {
-			include( 'views/html-notice-legacy-shipping.php' );
-		} else {
-			self::remove_notice( 'template_files' );
-		}
-	}
-
-	/**
-	 * No shipping methods.
-	 */
-	public static function no_shipping_methods_notice() {
-		if ( {FILE_NAME_PREFIX}_shipping_enabled() && ( empty( $_GET['page'] ) || empty( $_GET['tab'] ) || '{FILE_NAME_PREFIX}-settings' !== $_GET['page'] || 'shipping' !== $_GET['tab'] ) ) {
-			$product_count = wp_count_posts( 'product' );
-			$method_count  = {FILE_NAME_PREFIX}_get_shipping_method_count();
-
-			if ( $product_count->publish > 0 && 0 === $method_count ) {
-				include( 'views/html-notice-no-shipping-methods.php' );
-			}
-
-			if ( $method_count > 0 ) {
-				self::remove_notice( 'no_shipping_methods' );
-			}
-		}
-	}
-
-	/**
-	 * Simplify Commerce is being removed from core.
-	 */
-	public static function simplify_commerce_notice() {
-		$location = {FILE_NAME_PREFIX}_get_base_location();
-
-		if ( class_exists( '{PLUGIN_CLASS_PREFIX}_Gateway_Simplify_Commerce_Loader' ) || ! in_array( $location['country'], apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_gateway_simplify_commerce_supported_countries', array( 'US', 'IE' ) ) ) ) {
-			self::remove_notice( 'simplify_commerce' );
-			return;
-		}
-		if ( empty( $_GET['action'] ) ) {
-			include( 'views/html-notice-simplify-commerce.php' );
 		}
 	}
 }

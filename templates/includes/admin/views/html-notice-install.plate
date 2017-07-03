@@ -1,0 +1,14 @@
+<?php
+/**
+ * Admin View: Notice - Install
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+?>
+<div id="message" class="updated {TEXT_DOMAIN}-message {FILE_NAME_PREFIX}-connect">
+	<p><?php _e( '<strong>Welcome to {PLUGIN_NAME}</strong> &#8211; You&lsquo;re almost ready to start selling :)', '{TEXT_DOMAIN}' ); ?></p>
+	<p class="submit"><a href="<?php echo esc_url( admin_url( 'admin.php?page={FILE_NAME_PREFIX}-setup' ) ); ?>" class="button-primary"><?php _e( 'Run the Setup Wizard', '{TEXT_DOMAIN}' ); ?></a> <a class="button-secondary skip" href="<?php echo esc_url( wp_nonce_url( add_query_arg( '{FILE_NAME_PREFIX}-hide-notice', 'install' ), '{PLUGIN_HOOK_CLASS_NAME}_hide_notices_nonce', '_{FILE_NAME_PREFIX}_notice_nonce' ) ); ?>"><?php _e( 'Skip setup', '{TEXT_DOMAIN}' ); ?></a></p>
+</div>

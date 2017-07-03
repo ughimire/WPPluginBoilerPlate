@@ -81,7 +81,7 @@ class {PLUGIN_CLASS_PREFIX}_Frontend_Scripts {
 				'has_rtl' => true,
 			),
 			'{TEXT_DOMAIN}-general' => array(
-				'src'     => self::get_asset_url( 'assets/css/{TEXT-DOMAIN}.css' ),
+				'src'     => self::get_asset_url( 'assets/css/{TEXT_DOMAIN}.css' ),
 				'deps'    => '',
 				'version' => {PLUGIN_CLASS_PREFIX}_VERSION,
 				'media'   => 'all',
@@ -297,7 +297,7 @@ class {PLUGIN_CLASS_PREFIX}_Frontend_Scripts {
 				'version' => {PLUGIN_CLASS_PREFIX}_VERSION,
 			),
 			'{TEXT_DOMAIN}' => array(
-				'src'     => self::get_asset_url( 'assets/js/frontend/{TEXT-DOMAIN}' . $suffix . '.js' ),
+				'src'     => self::get_asset_url( 'assets/js/frontend/{TEXT_DOMAIN}' . $suffix . '.js' ),
 				'deps'    => array( 'jquery', 'jquery-blockui', 'js-cookie' ),
 				'version' => {PLUGIN_CLASS_PREFIX}_VERSION,
 			),

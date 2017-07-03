@@ -96,7 +96,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_Test extends {PLUGIN_CLASS_PREFIX}_Settings
 					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_shop_page_id',
 					'type'     => 'single_select_page',
 					'default'  => '',
-					'class'    => 'wc-enhanced-select-nostd',
+					'class'    => '{FILE_NAME_PREFIX}-enhanced-select-nostd',
 					'css'      => 'min-width:300px;',
 					'desc_tip' => __( 'This sets the base page of your shop - this is where your product archive will be.', '{TEXT_DOMAIN}' ),
 				),
@@ -105,7 +105,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_Test extends {PLUGIN_CLASS_PREFIX}_Settings
 					'title'    => __( 'Shop page display', '{TEXT_DOMAIN}' ),
 					'desc'     => __( 'This controls what is shown on the product archive.', '{TEXT_DOMAIN}' ),
 					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_shop_page_display',
-					'class'    => 'wc-enhanced-select',
+					'class'    => '{FILE_NAME_PREFIX}-enhanced-select',
 					'css'      => 'min-width:300px;',
 					'default'  => '',
 					'type'     => 'select',
@@ -121,7 +121,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_Test extends {PLUGIN_CLASS_PREFIX}_Settings
 					'title'    => __( 'Default category display', '{TEXT_DOMAIN}' ),
 					'desc'     => __( 'This controls what is shown on category archives.', '{TEXT_DOMAIN}' ),
 					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_category_archive_display',
-					'class'    => 'wc-enhanced-select',
+					'class'    => '{FILE_NAME_PREFIX}-enhanced-select',
 					'css'      => 'min-width:300px;',
 					'default'  => '',
 					'type'     => 'select',
@@ -137,7 +137,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_Test extends {PLUGIN_CLASS_PREFIX}_Settings
 					'title'    => __( 'Default product sorting', '{TEXT_DOMAIN}' ),
 					'desc'     => __( 'This controls the default sort order of the catalog.', '{TEXT_DOMAIN}' ),
 					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_default_catalog_orderby',
-					'class'    => 'wc-enhanced-select',
+					'class'    => '{FILE_NAME_PREFIX}-enhanced-select',
 					'css'      => 'min-width:300px;',
 					'default'  => 'menu_order',
 					'type'     => 'select',
@@ -340,7 +340,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_Test extends {PLUGIN_CLASS_PREFIX}_Settings
 					'desc'     => __( 'This controls how stock quantities are displayed on the frontend.', '{TEXT_DOMAIN}' ),
 					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_stock_format',
 					'css'      => 'min-width:150px;',
-					'class'    => 'wc-enhanced-select',
+					'class'    => '{FILE_NAME_PREFIX}-enhanced-select',
 					'default'  => '',
 					'type'     => 'select',
 					'options'  => array(
@@ -371,7 +371,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_Test extends {PLUGIN_CLASS_PREFIX}_Settings
 					'desc'     => __( 'Forcing downloads will keep URLs hidden, but some servers may serve large files unreliably. If supported, <code>X-Accel-Redirect</code>/ <code>X-Sendfile</code> can be used to serve downloads instead (server requires <code>mod_xsendfile</code>).', '{TEXT_DOMAIN}' ),
 					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_file_download_method',
 					'type'     => 'select',
-					'class'    => 'wc-enhanced-select',
+					'class'    => '{FILE_NAME_PREFIX}-enhanced-select',
 					'css'      => 'min-width:300px;',
 					'default'  => 'force',
 					'desc_tip' => true,
@@ -423,7 +423,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_Test extends {PLUGIN_CLASS_PREFIX}_Settings
 					'title'    => __( 'Weight unit', '{TEXT_DOMAIN}' ),
 					'desc'     => __( 'This controls what unit you will define weights in.', '{TEXT_DOMAIN}' ),
 					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_weight_unit',
-					'class'    => 'wc-enhanced-select',
+					'class'    => '{FILE_NAME_PREFIX}-enhanced-select',
 					'css'      => 'min-width:300px;',
 					'default'  => 'kg',
 					'type'     => 'select',
@@ -440,7 +440,7 @@ class {PLUGIN_CLASS_PREFIX}_Settings_Test extends {PLUGIN_CLASS_PREFIX}_Settings
 					'title'    => __( 'Dimensions unit', '{TEXT_DOMAIN}' ),
 					'desc'     => __( 'This controls what unit you will define lengths in.', '{TEXT_DOMAIN}' ),
 					'id'       => '{PLUGIN_HOOK_CLASS_NAME}_dimension_unit',
-					'class'    => 'wc-enhanced-select',
+					'class'    => '{FILE_NAME_PREFIX}-enhanced-select',
 					'css'      => 'min-width:300px;',
 					'default'  => 'cm',
 					'type'     => 'select',
@@ -530,4 +530,4 @@ class {PLUGIN_CLASS_PREFIX}_Settings_Test extends {PLUGIN_CLASS_PREFIX}_Settings
 
 endif;
 
-return new {PLUGIN_CLASS_PREFIX}_Settings_Products();
+return new {PLUGIN_CLASS_PREFIX}_Settings_Test();

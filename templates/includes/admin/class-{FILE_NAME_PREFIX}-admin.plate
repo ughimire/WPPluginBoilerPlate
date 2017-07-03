@@ -51,7 +51,6 @@ class {PLUGIN_CLASS_PREFIX}_Admin {
 		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-customize.php' );
 		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-notices.php' );
 		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-assets.php' );
-		include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-api-keys.php' );
 
 
 		// Help Tabs
@@ -59,12 +58,6 @@ class {PLUGIN_CLASS_PREFIX}_Admin {
 			include_once( dirname( __FILE__ ) . '/class-{FILE_NAME_PREFIX}-admin-help.php' );
 		}
 
-		// Helper
-		include_once( dirname( __FILE__ ) . '/helper/class-{FILE_NAME_PREFIX}-helper-options.php' );
-		include_once( dirname( __FILE__ ) . '/helper/class-{FILE_NAME_PREFIX}-helper-api.php' );
-		include_once( dirname( __FILE__ ) . '/helper/class-{FILE_NAME_PREFIX}-helper-updater.php' );
-		include_once( dirname( __FILE__ ) . '/helper/class-{FILE_NAME_PREFIX}-helper-plugin-info.php' );
-		include_once( dirname( __FILE__ ) . '/helper/class-{FILE_NAME_PREFIX}-helper.php' );
 	}
 
 	/**
@@ -213,7 +206,7 @@ class {PLUGIN_CLASS_PREFIX}_Admin {
 			// Change the footer text
 			if ( ! get_option( '{PLUGIN_HOOK_CLASS_NAME}_admin_footer_text_rated' ) ) {
 				/* translators: %s: five stars */
-				$footer_text = sprintf( __( 'If you like <strong>{PLUGIN_NAME}</strong> please leave us a %s rating. A huge thanks in advance!', '{TEXT_DOMAIN}' ), '<a href="https://wordpress.org/support/plugin/{TEXT-DOMAIN}/reviews?rate=5#new-post" target="_blank" class="{FILE_NAME_PREFIX}-rating-link" data-rated="' . esc_attr__( 'Thanks :)', '{TEXT_DOMAIN}' ) . '">&#9733;&#9733;&#9733;&#9733;&#9733;</a>' );
+				$footer_text = sprintf( __( 'If you like <strong>{PLUGIN_NAME}</strong> please leave us a %s rating. A huge thanks in advance!', '{TEXT_DOMAIN}' ), '<a href="https://wordpress.org/support/plugin/{TEXT_DOMAIN}/reviews?rate=5#new-post" target="_blank" class="{FILE_NAME_PREFIX}-rating-link" data-rated="' . esc_attr__( 'Thanks :)', '{TEXT_DOMAIN}' ) . '">&#9733;&#9733;&#9733;&#9733;&#9733;</a>' );
 				{FILE_NAME_PREFIX}_enqueue_js( "
 					jQuery( 'a.{FILE_NAME_PREFIX}-rating-link' ).click( function() {
 						jQuery.post( '" . {PLUGIN_CLASS_PREFIX}()->ajax_url() . "', { action: '{PLUGIN_HOOK_CLASS_NAME}_rated' } );
