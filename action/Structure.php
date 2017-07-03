@@ -121,7 +121,10 @@ final class Structure {
 
 				'api' => array(),
 
-				'cli' => array(),
+				'cli' => array(
+
+					'class-{FILE_NAME_PREFIX}-cli-update-command.php'
+				),
 
 				'data-stores' => array(
 
@@ -196,8 +199,6 @@ final class Structure {
 
 				),
 				'class-{FILE_NAME_PREFIX}-ajax.php',
-
-				'class-{FILE_NAME_PREFIX}-auth.php',
 
 				'class-{FILE_NAME_PREFIX}-autoloader.php',
 

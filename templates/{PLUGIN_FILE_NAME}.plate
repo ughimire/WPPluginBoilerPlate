@@ -241,7 +241,7 @@ final class {PLUGIN_MAIN_CLASS_NAME} {
 		/**
 		 * REST API.
 		 */
- 		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-auth.php' ); // Auth Class
+
  		include_once( {PLUGIN_CLASS_PREFIX}_ABSPATH . 'includes/class-{FILE_NAME_PREFIX}-register-wp-admin-settings.php' );
 
 		if ( defined( '{PLUGIN_CLASS_PREFIX}_CLI' ) && WP_CLI ) {

@@ -86,62 +86,7 @@ class {PLUGIN_CLASS_PREFIX}_AJAX {
 	public static function add_ajax_events() {
 		// {PLUGIN_HOOK_CLASS_NAME}_EVENT => nopriv
 		$ajax_events = array(
-			'get_refreshed_fragments'                          => true,
-			'apply_coupon'                                     => true,
-			'remove_coupon'                                    => true,
-			'update_shipping_method'                           => true,
-			'get_cart_totals'                                  => true,
-			'update_order_review'                              => true,
-			'add_to_cart'                                      => true,
-			'checkout'                                         => true,
-			'get_variation'                                    => true,
-			'get_customer_location'                            => true,
-			'feature_product'                                  => false,
-			'mark_order_status'                                => false,
-			'add_attribute'                                    => false,
-			'add_new_attribute'                                => false,
-			'remove_variation'                                 => false,
-			'remove_variations'                                => false,
-			'save_attributes'                                  => false,
-			'add_variation'                                    => false,
-			'link_all_variations'                              => false,
-			'revoke_access_to_download'                        => false,
-			'grant_access_to_download'                         => false,
-			'get_customer_details'                             => false,
-			'add_order_item'                                   => false,
-			'add_order_fee'                                    => false,
-			'add_order_shipping'                               => false,
-			'add_order_tax'                                    => false,
-			'remove_order_item'                                => false,
-			'remove_order_tax'                                 => false,
-			'reduce_order_item_stock'                          => false,
-			'increase_order_item_stock'                        => false,
-			'add_order_item_meta'                              => false,
-			'remove_order_item_meta'                           => false,
-			'calc_line_taxes'                                  => false,
-			'save_order_items'                                 => false,
-			'load_order_items'                                 => false,
-			'add_order_note'                                   => false,
-			'delete_order_note'                                => false,
-			'json_search_products'                             => false,
-			'json_search_products_and_variations'              => false,
-			'json_search_downloadable_products_and_variations' => false,
-			'json_search_customers'                            => false,
-			'term_ordering'                                    => false,
-			'product_ordering'                                 => false,
-			'refund_line_items'                                => false,
-			'delete_refund'                                    => false,
-			'rated'                                            => false,
-			'update_api_key'                                   => false,
-			'load_variations'                                  => false,
-			'save_variations'                                  => false,
-			'bulk_edit_variations'                             => false,
-			'tax_rates_save_changes'                           => false,
-			'shipping_zones_save_changes'                      => false,
-			'shipping_zone_add_method'                         => false,
-			'shipping_zone_methods_save_changes'               => false,
-			'shipping_zone_methods_save_settings'              => false,
-			'shipping_classes_save_changes'                    => false,
+
 		);
 
 		foreach ( $ajax_events as $ajax_event => $nopriv ) {
@@ -154,27 +99,6 @@ class {PLUGIN_CLASS_PREFIX}_AJAX {
 				add_action( '{FILE_NAME_PREFIX}_ajax_' . $ajax_event, array( __CLASS__, $ajax_event ) );
 			}
 		}
-	}
-
-	/**
-	 * Get a refreshed cart fragment, including the mini cart HTML.
-	 */
-	public static function get_refreshed_fragments() {
-		ob_start();
-
-		{PLUGIN_HOOK_CLASS_NAME}_mini_cart();
-
-		$mini_cart = ob_get_clean();
-
-		$data = array(
-			'fragments' => apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_add_to_cart_fragments', array(
-					'div.widget_shopping_cart_content' => '<div class="widget_shopping_cart_content">' . $mini_cart . '</div>',
-				)
-			),
-			'cart_hash' => apply_filters( '{PLUGIN_HOOK_CLASS_NAME}_add_to_cart_hash', {PLUGIN_CLASS_PREFIX}()->cart->get_cart_for_session() ? md5( json_encode( {PLUGIN_CLASS_PREFIX}()->cart->get_cart_for_session() ) ) : '', {PLUGIN_CLASS_PREFIX}()->cart->get_cart_for_session() ),
-		);
-
-		wp_send_json( $data );
 	}
 
 	/**

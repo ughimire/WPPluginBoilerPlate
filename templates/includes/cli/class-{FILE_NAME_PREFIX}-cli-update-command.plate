@@ -1,0 +1,34 @@
+<?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Allows updates via CLI.
+ *
+ * @version {VERSION}
+ * @package {PLUGIN_NAME}
+ */
+class {PLUGIN_CLASS_PREFIX}_CLI_Update_Command {
+
+	/**
+	 * Registers the update command.
+	 */
+	public static function register_commands() {
+		WP_CLI::add_command( '{FILE_NAME_PREFIX} update', array( '{PLUGIN_CLASS_PREFIX}_CLI_Update_Command', 'update' ) );
+	}
+
+	/**
+	 * Testing cli command
+	 */
+	public static function update() {
+		global $wpdb;
+
+		$wpdb->hide_errors();
+
+        {PLUGIN_CLASS_PREFIX}_Admin_Notices::remove_notice( 'update' );
+
+		WP_CLI::success( sprintf( __( '%1$d updates complete for testing cli', '{TEXT_DOMAIN}' ) ) );
+	}
+}

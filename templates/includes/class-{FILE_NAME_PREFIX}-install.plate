@@ -170,7 +170,7 @@ class {PLUGIN_CLASS_PREFIX}_Install {
 		// Also register endpoints - this needs to be done prior to rewrite rule flush
 		{PLUGIN_CLASS_PREFIX}()->query->init_query_vars();
 		{PLUGIN_CLASS_PREFIX}()->query->add_endpoints();
-		{PLUGIN_CLASS_PREFIX}_Auth::add_endpoint();
+
 
 		self::create_terms();
 		self::create_cron_jobs();

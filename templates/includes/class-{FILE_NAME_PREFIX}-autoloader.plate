@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * {PLUGIN_NAME} Autoloader.
  *
  * @class 		{PLUGIN_CLASS_PREFIX}_Autoloader
- * @version  {VERSION}
+ * @version     {VERSION}
  * @package		{PLUGIN_MAIN_CLASS_NAME}/Classes
  * @category	Class
  * @author 		{AUTHOR}

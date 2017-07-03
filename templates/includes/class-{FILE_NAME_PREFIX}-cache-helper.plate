@@ -19,7 +19,6 @@ class {PLUGIN_CLASS_PREFIX}_Cache_Helper {
 	 * Hook in methods.
 	 */
 	public static function init() {
-		add_action( 'template_redirect', array( __CLASS__, 'geolocation_ajax_redirect' ) );
 		add_action( 'wp', array( __CLASS__, 'prevent_caching' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'notices' ) );
 		add_action( 'delete_version_transients', array( __CLASS__, 'delete_version_transients' ) );
@@ -50,66 +49,9 @@ class {PLUGIN_CLASS_PREFIX}_Cache_Helper {
 		wp_cache_incr( '{FILE_NAME_PREFIX}_' . $group . '_cache_prefix', 1, $group );
 	}
 
-	/**
-	 * Get a hash of the customer location.
-	 * @return string
-	 */
-	public static function geolocation_ajax_get_location_hash() {
-		$customer             = new {PLUGIN_CLASS_PREFIX}_Customer( 0, true );
-		$location             = array();
-		$location['country']  = $customer->get_billing_country();
-		$location['state']    = $customer->get_billing_state();
-		$location['postcode'] = $customer->get_billing_postcode();
-		$location['city']     = $customer->get_billing_city();
-		return substr( md5( implode( '', $location ) ), 0, 12 );
-	}
-
-	/**
-	 * When using geolocation via ajax, to bust cache, redirect if the location hash does not equal the querystring.
-	 *
-	 * This prevents caching of the wrong data for this request.
-	 */
-	public static function geolocation_ajax_redirect() {
-		if ( 'geolocation_ajax' === get_option( '{PLUGIN_HOOK_CLASS_NAME}_default_customer_address' ) && ! is_checkout() && ! is_cart() && ! is_account_page() && ! is_ajax() && empty( $_POST ) ) {
-			$location_hash = self::geolocation_ajax_get_location_hash();
-			$current_hash  = isset( $_GET['v'] ) ? {FILE_NAME_PREFIX}_clean( $_GET['v'] ) : '';
-			if ( empty( $current_hash ) || $current_hash !== $location_hash ) {
-				global $wp;
-
-				$redirect_url = trailingslashit( home_url( $wp->request ) );
-
-				if ( ! empty( $_SERVER['QUERY_STRING'] ) ) {
-					$redirect_url = add_query_arg( $_SERVER['QUERY_STRING'], '', $redirect_url );
-				}
-
-				if ( ! get_option( 'permalink_structure' ) ) {
-					$redirect_url = add_query_arg( $wp->query_string, '', $redirect_url );
-				}
-
-				$redirect_url = add_query_arg( 'v', $location_hash, remove_query_arg( 'v', $redirect_url ) );
-
-				wp_safe_redirect( esc_url_raw( $redirect_url ), 307 );
-				exit;
-			}
-		}
-	}
 
 	/**
 	 * Get transient version.
-	 *
-	 * When using transients with unpredictable names, e.g. those containing an md5.
-	 * hash in the name, we need a way to invalidate them all at once.
-	 *
-	 * When using default WP transients we're able to do this with a DB query to.
-	 * delete transients manually.
-	 *
-	 * With external cache however, this isn't possible. Instead, this function is used.
-	 * to append a unique string (based on time()) to each transient. When transients.
-	 * are invalidated, the transient version will increment and data will be regenerated.
-	 *
-	 * Raised in issue https://github.com/{TEXT_DOMAIN}/{TEXT_DOMAIN}/issues/5777.
-	 * Adapted from ideas in http://tollmanz.com/invalidation-schemes/.
-	 *
 	 * @param  string  $group   Name for the group of transients we need to invalidate
 	 * @param  boolean $refresh true to force a new version
 	 * @return string transient version based on time(), 10 digits
@@ -155,7 +97,7 @@ class {PLUGIN_CLASS_PREFIX}_Cache_Helper {
 		if ( ! is_blog_installed() ) {
 			return;
 		}
-		$page_ids        = array_filter( array( {FILE_NAME_PREFIX}_get_page_id( 'cart' ), {FILE_NAME_PREFIX}_get_page_id( 'checkout' ), {FILE_NAME_PREFIX}_get_page_id( 'myaccount' ) ) );
+		$page_ids        = array();
 		$current_page_id = get_queried_object_id();
 
 		if ( isset( $_GET['download_file'] ) || in_array( $current_page_id, $page_ids ) ) {
